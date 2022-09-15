@@ -20,10 +20,10 @@
     "url": "https://github.com/mikerutenshi/borsa-ppc-api/issues"
   },
   "homepage": "https://github.com/mikerutenshi/borsa-ppc-api#readme",
+  "type": "module",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.7.2",
-    "config": "^3.3.8",
     "express": "^4.18.1",
     "express-jwt": "^7.7.5",
     "jsonwebtoken": "^8.5.1",
@@ -33,6 +33,7 @@
     "rand-token": "^1.0.1"
   },
   "devDependencies": {
+    "dotenv": "^16.0.2",
     "nodemon": "^2.0.19",
     "pg-monitor": "^1.4.1"
   }
