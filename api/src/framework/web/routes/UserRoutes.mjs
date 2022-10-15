@@ -6,9 +6,14 @@ export default (dependencies) => {
 
   const controller = UserController(dependencies);
 
-  router.route('/').post((req, res) => {
-    controller.addNewUser();
-  });
+  router
+    .route('/')
+    .post((req, res, next) => {
+      controller.addNewUser(req, res, next);
+    })
+    .get((req, res, next) => {
+      controller.getAllUser(req, res, next);
+    });
 
   return router;
 };

@@ -15,7 +15,7 @@ export default class InMemoryUserRepository extends UserRepository {
       this.currentRoleId++;
       this.roles.push(roleInstance);
     } catch (error) {
-      throw new Error('add role fail');
+      throw Error('add role fail');
     }
 
     return roleInstance;
@@ -25,11 +25,16 @@ export default class InMemoryUserRepository extends UserRepository {
     try {
       userInstance.id = this.currentUserId;
       this.currentUserId++;
-      this.roles.push(userInstance);
+      this.users.push(userInstance);
+      console.log(userInstance);
     } catch (error) {
-      throw new Error('add user fail');
+      throw Error('add user fail');
     }
 
     return userInstance;
+  }
+
+  async getAll() {
+    return this.users;
   }
 }

@@ -1,28 +1,28 @@
 class Role {
-  constructor(id = null, name) {
-    this.id = id;
+  constructor(id, name) {
+    this.id = id || 1;
     this.name = name;
   }
 }
 
 class User {
   constructor(
-    id = null,
+    id,
     username,
     firstName,
     lastName,
     password,
-    Role,
+    role,
     isActive,
     refreshToken,
     refreshTokenExp
   ) {
-    this.id = id;
+    this.id = id || 1;
     this.username = username;
     this.firstName = firstName;
     this.lastName = lastName;
     this.password = password;
-    this.Role = Role;
+    this.role = role;
     this.isActive = isActive;
     this.refreshToken = refreshToken;
     this.refreshTokenExp = refreshTokenExp;

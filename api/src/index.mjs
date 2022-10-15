@@ -11,14 +11,12 @@ projectDependencies.DatabaseService.initDatabase().then(
   () => {
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
-
+    app.use('/v2', ApiRouter(projectDependencies));
     app.get('*', (_, res) =>
       res.status(200).send({
         message: 'Welcome to BorsaPPC API.',
       })
     );
-
-    app.use('/v2', ApiRouter(projectDependencies));
 
     server = app.listen(port, () => {
       console.log(`Server is running on PORT ${port}`);

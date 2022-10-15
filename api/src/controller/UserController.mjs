@@ -1,4 +1,4 @@
-import { AddUser } from '../application/domain/UserUseCase.mjs';
+import { AddUser, GetUsers } from '../application/use-case/UserUseCase.mjs';
 
 export default (dependencies) => {
   const { userRepository } = dependencies.DatabaseService;
@@ -16,7 +16,21 @@ export default (dependencies) => {
     );
   };
 
+  const getAllUser = (req, res, next) => {
+    console.log('controller invoked');
+    const getUsersCommand = GetUsers(userRepository);
+    getUsersCommand.execute().then(
+      (response) => {
+        res.json(response);
+      },
+      (err) => {
+        next(err);
+      }
+    );
+  };
+
   return {
     addNewUser,
+    getAllUser,
   };
 };
