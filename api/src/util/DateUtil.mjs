@@ -1,8 +1,13 @@
 const DateUtil = {
-
   addDays(date, days) {
     const result = new Date(date);
     result.setDate(result.getDate() + days);
+    return result;
+  },
+
+  minusDays(date, days) {
+    const result = new Date(date);
+    result.setDate(result.getDate() - days);
     return result;
   },
 
@@ -18,7 +23,7 @@ const DateUtil = {
     const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
     const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
     return Math.floor(Math.abs(utc2 - utc1) / MS_PER_DAY);
-  }
+  },
 };
 
 export default DateUtil;

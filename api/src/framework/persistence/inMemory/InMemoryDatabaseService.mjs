@@ -32,7 +32,7 @@ export default class InMemoryDatabaseService extends DatabaseService {
     );
     const hashPassword = await Hash.create('katakunci');
     user.password = hashPassword;
-    const accessToken = await Token.generateAccessToken(user);
+    const accessToken = await Token.generateAccessToken(user.id, mockRole.id);
     const refreshToken = await Token.generateRefreshToken();
     user.accessToken = accessToken;
     user.refreshToken = refreshToken;
