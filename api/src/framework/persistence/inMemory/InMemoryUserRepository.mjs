@@ -54,4 +54,27 @@ export default class InMemoryUserRepository extends UserRepository {
       }
     }
   }
+
+  async getById(id) {
+    for (const user of this.users) {
+      return user.id === id ? user : null;
+    }
+  }
+
+  async update(userInstance) {
+    this.users.forEach((value, index, array) => {
+      if (value.username === userInstance.username) {
+        array[index] = userInstance;
+      }
+    });
+    return await this.getByUsername(userInstance.username);
+  }
+
+  async delete(userId) {
+    this.users.forEach((value, index, array) => {
+      if (value.id === userId) {
+        array.splice(index, 1);
+      }
+    });
+  }
 }

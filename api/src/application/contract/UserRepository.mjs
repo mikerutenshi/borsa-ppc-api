@@ -13,6 +13,10 @@ export default class UserRepository {
     return Promise.reject(new Error('not implemented'));
   }
 
+  getById(id) {
+    return Promise.reject(new Error('not implemented'));
+  }
+
   update(userInstance) {
     return Promise.reject(new Error('not implemented'));
   }

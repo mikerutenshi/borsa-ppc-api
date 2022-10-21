@@ -16,7 +16,6 @@ describe('Test user path', () => {
       .post('/v2/users')
       .send(user)
       .set('Accept', 'application/json');
-    console.log(`body => ${JSON.stringify(response.body)}`);
     expect(response.status).toEqual(201);
     expect(response.headers['content-type']).toMatch(/json/);
   });
