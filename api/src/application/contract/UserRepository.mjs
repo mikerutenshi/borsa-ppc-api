@@ -1,10 +1,6 @@
 export default class UserRepository {
   constructor() {}
 
-  addRole(roleInstance) {
-    return Promise.reject(new Error('not implemented'));
-  }
-
   add(userInstance) {
     return Promise.reject(new Error('not implemented'));
   }

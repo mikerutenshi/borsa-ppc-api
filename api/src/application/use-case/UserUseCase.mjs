@@ -1,8 +1,9 @@
 const AddUser = (userRepository) => {
   const execute = async (user) => {
     const userExist = await userRepository.getByUsername(user.username);
+
     if (userExist) {
-      throw new Error('User already exists');
+      throw Error('User already exists');
     }
 
     await userRepository.add(user);
@@ -15,7 +16,13 @@ const AddUser = (userRepository) => {
 
 const GetUsers = (userRepository) => {
   const execute = async () => {
-    return await userRepository.getAll();
+    const users = await userRepository.getAll();
+    const cleanUsers = users.map((user) => {
+      const { password, ...rest } = user;
+      return rest;
+    });
+
+    return cleanUsers;
   };
   return { execute };
 };

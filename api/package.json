@@ -4,10 +4,10 @@
   "description": "API for Borsa PPC App",
   "main": "index.mjs",
   "scripts": {
-    "dev": "nodemon -r dotenv/config src/index.mjs --trace-warning",
+    "dev": "nodemon -r dotenv/config src/server.mjs --trace-warning",
     "migrate": "node-pg-migrate --migration-filename-format utc",
     "prestart": "node-pg-migrate --migration-filename-format utc up",
-    "start": "node src/index.mjs",
+    "start": "node src/server.mjs",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watchAll"
   },
   "repository": {
@@ -39,6 +39,7 @@
     "dotenv": "^16.0.2",
     "jest": "^29.1.2",
     "nodemon": "^2.0.19",
-    "pg-monitor": "^1.4.1"
+    "pg-monitor": "^1.4.1",
+    "supertest": "^6.3.0"
   }
 }
