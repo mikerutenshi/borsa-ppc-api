@@ -61,7 +61,6 @@ describe('Test user repository methods', () => {
 
   test('Get all should return users', async () => {
     const users = await UserRepository.getAll();
-    console.log('users: ', users);
     expect(Array.isArray(users)).toBe(true);
     expect(users).toHaveLength(2);
   });
@@ -75,7 +74,6 @@ describe('Test user repository methods', () => {
 
   test('Get by user id should return user', async () => {
     const results = await UserRepository.getById(2);
-    console.log('results: ', results);
     expect(results[0].id).toBe(2);
   });
 

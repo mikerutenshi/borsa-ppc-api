@@ -1,5 +1,6 @@
 import { validateRole } from '../../validation/UserValidation.mjs';
 import RoleRepository from '../../../application/contract/RoleRepository.mjs';
+import { handleValidationError } from '../../validation/HandleValidationError.mjs';
 
 export default class InMemoryRoleRepository extends RoleRepository {
   constructor() {
@@ -9,17 +10,20 @@ export default class InMemoryRoleRepository extends RoleRepository {
   }
 
   async add(roleInstance) {
-    roleInstance.id = this.currentRoleId;
-    if (validateRole(roleInstance)) {
+    const { value, error } = validateRole(roleInstance);
+
+    if (error === undefined) {
       try {
-        roleInstance.id = this.currentRoleId;
-        this.roles.push(roleInstance);
+        value.id = this.currentRoleId;
+        this.roles.push(value);
         this.currentRoleId++;
 
-        return roleInstance;
+        return value;
       } catch (error) {
         throw error;
       }
+    } else {
+      handleValidationError(error);
     }
   }
 
