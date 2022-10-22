@@ -6,4 +6,8 @@ export default class DatabaseService {
   initDatabase() {
     return Promise.reject(new Error('not implemented'));
   }
+
+  clearDatabase() {
+    return Promise.reject(new Error('not implemented'));
+  }
 }

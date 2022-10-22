@@ -1,14 +1,16 @@
 const AddUser = (userRepository) => {
   const execute = async (user) => {
-    const userExist = await userRepository.getByUsername(user.username);
+    const users = await userRepository.getByUsername(user.username);
 
-    if (userExist) {
-      throw Error('User already exists');
+    if (users.length > 0) {
+      const err = new Error('User already exists');
+      err.status = 409;
+      throw err;
+    } else {
+      await userRepository.add(user);
+
+      return 'User added successfully';
     }
-
-    await userRepository.add(user);
-
-    return 'User added successfully';
   };
 
   return { execute };
@@ -27,4 +29,13 @@ const GetUsers = (userRepository) => {
   return { execute };
 };
 
-export { AddUser, GetUsers };
+const GetUser = (userRepository) => {
+  const execute = async (username) => {
+    const user = await userRepository.getByUsername(username);
+    return user;
+  };
+
+  return { execute };
+};
+
+export { AddUser, GetUsers, GetUser };

@@ -2,6 +2,7 @@ const Status = {
   ok: 'OK',
   created: 'Created',
   badRequest: 'Bad Request',
+  conflict: 'Conflict',
 };
 class Response {
   constructor(status, data, message) {

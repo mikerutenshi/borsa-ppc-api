@@ -26,4 +26,9 @@ export default class InMemoryRoleRepository extends RoleRepository {
   async getAll() {
     return this.roles;
   }
+
+  async clear() {
+    this.roles = [];
+    this.currentRoleId = 1;
+  }
 }

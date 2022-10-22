@@ -24,4 +24,8 @@ export default class UserRepository {
   delete(userId) {
     return Promise.reject(new Error('not implemented'));
   }
+
+  clear() {
+    return Promise.reject(new Error('not implemented'));
+  }
 }

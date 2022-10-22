@@ -20,4 +20,8 @@ export default class RoleRepository {
   delete(roleId) {
     return Promise.reject(Error('not implemented'));
   }
+
+  clear() {
+    return Promise.reject(new Error('not implemented'));
+  }
 }

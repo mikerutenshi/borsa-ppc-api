@@ -14,6 +14,9 @@ export default (dependencies) => {
     .get((req, res, next) => {
       controller.getAllUser(req, res, next);
     });
+  router.route('/:username').get((req, res, next) => {
+    controller.getUserByUsername(req, res, next);
+  });
 
   return router;
 };
