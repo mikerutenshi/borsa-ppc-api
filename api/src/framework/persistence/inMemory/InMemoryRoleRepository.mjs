@@ -31,6 +31,36 @@ export default class InMemoryRoleRepository extends RoleRepository {
     return this.roles;
   }
 
+  async getById(roleId) {
+    const results = [];
+    for (let role of this.roles) {
+      if (role.id === roleId) {
+        results.push(role);
+        break;
+      }
+    }
+
+    return results;
+  }
+
+  async update(roleInstance) {
+    for (let role of this.roles) {
+      if (role.id == roleInstance.id) {
+        role.name = roleInstance.name;
+        break;
+      }
+    }
+    return await this.getById(roleInstance.id);
+  }
+
+  async delete(roleId) {
+    this.roles.forEach((value, index, array) => {
+      if (value.id == roleId) {
+        array.splice(index, 1);
+      }
+    });
+  }
+
   async clear() {
     this.roles = [];
     this.currentRoleId = 1;

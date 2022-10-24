@@ -32,7 +32,9 @@ describe('Test role repository methods', () => {
 
   test('Update role', async () => {
     role1.name = Roles.superuser;
+    role1.id = 2;
     const results = await RoleRepository.update(role1);
+    console.log('role: ', results);
     expect(results[0].name).toBe(Roles.superuser);
   });
 
