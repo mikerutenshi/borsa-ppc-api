@@ -13,6 +13,10 @@ export default class RoleRepository {
     return Promise.reject(Error('not implemented'));
   }
 
+  getByProp(property, value) {
+    return Promise.reject(Error('not implemented'));
+  }
+
   update(roleInstance) {
     return Promise.reject(Error('not implemented'));
   }

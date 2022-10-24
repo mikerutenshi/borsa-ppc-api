@@ -1,6 +1,6 @@
 const AddUser = (userRepository) => {
   const execute = async (user) => {
-    const users = await userRepository.getByUsername(user.username);
+    const users = await userRepository.getByProp('username', user.username);
 
     if (users.length > 0) {
       const err = new Error('User already exists');

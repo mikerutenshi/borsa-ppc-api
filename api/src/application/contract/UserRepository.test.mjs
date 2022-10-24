@@ -53,8 +53,8 @@ describe('Test user repository methods', () => {
     });
   });
 
-  test('Get by username should return user', async () => {
-    const results = await UserRepository.getByUsername(user1.username);
+  test('Get by prop username should return user', async () => {
+    const results = await UserRepository.getByProp('username', user1.username);
     expect(results[0].username).toBe(user1.username);
     expect(results[0]).toHaveProperty('username');
   });

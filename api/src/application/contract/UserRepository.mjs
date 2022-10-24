@@ -9,7 +9,7 @@ export default class UserRepository {
     return Promise.reject(new Error('not implemented'));
   }
 
-  getByUsername(username) {
+  getByProp(property, value) {
     return Promise.reject(new Error('not implemented'));
   }
 

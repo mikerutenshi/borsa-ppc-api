@@ -43,6 +43,18 @@ export default class InMemoryRoleRepository extends RoleRepository {
     return results;
   }
 
+  async getByProp(property, value) {
+    const results = [];
+    for (let role of this.roles) {
+      if (role[property] === value) {
+        results.push(role);
+        break;
+      }
+    }
+
+    return results;
+  }
+
   async update(roleInstance) {
     for (let role of this.roles) {
       if (role.id == roleInstance.id) {

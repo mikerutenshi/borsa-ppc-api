@@ -43,6 +43,12 @@ describe('Test role repository methods', () => {
     expect(results[0].id).toBe(2);
   });
 
+  test('get role by prop name', async () => {
+    const results = await RoleRepository.getByProp('name', role1.name);
+    expect(results[0]).toHaveProperty('name');
+    expect(results[0].name).toBe(role1.name);
+  });
+
   test('Delete role', async () => {
     await RoleRepository.delete(2);
     expect(await RoleRepository.getById(2)).toHaveLength(0);

@@ -41,10 +41,10 @@ export default class InMemoryUserRepository extends UserRepository {
     return this.users;
   }
 
-  async getByUsername(username) {
+  async getByProp(property, value) {
     let result = [];
     for (let user of this.users) {
-      if (user.username === username) {
+      if (user[property] === value) {
         result.push(user);
         break;
       }
@@ -76,7 +76,7 @@ export default class InMemoryUserRepository extends UserRepository {
         array[index].is_active = userInstance.is_active;
       }
     });
-    return await this.getByUsername(userInstance.username);
+    return await this.getByProp('username', userInstance.username);
   }
 
   async delete(userId) {
