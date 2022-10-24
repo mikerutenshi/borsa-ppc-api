@@ -1,6 +1,6 @@
 import ProjectDependencies from '../../di/projectDependencies.mjs';
 import { ValidationError } from '../../model/Error.mjs';
-import User from '../../model/User.mjs';
+import { christine, invalidUser, phoebe } from '../../model/mock/Users.mjs';
 
 beforeAll(async () => {
   const { UserRepository } = ProjectDependencies.DatabaseService;
@@ -9,21 +9,6 @@ beforeAll(async () => {
 
 describe('Test user repository methods', () => {
   const { UserRepository } = ProjectDependencies.DatabaseService;
-  const user = new User(
-    'userrepotest',
-    'User',
-    'Repo Test',
-    'kataKunci2022',
-    1
-  );
-  const user1 = new User(
-    'userrepotest1',
-    'User',
-    'Repo Test1',
-    'kataKunci2022',
-    1
-  );
-  const invalidUser = new User('mi', 'Mi', 'Hs', 'kt', 0);
 
   test('getUserById should return empty', async () => {
     const user = await UserRepository.getById(1);
@@ -31,13 +16,13 @@ describe('Test user repository methods', () => {
   });
 
   test('Add should return user', async () => {
-    const result = await UserRepository.add(user);
-    expect(result.username).toBe(user.username);
+    const result = await UserRepository.add(christine);
+    expect(result.username).toBe(christine.username);
   });
 
   test('Add should return user1', async () => {
-    const result = await UserRepository.add(user1);
-    expect(result.username).toBe(user1.username);
+    const result = await UserRepository.add(phoebe);
+    expect(result.username).toBe(phoebe.username);
   });
 
   test('Add invalid should throw error', async () => {
@@ -54,8 +39,8 @@ describe('Test user repository methods', () => {
   });
 
   test('Get by prop username should return user', async () => {
-    const results = await UserRepository.getByProp('username', user1.username);
-    expect(results[0].username).toBe(user1.username);
+    const results = await UserRepository.getByProp('username', phoebe.username);
+    expect(results[0].username).toBe(phoebe.username);
     expect(results[0]).toHaveProperty('username');
   });
 
@@ -66,9 +51,9 @@ describe('Test user repository methods', () => {
   });
 
   test('Update user should return updated user', async () => {
-    user1.is_active = true;
-    expect(user1.is_active).toBeTruthy();
-    const results = await UserRepository.update(user1);
+    phoebe.is_active = true;
+    expect(phoebe.is_active).toBeTruthy();
+    const results = await UserRepository.update(phoebe);
     expect(results[0].is_active).toBeTruthy();
   });
 

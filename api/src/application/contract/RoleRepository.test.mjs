@@ -1,17 +1,14 @@
 import ProjectDependencies from '../../di/projectDependencies.mjs';
 import { ValidationError } from '../../model/Error.mjs';
+import { finance, invalidRole, production } from '../../model/mock/Users.mjs';
 import Role from '../../model/Role.mjs';
 import Roles from '../../model/Roles.mjs';
 
 describe('Test role repository methods', () => {
   const { RoleRepository } = ProjectDependencies.DatabaseService;
-  const role = new Role(Roles.production);
-  const role1 = new Role(Roles.finance);
-  const invalidRole = new Role('arst');
-
   test('Add valid', async () => {
-    const newRole = await RoleRepository.add(role);
-    const newRole1 = await RoleRepository.add(role1);
+    const newRole = await RoleRepository.add(production);
+    const newRole1 = await RoleRepository.add(finance);
     expect(newRole.name).toBe(Roles.production);
     expect(newRole1.name).toBe(Roles.finance);
   });
@@ -31,9 +28,9 @@ describe('Test role repository methods', () => {
   });
 
   test('Update role', async () => {
-    role1.name = Roles.superuser;
-    role1.id = 2;
-    const results = await RoleRepository.update(role1);
+    finance.name = Roles.superuser;
+    finance.id = 2;
+    const results = await RoleRepository.update(finance);
     console.log('role: ', results);
     expect(results[0].name).toBe(Roles.superuser);
   });
@@ -44,9 +41,9 @@ describe('Test role repository methods', () => {
   });
 
   test('get role by prop name', async () => {
-    const results = await RoleRepository.getByProp('name', role1.name);
+    const results = await RoleRepository.getByProp('name', finance.name);
     expect(results[0]).toHaveProperty('name');
-    expect(results[0].name).toBe(role1.name);
+    expect(results[0].name).toBe(finance.name);
   });
 
   test('Delete role', async () => {

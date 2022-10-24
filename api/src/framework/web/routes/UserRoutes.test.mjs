@@ -1,5 +1,6 @@
 import request from 'supertest';
 import app from '../../../app.mjs';
+import { christ } from '../../../model/mock/Users.mjs';
 import User from '../../../model/User.mjs';
 
 describe('Test root path', () => {
@@ -11,20 +12,18 @@ describe('Test root path', () => {
 
 describe('Test user path', () => {
   test('POST /v2/user => create new user', async () => {
-    const user = new User('chriskurnia', 'Chris', 'Kurnia', 'kataKunci2023', 1);
     const response = await request(app)
       .post('/v2/users')
-      .send(user)
+      .send(christ)
       .set('Accept', 'application/json');
     expect(response.status).toEqual(201);
     expect(response.headers['content-type']).toMatch(/json/);
   });
 
   test('POST /v2/user => user already exist', async () => {
-    const user = new User('chriskurnia', 'Chris', 'Kurnia', 'kataKunci2023', 1);
     const response = await request(app)
       .post('/v2/users')
-      .send(user)
+      .send(christ)
       .set('Accept', 'application/json');
     expect(response.status).toEqual(409);
     expect(response.body.message).toMatch('User already exists');

@@ -9,7 +9,7 @@ const AddUser = (userRepository) => {
     } else {
       await userRepository.add(user);
 
-      return 'User added successfully';
+      return 'User was added successfully';
     }
   };
 
@@ -19,23 +19,43 @@ const AddUser = (userRepository) => {
 const GetUsers = (userRepository) => {
   const execute = async () => {
     const users = await userRepository.getAll();
-    const cleanUsers = users.map((user) => {
-      const { password, ...rest } = user;
-      return rest;
-    });
+    const cleanUsers = removePasswords(users);
 
     return cleanUsers;
   };
+
+  return { execute };
+};
+
+const GetFilteredUsers = (userRepository) => {
+  const execute = async (key, value) => {
+    const users = await userRepository.getByProp(key, value);
+    const cleanUsers = removePasswords(users);
+
+    return cleanUsers;
+  };
+
   return { execute };
 };
 
 const GetUser = (userRepository) => {
-  const execute = async (username) => {
-    const user = await userRepository.getByUsername(username);
-    return user;
+  const execute = async (id) => {
+    const users = await userRepository.getById(id);
+    const cleanUsers = removePasswords(users);
+
+    return cleanUsers;
   };
 
   return { execute };
 };
 
-export { AddUser, GetUsers, GetUser };
+const removePasswords = (users) => {
+  const results = users.map((user) => {
+    const { password, ...rest } = user;
+    return rest;
+  });
+
+  return results;
+};
+
+export { AddUser, GetUsers, GetFilteredUsers, GetUser };

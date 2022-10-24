@@ -1,9 +1,7 @@
 import DatabaseService from '../../../application/contract/DatabaseService.mjs';
-import User from '../../../model/User.mjs';
-import Role from '../../../model/Role.mjs';
-import Roles from '../../../model/Roles.mjs';
 import InMemoryUserRepository from '../inMemory/InMemoryUserRepository.mjs';
 import InMemoryRoleRepository from '../inMemory/InMemoryRoleRepository.mjs';
+import { michael, superuser } from '../../../model/mock/Users.mjs';
 
 export default class InMemoryDatabaseService extends DatabaseService {
   constructor() {
@@ -17,18 +15,8 @@ export default class InMemoryDatabaseService extends DatabaseService {
   }
 
   async seedData() {
-    let mockRole = new Role(Roles.superuser);
-    mockRole = await this.RoleRepository.add(mockRole);
-    const user = new User(
-      'michaelhs',
-      'Michael',
-      'Susanto',
-      'kataKunci2022',
-      mockRole.id,
-      'false'
-    );
-
-    await this.UserRepository.add(user);
+    await this.RoleRepository.add(superuser);
+    await this.UserRepository.add(michael);
   }
 
   async clearDatabase() {

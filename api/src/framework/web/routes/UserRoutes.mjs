@@ -12,10 +12,10 @@ export default (dependencies) => {
       controller.addNewUser(req, res, next);
     })
     .get((req, res, next) => {
-      controller.getAllUser(req, res, next);
+      controller.getUsers(req, res, next);
     });
-  router.route('/:username').get((req, res, next) => {
-    controller.getUserByUsername(req, res, next);
+  router.route('/:id').get((req, res, next) => {
+    controller.getUser(req, res, next);
   });
 
   return router;

@@ -2,6 +2,7 @@ import {
   AddUser,
   GetUsers,
   GetUser,
+  GetFilteredUsers,
 } from '../application/use-case/UserUseCase.mjs';
 import { Response, Status } from '../model/Response.mjs';
 import User from '../model/User.mjs';
@@ -26,27 +27,32 @@ export default (dependencies) => {
     }
   };
 
-  const getAllUser = async (_, res, next) => {
+  const getUsers = async (req, res, next) => {
     try {
-      const data = await GetUsers(UserRepository).execute();
-      res.json(new Response(Status.ok, data, 'All users are loaded'));
+      if (req.search_key === undefined) {
+        const data = await GetUsers(UserRepository).execute();
+        res.json(new Response(Status.ok, data, 'All users are loaded'));
+      } else {
+        const data = await GetFilteredUsers(UserRepository).execute();
+        res.json(new Response(Status.ok, data, 'Filtered users are loaded'));
+      }
     } catch (err) {
       next(err);
     }
   };
 
-  const getUserByUsername = async (req, res, next) => {
+  const getUser = async (req, res, next) => {
     try {
-      const user = await GetUser(UserRepository).execute(req.params.username);
-      res.json(new Response(Status.ok, user, 'User is loaded'));
+      const data = await GetUser(UserRepository).execute(req.params.id);
+      res.json(new Response(Status.ok, data, 'User is loaded'));
     } catch (err) {
-      nexp(err);
+      next(err);
     }
   };
 
   return {
     addNewUser,
-    getAllUser,
-    getUserByUsername,
+    getUsers,
+    getUser,
   };
 };
