@@ -49,6 +49,26 @@ const GetUser = (userRepository) => {
   return { execute };
 };
 
+const UpdateUser = (userRepository) => {
+  const execute = async (id, user) => {
+    user.id = id;
+    const updatedUser = await userRepository.update(user);
+    return updatedUser;
+  };
+
+  return { execute };
+};
+
+const DeleteUser = (userRepository) => {
+  const execute = async (id) => {
+    const isSuccess = await userRepository.delete(id);
+
+    return isSuccess;
+  };
+
+  return { execute };
+};
+
 const removePasswords = (users) => {
   const results = users.map((user) => {
     const { password, ...rest } = user;
@@ -58,4 +78,4 @@ const removePasswords = (users) => {
   return results;
 };
 
-export { AddUser, GetUsers, GetFilteredUsers, GetUser };
+export { AddUser, GetUsers, GetFilteredUsers, GetUser, UpdateUser, DeleteUser };

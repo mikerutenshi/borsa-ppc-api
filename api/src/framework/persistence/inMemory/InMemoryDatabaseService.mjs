@@ -19,7 +19,7 @@ export default class InMemoryDatabaseService extends DatabaseService {
     await this.UserRepository.add(michael);
   }
 
-  async clearDatabase() {
+  async dropDatabase() {
     await this.UserRepository.clear();
     await this.RoleRepository.clear();
   }

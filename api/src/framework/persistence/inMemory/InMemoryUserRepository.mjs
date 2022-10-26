@@ -44,7 +44,7 @@ export default class InMemoryUserRepository extends UserRepository {
   async getByProp(property, value) {
     let result = [];
     for (let user of this.users) {
-      if (user[property] === value) {
+      if (user[property].toLowerCase().includes(value)) {
         result.push(user);
         break;
       }
@@ -67,7 +67,7 @@ export default class InMemoryUserRepository extends UserRepository {
 
   async update(userInstance) {
     this.users.forEach((value, index, array) => {
-      if (value.username === userInstance.username) {
+      if (value.id == userInstance.id) {
         array[index].username = userInstance.username;
         array[index].password = userInstance.password;
         array[index].first_name = userInstance.first_name;
@@ -76,15 +76,19 @@ export default class InMemoryUserRepository extends UserRepository {
         array[index].is_active = userInstance.is_active;
       }
     });
-    return await this.getByProp('username', userInstance.username);
+    return await this.getById(userInstance.id);
   }
 
   async delete(userId) {
+    let result = false;
     this.users.forEach((value, index, array) => {
       if (value.id == userId) {
         array.splice(index, 1);
+        result = true;
       }
     });
+
+    return result;
   }
 
   async clear() {

@@ -14,9 +14,17 @@ export default (dependencies) => {
     .get((req, res, next) => {
       controller.getUsers(req, res, next);
     });
-  router.route('/:id').get((req, res, next) => {
-    controller.getUser(req, res, next);
-  });
+  router
+    .route('/:id')
+    .get((req, res, next) => {
+      controller.getUser(req, res, next);
+    })
+    .put((req, res, next) => {
+      controller.updateUser(req, res, next);
+    })
+    .delete((req, res, next) => {
+      controller.deleteUser(req, res, next);
+    });
 
   return router;
 };

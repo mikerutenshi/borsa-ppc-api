@@ -48,10 +48,12 @@ describe('Test user repository methods', () => {
     const users = await UserRepository.getAll();
     expect(Array.isArray(users)).toBe(true);
     expect(users).toHaveLength(2);
+    console.log('repository users ', users);
   });
 
   test('Update user should return updated user', async () => {
     phoebe.is_active = true;
+    phoebe.id = 2;
     expect(phoebe.is_active).toBeTruthy();
     const results = await UserRepository.update(phoebe);
     expect(results[0].is_active).toBeTruthy();

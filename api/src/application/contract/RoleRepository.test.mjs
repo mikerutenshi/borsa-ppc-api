@@ -31,7 +31,6 @@ describe('Test role repository methods', () => {
     finance.name = Roles.superuser;
     finance.id = 2;
     const results = await RoleRepository.update(finance);
-    console.log('role: ', results);
     expect(results[0].name).toBe(Roles.superuser);
   });
 
