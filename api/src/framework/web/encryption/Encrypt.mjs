@@ -18,8 +18,8 @@ const Token = {
     return await randtoken.generate(256);
   },
 
-  async generateAccessToken(userId, roleId) {
-    const payload = { sub: userId, role: roleId };
+  async generateAccessToken(username, roleId) {
+    const payload = { sub: username, role: roleId };
     try {
       return jwt.sign(payload, config.jwtSecret, {
         expiresIn: config.accessTokenExpIn,
@@ -36,6 +36,8 @@ const Token = {
       return 'expired';
     }
 
+    console.log('askToken', askToken);
+    console.log('storedToken', storedToken);
     return await Hash.compare(askToken, storedToken).then(
       (result) => {
         if (result) {
@@ -45,6 +47,7 @@ const Token = {
         }
       },
       (error) => {
+        console.log('validateError', error);
         throw Error(error.message);
       }
     );

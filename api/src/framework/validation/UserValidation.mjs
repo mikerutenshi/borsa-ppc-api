@@ -10,8 +10,6 @@ const userSchema = Joi.object().keys({
   password: Joi.string().regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
   role_id: idSchema,
   is_active: Joi.boolean().required(),
-  refresh_token: Joi.string().min(256).max(256),
-  refresh_token_exp_date: Joi.date().timestamp(),
 });
 
 const roleSchema = Joi.object().keys({

@@ -69,6 +69,38 @@ const DeleteUser = (userRepository) => {
   return { execute };
 };
 
+const Authenticate = (userRepository) => {
+  const execute = async (username, password) => {
+    const users = await userRepository.authenticate(username, password);
+    if (users && users.length == 1) {
+      const cleanusers = users.map((user) => {
+        const { id, is_active, refresh_token_exp_date, password, ...rest } =
+          user;
+
+        return rest;
+      });
+
+      return cleanusers;
+    }
+  };
+
+  return { execute };
+};
+
+const RefreshAccessToken = (userRepository) => {
+  const execute = async (username, refreshToken) => {
+    const newAccessToken = await userRepository.refreshAccessToken(
+      username,
+      refreshToken
+    );
+    console.log('newAccessToken', newAccessToken);
+
+    return newAccessToken;
+  };
+
+  return { execute };
+};
+
 const removePasswords = (users) => {
   const results = users.map((user) => {
     const { password, ...rest } = user;
@@ -78,4 +110,13 @@ const removePasswords = (users) => {
   return results;
 };
 
-export { AddUser, GetUsers, GetFilteredUsers, GetUser, UpdateUser, DeleteUser };
+export {
+  AddUser,
+  GetUsers,
+  GetFilteredUsers,
+  GetUser,
+  UpdateUser,
+  DeleteUser,
+  Authenticate,
+  RefreshAccessToken,
+};

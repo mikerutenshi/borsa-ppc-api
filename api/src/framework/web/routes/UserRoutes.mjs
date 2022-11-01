@@ -14,6 +14,7 @@ export default (dependencies) => {
     .get((req, res, next) => {
       controller.getUsers(req, res, next);
     });
+
   router
     .route('/:id')
     .get((req, res, next) => {
@@ -25,6 +26,14 @@ export default (dependencies) => {
     .delete((req, res, next) => {
       controller.deleteUser(req, res, next);
     });
+
+  router.route('/authenticate').post((req, res, next) => {
+    controller.authenticate(req, res, next);
+  });
+
+  router.route('/refresh-access-token').post((req, res, next) => {
+    controller.refreshAccessToken(req, res, next);
+  });
 
   return router;
 };

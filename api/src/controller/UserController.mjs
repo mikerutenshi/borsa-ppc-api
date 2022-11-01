@@ -5,6 +5,8 @@ import {
   GetFilteredUsers,
   UpdateUser,
   DeleteUser,
+  Authenticate,
+  RefreshAccessToken,
 } from '../application/use-case/UserUseCase.mjs';
 import { Response, Status } from '../model/Response.mjs';
 import User from '../model/User.mjs';
@@ -23,7 +25,7 @@ export default (dependencies) => {
       );
 
       const message = await AddUser(UserRepository).execute(user);
-      res.status(201).json(new Response(Status.created, undefined, message));
+      res.status(201).json(new Response(Status.get(201), undefined, message));
     } catch (err) {
       next(err);
     }
@@ -33,13 +35,15 @@ export default (dependencies) => {
     try {
       if (req.query.search_key === undefined) {
         const data = await GetUsers(UserRepository).execute();
-        res.json(new Response(Status.ok, data, 'All users are loaded'));
+        res.json(new Response(Status.get(200), data, 'All users are loaded'));
       } else {
         const data = await GetFilteredUsers(UserRepository).execute(
           req.query.search_key,
           req.query.search_value
         );
-        res.json(new Response(Status.ok, data, 'Filtered users are loaded'));
+        res.json(
+          new Response(Status.get(200), data, 'Filtered users are loaded')
+        );
       }
     } catch (err) {
       next(err);
@@ -49,7 +53,7 @@ export default (dependencies) => {
   const getUser = async (req, res, next) => {
     try {
       const data = await GetUser(UserRepository).execute(req.params.id);
-      res.json(new Response(Status.ok, data, 'User is loaded'));
+      res.json(new Response(Status.get(200), data, 'User is loaded'));
     } catch (err) {
       next(err);
     }
@@ -61,7 +65,9 @@ export default (dependencies) => {
         req.params.id,
         req.body
       );
-      res.json(new Response(Status.ok, data, 'User is successfully updated'));
+      res.json(
+        new Response(Status.get(200), data, 'User is successfully updated')
+      );
     } catch (err) {
       next(err);
     }
@@ -76,15 +82,56 @@ export default (dependencies) => {
 
       if (result) {
         code = 200;
-        status = Status.ok;
+        status = Status.get(200);
         message = 'User is successfully deleted';
       } else {
         code = 404;
-        status = Status.notFound;
+        status = Status.get(404);
         message = 'Cannot find user to delete';
       }
 
       res.status(code).json(new Response(status, undefined, message));
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  const authenticate = async (req, res, next) => {
+    try {
+      const users = await Authenticate(UserRepository).execute(
+        req.body.username,
+        req.body.password
+      );
+
+      res.json(
+        new Response(
+          Status.get(200),
+          users,
+          'User is successfully authenticated'
+        )
+      );
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  const refreshAccessToken = async (req, res, next) => {
+    try {
+      const newAccessToken = await RefreshAccessToken(UserRepository).execute(
+        req.body.username,
+        req.body.refresh_token
+      );
+      const data = [];
+      data.push({
+        access_token: newAccessToken,
+      });
+      res.json(
+        new Response(
+          Status.get(200),
+          data,
+          'New access token is successfully generated'
+        )
+      );
     } catch (err) {
       next(err);
     }
@@ -96,5 +143,7 @@ export default (dependencies) => {
     getUser,
     updateUser,
     deleteUser,
+    authenticate,
+    refreshAccessToken,
   };
 };

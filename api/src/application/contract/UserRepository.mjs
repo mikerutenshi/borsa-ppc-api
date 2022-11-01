@@ -25,6 +25,14 @@ export default class UserRepository {
     return Promise.reject(new Error('not implemented'));
   }
 
+  authenticate(username, password) {
+    return Promise.reject(new Error('not implemented'));
+  }
+
+  refreshAccessToken(username, refreshToken) {
+    return Promise.reject(new Error('not implemented'));
+  }
+
   clear() {
     return Promise.reject(new Error('not implemented'));
   }
