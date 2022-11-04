@@ -93,7 +93,6 @@ const RefreshAccessToken = (userRepository) => {
       username,
       refreshToken
     );
-    console.log('newAccessToken', newAccessToken);
 
     return newAccessToken;
   };

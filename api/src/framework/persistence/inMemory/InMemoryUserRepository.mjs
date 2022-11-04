@@ -17,7 +17,6 @@ export default class InMemoryUserRepository extends UserRepository {
   async add(userInstance) {
     const { value, error } = validateUser(userInstance);
 
-    console.log('add Error', error);
     if (error === undefined) {
       try {
         value.password = await Hash.create(value.password);
@@ -39,10 +38,18 @@ export default class InMemoryUserRepository extends UserRepository {
 
   async getByProp(property, value) {
     let result = [];
-    for (let user of this.users) {
-      if (user[property].toLowerCase().includes(value)) {
-        result.push(user);
-        break;
+    if (property == 'username') {
+      for (let user of this.users) {
+        if (user.username == value) {
+          result.push(user);
+        }
+      }
+    } else {
+      for (let user of this.users) {
+        if (user[property].toLowerCase().includes(value)) {
+          console.log('user', user);
+          result.push(user);
+        }
       }
     }
 
@@ -101,7 +108,7 @@ export default class InMemoryUserRepository extends UserRepository {
       }
     }
 
-    if (userExist.is_active == false) {
+    if (userExist && userExist.is_active == false) {
       const err = new Error('User is not yet activated');
       err.status = 403;
       throw err;
@@ -165,7 +172,6 @@ export default class InMemoryUserRepository extends UserRepository {
       userExist.refresh_token
     );
 
-    console.log('tokenValid', tokenValid);
     switch (tokenValid) {
       case 'expired':
         const expiredError = new Error('Refresh token has expired');

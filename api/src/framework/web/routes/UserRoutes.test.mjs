@@ -1,6 +1,11 @@
 import request from 'supertest';
 import app from '../../../app.mjs';
-import { christ, christine, michael } from '../../../model/mock/Users.mjs';
+import {
+  christ,
+  christine,
+  invalidUser,
+  michael,
+} from '../../../model/mock/Users.mjs';
 
 describe('Test root path', () => {
   const agent = request.agent(app);
@@ -74,7 +79,6 @@ describe('Test user path', () => {
       search_key: 'first_name',
       search_value: 'christian',
     });
-    console.log('updated users ', response.body.data);
     expect(response.status).toEqual(200);
     expect(response.body.data[0].username).toMatch(christine.username);
     expect(updated.body.data[0].username).toMatch(christine.username);
@@ -90,7 +94,7 @@ describe('Test user path', () => {
     expect(searchFail.body.data).toHaveLength(0);
   });
 
-  test('AUTH /v2/users => authenticate user', async () => {
+  test('AUTH /v2/users/authenticate => authenticate user', async () => {
     const response = await agent.post('/v2/users/authenticate').send({
       username: christine.username,
       password: christine.password,
@@ -100,13 +104,30 @@ describe('Test user path', () => {
     expect(response.body.data[0].access_token).toBeDefined();
   });
 
-  test('REFRESH TOKEN / v2/users => refresh access token', async () => {
+  test('AUTH /v2/users/authenticate => authenticate invalid user', async () => {
+    const response = await agent.post('/v2/users/authenticate').send({
+      username: invalidUser.username,
+      password: invalidUser.password,
+    });
+    console.log('res', response.body);
+    expect(response.status).toBe(400);
+    expect(response.body.data.username).toMatch('User not found');
+  });
+
+  test('REFRESH TOKEN / v2/users/refresh-access-token => refresh access token', async () => {
     const response = await agent.post('/v2/users/refresh-access-token').send({
       username: christine.username,
       refresh_token: christine.refresh_token,
     });
-    console.log('response: ', response.body);
     expect(response.status).toBe(200);
     expect(response.body.data[0].access_token).toBeDefined();
+  });
+
+  test('REFRESH TOKEN / v2/users/refresh-access-token => refresh access token invalid token', async () => {
+    const response = await agent.post('/v2/users/refresh-access-token').send({
+      username: christine.username,
+      refresh_token: christine.refresh_token.substring(0, 10),
+    });
+    expect(response.status).toBe(403);
   });
 });

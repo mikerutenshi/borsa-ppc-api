@@ -36,8 +36,6 @@ const Token = {
       return 'expired';
     }
 
-    console.log('askToken', askToken);
-    console.log('storedToken', storedToken);
     return await Hash.compare(askToken, storedToken).then(
       (result) => {
         if (result) {
@@ -47,7 +45,6 @@ const Token = {
         }
       },
       (error) => {
-        console.log('validateError', error);
         throw Error(error.message);
       }
     );
