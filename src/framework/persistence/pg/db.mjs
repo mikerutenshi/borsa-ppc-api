@@ -7,12 +7,10 @@ const options = {
   promiseLib: promise,
 };
 
-const pgp = pgPromise(options);
+export const pgp = pgPromise(options);
 
 if (config.nodeEnv !== 'production') {
   monitor.attach(options);
 }
 
-const db = pgp(config.postgres.url);
-
-export { db, pgp };
+export const db = pgp(config.postgres.url);
