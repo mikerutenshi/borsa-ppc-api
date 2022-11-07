@@ -3,17 +3,17 @@
 exports.shorthands = {
   createdBy: {
     type: 'integer',
-    references: { schema: 'v2', name: 'app_user' },
+    references: { schema: 'factory', name: 'user' },
   },
   updatedBy: {
     type: 'integer',
-    references: { schema: 'v2', name: 'app_user' },
+    references: { schema: 'factory', name: 'user' },
   },
 };
 
 exports.up = (pgm) => {
   pgm.createTable(
-    { schema: 'v2', name: 'gender' },
+    { schema: 'factory', name: 'gender' },
     {
       id: 'id',
       name: 'varchar(16)',
@@ -24,13 +24,13 @@ exports.up = (pgm) => {
     }
   );
   pgm.createTable(
-    { schema: 'v2', name: 'product_category' },
+    { schema: 'factory', name: 'product_category' },
     {
       id: 'id',
       name: 'varchar(32)',
       gender_id: {
         type: 'integer',
-        references: { schema: 'v2', name: 'gender' },
+        references: { schema: 'factory', name: 'gender' },
       },
       created_at: 'createdAt',
       updated_at: 'updatedAt',
@@ -39,7 +39,7 @@ exports.up = (pgm) => {
     }
   );
   pgm.createTable(
-    { schema: 'v2', name: 'product' },
+    { schema: 'factory', name: 'product' },
     {
       id: 'id',
       code: 'varchar(16)',
@@ -48,7 +48,7 @@ exports.up = (pgm) => {
       updated_at: 'updatedAt',
       product_category_id: {
         type: 'integer',
-        references: { schema: 'v2', name: 'product_category' },
+        references: { schema: 'factory', name: 'product_category' },
       },
       created_at: 'createdAt',
       updated_at: 'updatedAt',

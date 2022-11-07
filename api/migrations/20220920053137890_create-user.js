@@ -11,9 +11,9 @@ exports.shorthands = {
 };
 
 exports.up = (pgm) => {
-  pgm.createSchema('v2');
+  pgm.createSchema('factory');
   pgm.createTable(
-    { schema: 'v2', name: 'app_user_role' },
+    { schema: 'factory', name: 'role' },
     {
       id: 'id',
       name: 'varchar(32)',
@@ -22,7 +22,7 @@ exports.up = (pgm) => {
     }
   );
   pgm.createTable(
-    { schema: 'v2', name: 'app_user' },
+    { schema: 'factory', name: 'user' },
     {
       id: 'id',
       username: {
@@ -39,9 +39,9 @@ exports.up = (pgm) => {
         type: 'varchar',
         notNull: true,
       },
-      app_user_role_id: {
+      role_id: {
         type: 'integer',
-        references: { schema: 'v2', name: 'app_user_role' },
+        references: { schema: 'factory', name: 'role' },
       },
       is_active: {
         type: 'boolean',
