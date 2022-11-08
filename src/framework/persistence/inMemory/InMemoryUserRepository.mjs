@@ -47,7 +47,6 @@ export default class InMemoryUserRepository extends UserRepository {
     } else {
       for (let user of this.users) {
         if (user[property].toLowerCase().includes(value)) {
-          console.log('user', user);
           result.push(user);
         }
       }

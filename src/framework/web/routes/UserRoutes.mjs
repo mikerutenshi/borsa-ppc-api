@@ -1,5 +1,6 @@
 import express from 'express';
 import UserController from '../../../controller/UserController.mjs';
+import { SchemaValidator } from '../middleware/SchemaValidator.mjs';
 
 export default (dependencies) => {
   const router = express.Router();
@@ -8,9 +9,14 @@ export default (dependencies) => {
 
   router
     .route('/')
-    .post((req, res, next) => {
-      controller.addNewUser(req, res, next);
-    })
+    .post(
+      (req, res, next) => {
+        SchemaValidator(req, res, next);
+      },
+      (req, res, next) => {
+        controller.addNewUser(req, res, next);
+      }
+    )
     .get((req, res, next) => {
       controller.getUsers(req, res, next);
     });
@@ -27,9 +33,14 @@ export default (dependencies) => {
       controller.deleteUser(req, res, next);
     });
 
-  router.route('/authenticate').post((req, res, next) => {
-    controller.authenticate(req, res, next);
-  });
+  router.route('/authenticate').post(
+    (req, res, next) => {
+      SchemaValidator(req, res, next);
+    },
+    (req, res, next) => {
+      controller.authenticate(req, res, next);
+    }
+  );
 
   router.route('/refresh-access-token').post((req, res, next) => {
     controller.refreshAccessToken(req, res, next);

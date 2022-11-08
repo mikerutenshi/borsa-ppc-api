@@ -109,7 +109,6 @@ describe('Test user path', () => {
       username: invalidUser.username,
       password: invalidUser.password,
     });
-    console.log('res', response.body);
     expect(response.status).toBe(400);
     expect(response.body.data.username).toMatch('User not found');
   });

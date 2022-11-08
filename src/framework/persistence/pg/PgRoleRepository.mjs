@@ -1,5 +1,6 @@
 import RoleRepository from '../../../application/contract/RoleRepository.mjs';
 import { db } from './db.mjs';
+import { role } from './sql.mjs';
 
 export default class PgRoleRepository extends RoleRepository {
   constructor() {
@@ -7,7 +8,7 @@ export default class PgRoleRepository extends RoleRepository {
   }
 
   async add(roleInstance) {
-    return Promise.reject(Error('not implemented'));
+    await db.none(role.create, roleInstance);
   }
 
   async getById(roleId) {

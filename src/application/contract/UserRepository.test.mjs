@@ -48,7 +48,6 @@ describe('Test user repository methods', () => {
     const users = await UserRepository.getAll();
     expect(Array.isArray(users)).toBe(true);
     expect(users).toHaveLength(2);
-    console.log('repository users ', users);
   });
 
   test('Update user should return updated user', async () => {
