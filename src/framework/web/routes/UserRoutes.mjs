@@ -1,6 +1,6 @@
 import express from 'express';
 import UserController from '../../../controller/UserController.mjs';
-import { SchemaValidator } from '../middleware/SchemaValidator.mjs';
+import validateForm from '../middleware/SchemaValidator.mjs';
 
 export default (dependencies) => {
   const router = express.Router();
@@ -11,7 +11,7 @@ export default (dependencies) => {
     .route('/')
     .post(
       (req, res, next) => {
-        SchemaValidator(req, res, next);
+        validateForm(req, res, next);
       },
       (req, res, next) => {
         controller.addNewUser(req, res, next);
@@ -26,25 +26,35 @@ export default (dependencies) => {
     .get((req, res, next) => {
       controller.getUser(req, res, next);
     })
-    .put((req, res, next) => {
-      controller.updateUser(req, res, next);
-    })
+    .put(
+      (req, res, next) => {
+        validateForm(req, res, next);
+      },
+      (req, res, next) => {
+        controller.updateUser(req, res, next);
+      }
+    )
     .delete((req, res, next) => {
       controller.deleteUser(req, res, next);
     });
 
   router.route('/authenticate').post(
     (req, res, next) => {
-      SchemaValidator(req, res, next);
+      validateForm(req, res, next);
     },
     (req, res, next) => {
       controller.authenticate(req, res, next);
     }
   );
 
-  router.route('/refresh-access-token').post((req, res, next) => {
-    controller.refreshAccessToken(req, res, next);
-  });
+  router.route('/refresh-access-token').post(
+    (req, res, next) => {
+      validateForm(req, res, next);
+    },
+    (req, res, next) => {
+      controller.refreshAccessToken(req, res, next);
+    }
+  );
 
   return router;
 };

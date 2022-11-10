@@ -106,11 +106,22 @@ describe('Test user path', () => {
 
   test('AUTH /v2/users/authenticate => authenticate invalid user', async () => {
     const response = await agent.post('/v2/users/authenticate').send({
-      username: invalidUser.username,
-      password: invalidUser.password,
+      username: 'Unknown User',
+      password: 'UnknownPassword123',
     });
+    const invalidResponse = await agent
+      .post('/v2/users/authenticate')
+      .send({
+        username: invalidUser.username,
+        password: invalidUser.password,
+      })
+      .catch((err) => {
+        expect(err.body).toHaveProperty('username');
+        expect(err.body).toHaveProperty('password');
+      });
     expect(response.status).toBe(400);
     expect(response.body.data.username).toMatch('User not found');
+    expect(invalidResponse.status).toBe(400);
   });
 
   test('REFRESH TOKEN / v2/users/refresh-access-token => refresh access token', async () => {
@@ -123,10 +134,23 @@ describe('Test user path', () => {
   });
 
   test('REFRESH TOKEN / v2/users/refresh-access-token => refresh access token invalid token', async () => {
-    const response = await agent.post('/v2/users/refresh-access-token').send({
-      username: christine.username,
-      refresh_token: christine.refresh_token.substring(0, 10),
-    });
-    expect(response.status).toBe(403);
+    const badRequest = await agent
+      .post('/v2/users/refresh-access-token')
+      .send({
+        username: christine.username,
+        refresh_token: christine.refresh_token.substring(0, 10),
+      })
+      .catch((err) => {
+        expect(err.body).toHaveProperty('access_token');
+      });
+    const invalidToken = await agent
+      .post('/v2/users/refresh-access-token')
+      .send({
+        username: christine.username,
+        refresh_token: christine.refresh_token.toLowerCase(),
+      });
+
+    expect(badRequest.status).toBe(400);
+    expect(invalidToken.status).toBe(403);
   });
 });
