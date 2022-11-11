@@ -10,20 +10,30 @@ export default class InMemoryRoleRepository extends RoleRepository {
   }
 
   async add(roleInstance) {
-    const { value, error } = validateRole(roleInstance);
+    //const { value, error } = validateRole(roleInstance);
 
-    if (error === undefined) {
-      try {
-        value.id = this.currentRoleId;
-        this.roles.push(value);
-        this.currentRoleId++;
+    //if (error === undefined) {
+    //  try {
+    //    value.id = this.currentRoleId;
+    //    this.roles.push(value);
+    //    this.currentRoleId++;
 
-        return value;
-      } catch (error) {
-        throw error;
-      }
-    } else {
-      handleValidationError(error);
+    //    return value;
+    //  } catch (error) {
+    //    throw error;
+    //  }
+    //} else {
+    //  handleValidationError(error);
+    //}
+
+    try {
+      roleInstance.id = this.currentRoleId;
+      this.roles.push(roleInstance);
+      this.currentRoleId++;
+
+      return roleInstance;
+    } catch (error) {
+      throw error;
     }
   }
 

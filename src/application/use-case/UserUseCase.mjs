@@ -1,3 +1,5 @@
+import { Hash } from '../../framework/web/encryption/Encrypt.mjs';
+
 const AddUser = (userRepository) => {
   const execute = async (user) => {
     const users = await userRepository.getByProp('username', user.username);
@@ -7,9 +9,11 @@ const AddUser = (userRepository) => {
       err.status = 409;
       throw err;
     } else {
-      await userRepository.add(user);
+      user.password = await Hash.create(user.password);
+      const addedUser = await userRepository.add(user);
+      const { password, id, ...rest } = addedUser;
 
-      return 'User was added successfully';
+      return rest;
     }
   };
 

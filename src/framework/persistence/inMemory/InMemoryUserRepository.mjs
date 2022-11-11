@@ -15,20 +15,30 @@ export default class InMemoryUserRepository extends UserRepository {
   }
 
   async add(userInstance) {
-    const { value, error } = validateUser(userInstance);
+    //const { value, error } = validateUser(userInstance);
 
-    if (error === undefined) {
-      try {
-        value.password = await Hash.create(value.password);
-        value.id = this.currentUserId;
-        this.users.push(value);
-        this.currentUserId++;
-        return value;
-      } catch (error) {
-        throw error;
-      }
-    } else {
-      handleValidationError(error);
+    //if (error === undefined) {
+    //  try {
+    //    value.password = await Hash.create(value.password);
+    //    value.id = this.currentUserId;
+    //    this.users.push(value);
+    //    this.currentUserId++;
+    //    return value;
+    //  } catch (error) {
+    //    throw error;
+    //  }
+    //} else {
+    //  handleValidationError(error);
+    //}
+
+    try {
+      //value.password = await Hash.create(value.password);
+      userInstance.id = this.currentUserId;
+      this.users.push(userInstance);
+      this.currentUserId++;
+      return userInstance;
+    } catch (error) {
+      throw error;
     }
   }
 

@@ -13,4 +13,9 @@ if (config.nodeEnv !== 'production') {
   monitor.attach(options);
 }
 
-export const db = pgp(config.postgres.url);
+const databaseUrl = config.postgres.url;
+const cn = {
+  connectionString: databaseUrl,
+  allowExitOnIdle: true,
+};
+export const db = pgp(cn);

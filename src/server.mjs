@@ -7,7 +7,7 @@ const server = app.listen(port, () => {
 });
 const closeGracefully = () => {
   server.close();
-  // close db connection here
+  // db closed implicitly on pg-promise
   process.exit();
 };
 

@@ -1,4 +1,5 @@
 {
   "transform": {},
-  "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(mjs?|jsx?|js?|tsx?|ts?)$"
+  "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(mjs?|jsx?|js?|tsx?|ts?)$",
+  "testPathIgnorePatterns": ["<rootDir>/src/application/contract"]
 }

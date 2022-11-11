@@ -1,26 +1,33 @@
 import RoleRepository from '../../../application/contract/RoleRepository.mjs';
 import { db } from './db.mjs';
-import { role } from './sql.mjs';
+import { RoleSql } from './sql.mjs';
 
 export default class PgRoleRepository extends RoleRepository {
-  constructor() {
+  constructor(db) {
     super();
+    this.db = db;
   }
 
   async add(roleInstance) {
-    await db.none(role.create, roleInstance);
+    return await this.db.any(RoleSql.create, roleInstance);
   }
 
   async getById(roleId) {
-    return Promise.reject(Error('not implemented'));
+    return await this.db.any(RoleSql.getByPropExact, {
+      column: 'id',
+      value: id,
+    });
   }
 
   async getAll() {
-    return Promise.reject(Error('not implemented'));
+    return await this.db.any(RoleSql.getAll);
   }
 
   async getByProp(property, value) {
-    return Promise.reject(Error('not implemented'));
+    return await this.db.any(RoleSql.getByPropApprox, {
+      column: property,
+      value: value,
+    });
   }
 
   async update(roleInstance) {
@@ -32,6 +39,6 @@ export default class PgRoleRepository extends RoleRepository {
   }
 
   async clear() {
-    return Promise.reject(new Error('not implemented'));
+    await this.db.none(RoleSql.deleteAll);
   }
 }

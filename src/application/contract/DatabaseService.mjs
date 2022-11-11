@@ -1,13 +1,14 @@
 export default class DatabaseService {
   constructor() {
-    this.userRepository = null;
+    this.UserRepository = null;
+    this.RoleRepository = null;
   }
 
   initDatabase() {
     return Promise.reject(new Error('not implemented'));
   }
 
-  clearDatabase() {
+  dropDatabase() {
     return Promise.reject(new Error('not implemented'));
   }
 }

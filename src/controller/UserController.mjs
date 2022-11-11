@@ -24,8 +24,9 @@ export default (dependencies) => {
         req.body.role_id
       );
 
-      const message = await AddUser(UserRepository).execute(user);
-      res.status(201).json(new Response(Status.get(201), undefined, message));
+      const addedUser = await AddUser(UserRepository).execute(user);
+      const message = 'User was added successfully';
+      res.status(201).json(new Response(Status.get(201), addedUser, message));
     } catch (err) {
       next(err);
     }
