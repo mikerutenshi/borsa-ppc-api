@@ -1,4 +1,5 @@
 import express from 'express';
+import 'express-async-errors';
 import projectDependencies from './di/projectDependencies.mjs';
 import ErrorHandler from './framework/web/middleware/ErrorHandler.mjs';
 import ApiRouter from './framework/web/routes/index.mjs';

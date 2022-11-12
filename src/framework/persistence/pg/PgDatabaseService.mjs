@@ -1,15 +1,17 @@
-import pgPromise from 'pg-promise';
 import DatabaseService from '../../../application/contract/DatabaseService.mjs';
 import PgUserRepository from './PgUserRepository.mjs';
-import promise from 'bluebird';
-import monitor from 'pg-monitor';
-import config from '../../../../config/config.mjs';
 import { db } from './db.mjs';
+import PgRoleRepository from './PgRoleRepository.mjs';
+//import pgPromise from 'pg-promise';
+//import promise from 'bluebird';
+//import monitor from 'pg-monitor';
+//import config from '../../../../config/config.mjs';
 
 export default class PgDatabaseService extends DatabaseService {
   constructor() {
     super();
     this.UserRepository = new PgUserRepository();
+    this.RoleRepository = new PgRoleRepository();
   }
 
   async initDatabase() {

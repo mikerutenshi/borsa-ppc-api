@@ -1,4 +1,4 @@
-class ValidationError extends Error {
+export class ValidationError extends Error {
   constructor(body) {
     super('Validation Error');
     this.body = body;
@@ -6,4 +6,9 @@ class ValidationError extends Error {
   }
 }
 
-export { ValidationError };
+export class GenericError extends Error {
+  constructor(statusCode, message) {
+    super(message);
+    this.status = statusCode;
+  }
+}

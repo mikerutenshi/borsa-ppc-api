@@ -1,7 +1,8 @@
 import { Hash } from '../../framework/web/encryption/Encrypt.mjs';
+import { BaseUseCase } from './BaseUseCase.mjs';
 
-const AddUser = (userRepository) => {
-  const execute = async (user) => {
+export const AddUser = (userRepository) => {
+  return new BaseUseCase(async (user) => {
     const users = await userRepository.getByProp('username', user.username);
 
     if (users.length > 0) {
@@ -15,66 +16,54 @@ const AddUser = (userRepository) => {
 
       return rest;
     }
-  };
-
-  return { execute };
+  });
 };
 
-const GetUsers = (userRepository) => {
-  const execute = async () => {
+export const GetUsers = (userRepository) => {
+  return new BaseUseCase(async () => {
     const users = await userRepository.getAll();
     const cleanUsers = removePasswords(users);
 
     return cleanUsers;
-  };
-
-  return { execute };
+  });
 };
 
-const GetFilteredUsers = (userRepository) => {
-  const execute = async (key, value) => {
+export const GetFilteredUsers = (userRepository) => {
+  return new BaseUseCase(async (key, value) => {
     const users = await userRepository.getByProp(key, value);
     const cleanUsers = removePasswords(users);
 
     return cleanUsers;
-  };
-
-  return { execute };
+  });
 };
 
-const GetUser = (userRepository) => {
-  const execute = async (id) => {
+export const GetUser = (userRepository) => {
+  return new BaseUseCase(async (id) => {
     const users = await userRepository.getById(id);
     const cleanUsers = removePasswords(users);
 
     return cleanUsers;
-  };
-
-  return { execute };
+  });
 };
 
-const UpdateUser = (userRepository) => {
-  const execute = async (id, user) => {
+export const UpdateUser = (userRepository) => {
+  return new BaseUseCase(async (id, user) => {
     user.id = id;
     const updatedUser = await userRepository.update(user);
     return updatedUser;
-  };
-
-  return { execute };
+  });
 };
 
-const DeleteUser = (userRepository) => {
-  const execute = async (id) => {
+export const DeleteUser = (userRepository) => {
+  return new BaseUseCase(async (id) => {
     const isSuccess = await userRepository.delete(id);
 
     return isSuccess;
-  };
-
-  return { execute };
+  });
 };
 
-const Authenticate = (userRepository) => {
-  const execute = async (username, password) => {
+export const Authenticate = (userRepository) => {
+  return new BaseUseCase(async (username, password) => {
     const users = await userRepository.authenticate(username, password);
     if (users && users.length == 1) {
       const cleanusers = users.map((user) => {
@@ -86,22 +75,18 @@ const Authenticate = (userRepository) => {
 
       return cleanusers;
     }
-  };
-
-  return { execute };
+  });
 };
 
-const RefreshAccessToken = (userRepository) => {
-  const execute = async (username, refreshToken) => {
+export const RefreshAccessToken = (userRepository) => {
+  return new BaseUseCase(async (username, refreshToken) => {
     const newAccessToken = await userRepository.refreshAccessToken(
       username,
       refreshToken
     );
 
     return newAccessToken;
-  };
-
-  return { execute };
+  });
 };
 
 const removePasswords = (users) => {
@@ -111,15 +96,4 @@ const removePasswords = (users) => {
   });
 
   return results;
-};
-
-export {
-  AddUser,
-  GetUsers,
-  GetFilteredUsers,
-  GetUser,
-  UpdateUser,
-  DeleteUser,
-  Authenticate,
-  RefreshAccessToken,
 };

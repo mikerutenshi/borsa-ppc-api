@@ -1,4 +1,4 @@
-const Status = new Map([
+export const Status = new Map([
   [200, 'OK'],
   [201, 'Created'],
   [400, 'Bad Request'],
@@ -8,7 +8,7 @@ const Status = new Map([
   [500, 'Internal Server Error'],
 ]);
 
-class Response {
+export class Response {
   constructor(status, data, message) {
     this.status = status;
     this.data = data;
@@ -16,4 +16,8 @@ class Response {
   }
 }
 
-export { Status, Response };
+export class successfulResponse extends Response {
+  constructor(data, message) {
+    super(Status.get(200), data, message);
+  }
+}

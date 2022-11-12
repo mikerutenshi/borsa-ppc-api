@@ -1,11 +1,13 @@
 import express from 'express';
-import UserController from '../../../controller/UserController.mjs';
+import { UserController } from '../../../controller/UserController.mjs';
+//import UserController from '../../../controller/UserController.mjs';
 import validateForm from '../middleware/SchemaValidator.mjs';
 
 export default (dependencies) => {
   const router = express.Router();
 
-  const controller = UserController(dependencies);
+  //const controller = UserController(dependencies);
+  const controller = new UserController(dependencies);
 
   router
     .route('/')
@@ -13,37 +15,37 @@ export default (dependencies) => {
       (req, res, next) => {
         validateForm(req, res, next);
       },
-      (req, res, next) => {
-        controller.addNewUser(req, res, next);
+      async (req, res) => {
+        await controller.addNewUser(req, res);
       }
     )
-    .get((req, res, next) => {
-      controller.getUsers(req, res, next);
+    .get(async (req, res) => {
+      await controller.getUsers(req, res);
     });
 
   router
     .route('/:id')
-    .get((req, res, next) => {
-      controller.getUser(req, res, next);
+    .get(async (req, res) => {
+      await controller.getUser(req, res);
     })
     .put(
       (req, res, next) => {
         validateForm(req, res, next);
       },
-      (req, res, next) => {
-        controller.updateUser(req, res, next);
+      async (req, res) => {
+        await controller.updateUser(req, res);
       }
     )
-    .delete((req, res, next) => {
-      controller.deleteUser(req, res, next);
+    .delete(async (req, res) => {
+      await controller.deleteUser(req, res);
     });
 
   router.route('/authenticate').post(
     (req, res, next) => {
       validateForm(req, res, next);
     },
-    (req, res, next) => {
-      controller.authenticate(req, res, next);
+    async (req, res) => {
+      await controller.authenticate(req, res);
     }
   );
 
@@ -51,8 +53,8 @@ export default (dependencies) => {
     (req, res, next) => {
       validateForm(req, res, next);
     },
-    (req, res, next) => {
-      controller.refreshAccessToken(req, res, next);
+    async (req, res) => {
+      await controller.refreshAccessToken(req, res);
     }
   );
 
