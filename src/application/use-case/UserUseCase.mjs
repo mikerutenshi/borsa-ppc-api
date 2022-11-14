@@ -2,7 +2,7 @@ import { Hash } from '../../framework/web/encryption/Encrypt.mjs';
 import { BaseUseCase } from './BaseUseCase.mjs';
 
 export const AddUser = (userRepository) => {
-  return new BaseUseCase(async (user) => {
+  return BaseUseCase(async (user) => {
     const users = await userRepository.getByProp('username', user.username);
 
     if (users.length > 0) {
@@ -20,7 +20,7 @@ export const AddUser = (userRepository) => {
 };
 
 export const GetUsers = (userRepository) => {
-  return new BaseUseCase(async () => {
+  return BaseUseCase(async () => {
     const users = await userRepository.getAll();
     const cleanUsers = removePasswords(users);
 
@@ -29,7 +29,7 @@ export const GetUsers = (userRepository) => {
 };
 
 export const GetFilteredUsers = (userRepository) => {
-  return new BaseUseCase(async (key, value) => {
+  return BaseUseCase(async (key, value) => {
     const users = await userRepository.getByProp(key, value);
     const cleanUsers = removePasswords(users);
 
@@ -38,7 +38,7 @@ export const GetFilteredUsers = (userRepository) => {
 };
 
 export const GetUser = (userRepository) => {
-  return new BaseUseCase(async (id) => {
+  return BaseUseCase(async (id) => {
     const users = await userRepository.getById(id);
     const cleanUsers = removePasswords(users);
 
@@ -47,7 +47,7 @@ export const GetUser = (userRepository) => {
 };
 
 export const UpdateUser = (userRepository) => {
-  return new BaseUseCase(async (id, user) => {
+  return BaseUseCase(async (id, user) => {
     user.id = id;
     const updatedUser = await userRepository.update(user);
     return updatedUser;
@@ -55,7 +55,7 @@ export const UpdateUser = (userRepository) => {
 };
 
 export const DeleteUser = (userRepository) => {
-  return new BaseUseCase(async (id) => {
+  return BaseUseCase(async (id) => {
     const isSuccess = await userRepository.delete(id);
 
     return isSuccess;
@@ -63,7 +63,7 @@ export const DeleteUser = (userRepository) => {
 };
 
 export const Authenticate = (userRepository) => {
-  return new BaseUseCase(async (username, password) => {
+  return BaseUseCase(async (username, password) => {
     const users = await userRepository.authenticate(username, password);
     if (users && users.length == 1) {
       const cleanusers = users.map((user) => {
@@ -79,7 +79,7 @@ export const Authenticate = (userRepository) => {
 };
 
 export const RefreshAccessToken = (userRepository) => {
-  return new BaseUseCase(async (username, refreshToken) => {
+  return BaseUseCase(async (username, refreshToken) => {
     const newAccessToken = await userRepository.refreshAccessToken(
       username,
       refreshToken

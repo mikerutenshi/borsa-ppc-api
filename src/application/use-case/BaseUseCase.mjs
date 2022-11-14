@@ -1,5 +1,5 @@
-export class BaseUseCase {
-  constructor(block) {
-    this.execute = block;
-  }
-}
+export const BaseUseCase = (block) => {
+  const execute = block;
+
+  return { execute };
+};

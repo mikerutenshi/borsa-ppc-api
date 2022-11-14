@@ -14,6 +14,7 @@ import User from '../model/User.mjs';
 export class UserController {
   constructor(dependencies) {
     const { UserRepository } = dependencies.DatabaseService;
+
     this.addNewUser = async (req, res) => {
       const user = new User(
         req.body.username,
