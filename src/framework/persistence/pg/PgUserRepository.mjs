@@ -12,6 +12,7 @@ export default class PgUserRepository extends UserRepository {
   }
 
   async getByProp(property, value) {
+    value = `%${value}%`;
     return await db.any(UserSql.getByPropApprox, {
       column: property,
       value: value,
@@ -25,12 +26,25 @@ export default class PgUserRepository extends UserRepository {
     });
   }
 
+  async getByUsername(username) {
+    return await db.any(UserSql.getByPropExact, {
+      column: 'username',
+      value: username,
+    });
+  }
+
   async update(userInstance) {
-    return Promise.reject(new Error('not implemented'));
+    return await db.any(UserSql.update, {
+      id: userInstance.id,
+      first_name: userInstance.first_name,
+      last_name: userInstance.last_name,
+      role_id: userInstance.role_id,
+      is_active: userInstance.is_active,
+    });
   }
 
   async delete(userId) {
-    return Promise.reject(new Error('not implemented'));
+    return await db.any(UserSql.delete, userId);
   }
 
   async authenticate(username, password) {

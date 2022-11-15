@@ -1,2 +1,2 @@
-SELECT * FROM factory.user
-WHERE ${column~} like ${value}
+SELECT * FROM factory.role
+WHERE ${column~} ilike ${value}

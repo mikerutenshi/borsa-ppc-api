@@ -16,7 +16,7 @@ export class Response {
   }
 }
 
-export class successfulResponse extends Response {
+export class SuccessfulResponse extends Response {
   constructor(data, message) {
     super(Status.get(200), data, message);
   }

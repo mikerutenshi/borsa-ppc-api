@@ -1,49 +1,51 @@
 import { GenericError } from '../../model/Error.mjs';
+import { BaseUseCase } from './BaseUseCase.mjs';
 
 export const AddRole = (roleRepository) => {
-  const execute = async (role) => {
-    const roles = await roleRepository.getByProp('name', role.name);
+  return BaseUseCase(async (role) => {
+    const roles = await roleRepository.getByName(role.name);
 
     if (roles.length == 0) {
-      return await roleRepository.add(role);
+      const roles = await roleRepository.add(role);
+      const results = roles.map((role) => {
+        const { id, ...rest } = role;
+        return rest;
+      });
+      return results;
     } else {
       throw new GenericError(409, 'Role already exists');
     }
-  };
-  return { execute };
+  });
 };
 export const GetRoles = (roleRepository) => {
-  const execute = async () => {
-    return await roleRepository.getAll();
-  };
-  return { execute };
+  return BaseUseCase(async () => {
+    const roles = await roleRepository.getAll();
+    const results = roles.map((role) => {
+      const { id, ...rest } = role;
+      return rest;
+    });
+    return results;
+  });
 };
 export const GetFilteredRoles = (roleRepository) => {
-  const execute = async (key, value) => {
+  return BaseUseCase(async () => {
     return await roleRepository.getByProp(key, value);
-  };
-  return { execute };
+  });
 };
 export const GetRole = (roleRepository) => {
-  const execute = async (id) => {
+  return BaseUseCase(async (id) => {
     return await roleRepository.getById(id);
-  };
-
-  return { execute };
+  });
 };
 export const UpdateRole = (roleRepository) => {
-  const execute = async (id, data) => {
+  return BaseUseCase(async (id, data) => {
     data.id = id;
     return await roleRepository.update(data);
-  };
-
-  return { execute };
+  });
 };
 export const DeleteRole = (roleRepository) => {
-  const execute = async (id) => {
+  return BaseUseCase(async (id) => {
     const isSuccess = await roleRepository.delete(id);
     return isSuccess;
-  };
-
-  return { execute };
+  });
 };

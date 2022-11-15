@@ -20,4 +20,6 @@ export const UserSql = {
   getByPropApprox: sql('user/get-by-property-approx.sql'),
   getByPropExact: sql('user/get-by-property-exact.sql'),
   getAll: sql('user/get-all.sql'),
+  update: sql('user/update.sql'),
+  delete: sql('user/delete.sql'),
 };

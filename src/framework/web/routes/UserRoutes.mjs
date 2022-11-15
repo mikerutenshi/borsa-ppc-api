@@ -1,13 +1,11 @@
 import express from 'express';
-import { UserController } from '../../../controller/UserController.mjs';
+import UserController from '../../../controller/UserController.mjs';
 //import UserController from '../../../controller/UserController.mjs';
 import validateForm from '../middleware/SchemaValidator.mjs';
 
 export default (dependencies) => {
   const router = express.Router();
-
-  //const controller = UserController(dependencies);
-  const controller = new UserController(dependencies);
+  const controller = UserController(dependencies);
 
   router
     .route('/')

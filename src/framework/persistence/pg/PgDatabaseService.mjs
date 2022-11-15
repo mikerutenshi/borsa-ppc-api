@@ -30,5 +30,6 @@ export default class PgDatabaseService extends DatabaseService {
 
   async dropDatabase() {
     this.UserRepository.clear();
+    this.RoleRepository.clear();
   }
 }

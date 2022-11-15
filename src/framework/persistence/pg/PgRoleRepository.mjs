@@ -14,6 +14,13 @@ export default class PgRoleRepository extends RoleRepository {
     });
   }
 
+  async getByName(name) {
+    return await db.any(RoleSql.getByPropExact, {
+      column: 'name',
+      value: name,
+    });
+  }
+
   async getAll() {
     return await db.any(RoleSql.getAll);
   }

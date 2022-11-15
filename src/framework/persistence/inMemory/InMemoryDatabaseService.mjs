@@ -1,7 +1,8 @@
 import DatabaseService from '../../../application/contract/DatabaseService.mjs';
 import InMemoryUserRepository from '../inMemory/InMemoryUserRepository.mjs';
 import InMemoryRoleRepository from '../inMemory/InMemoryRoleRepository.mjs';
-import { michael, superuser } from '../../../model/mock/Users.mjs';
+import { michael } from '../../../model/mock/Users.mjs';
+import { superuser } from '../../../model/mock/Roles.mjs';
 
 export default class InMemoryDatabaseService extends DatabaseService {
   constructor() {

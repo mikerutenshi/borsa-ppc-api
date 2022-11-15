@@ -1,2 +1,2 @@
-SELECT * FROM factory.role
+SELECT * FROM factory.user
 WHERE ${column~} = ${value}

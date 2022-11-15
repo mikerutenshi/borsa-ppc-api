@@ -1,1 +1,1 @@
-SELECT * FROM factory.user
+SELECT * FROM factory.role

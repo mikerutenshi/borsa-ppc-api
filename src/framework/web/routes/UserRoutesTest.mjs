@@ -1,11 +1,6 @@
 import request from 'supertest';
 import app from '../../../app.mjs';
-import {
-  christ,
-  christine,
-  invalidUser,
-  michael,
-} from '../../../model/mock/Users.mjs';
+import { christ, christine, invalidUser } from '../../../model/mock/Users.mjs';
 
 export const rootTestSuite = () =>
   describe('Test root path', () => {
@@ -30,9 +25,6 @@ export const userTestSuite = () =>
         .post('/v2/users')
         .send(christine)
         .set('Accept', 'application/json');
-      const getUsers = await agent
-        .get('/v2/users')
-        .set('Accept', 'application/json');
       expect(response.status).toEqual(201);
       expect(response1.status).toEqual(201);
       expect(response.headers['content-type']).toMatch(/json/);
@@ -43,6 +35,7 @@ export const userTestSuite = () =>
         .post('/v2/users')
         .send(christ)
         .set('Accept', 'application/json');
+      console.log('user already', response.body);
       expect(response.status).toEqual(409);
       expect(response.body.message).toMatch('User already exists');
     });
@@ -56,6 +49,7 @@ export const userTestSuite = () =>
       if (response.body.data.length != 0) {
         expect(response.body.data[0]).toHaveProperty('username');
         expect(response.body.data[0]).not.toHaveProperty('password');
+        console.log('all users', response.body.data);
       }
     });
 
@@ -64,19 +58,21 @@ export const userTestSuite = () =>
         search_key: 'first_name',
         search_value: 'christi',
       });
+      console.log('filtered users', response.body.data);
+      expect(response.status).toEqual(200);
       expect(response.body.data).toHaveLength(1);
       expect(response.body.data[0].username).toBe(christine.username);
     });
 
     test('GET /v2/users => get single user', async () => {
       const kurnia = await agent.get('/v2/users/2');
-      expect(kurnia.body.data[0].username).toMatch(christ.username);
+      expect(kurnia.body.data[0].username).toMatch(christine.username);
     });
 
     test('UPDATE /v2/users => update user', async () => {
       christine.first_name = 'Christian';
       christine.is_active = true;
-      const response = await agent.put('/v2/users/3').send(christine);
+      const response = await agent.put('/v2/users/2').send(christine);
       const updated = await agent.get('/v2/users').query({
         search_key: 'first_name',
         search_value: 'christian',

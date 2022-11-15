@@ -10,6 +10,7 @@ export default class InMemoryRoleRepository extends RoleRepository {
   }
 
   async add(roleInstance) {
+    //remove role repository test
     //const { value, error } = validateRole(roleInstance);
 
     //if (error === undefined) {
@@ -31,7 +32,8 @@ export default class InMemoryRoleRepository extends RoleRepository {
       this.roles.push(roleInstance);
       this.currentRoleId++;
 
-      return roleInstance;
+      const result = this.roles.slice(-1);
+      return result;
     } catch (error) {
       throw error;
     }
@@ -44,7 +46,19 @@ export default class InMemoryRoleRepository extends RoleRepository {
   async getById(roleId) {
     const results = [];
     for (let role of this.roles) {
-      if (role.id === roleId) {
+      if (role.id == roleId) {
+        results.push(role);
+        break;
+      }
+    }
+
+    return results;
+  }
+
+  async getByName(name) {
+    const results = [];
+    for (let role of this.roles) {
+      if (role.name == name) {
         results.push(role);
         break;
       }
@@ -56,7 +70,7 @@ export default class InMemoryRoleRepository extends RoleRepository {
   async getByProp(property, value) {
     const results = [];
     for (let role of this.roles) {
-      if (role[property] === value) {
+      if (role[property] == value) {
         results.push(role);
         break;
       }

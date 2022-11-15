@@ -1,14 +1,13 @@
 import { Hash } from '../../framework/web/encryption/Encrypt.mjs';
 import { BaseUseCase } from './BaseUseCase.mjs';
+import { GenericError } from '../../model/Error.mjs';
 
 export const AddUser = (userRepository) => {
   return BaseUseCase(async (user) => {
-    const users = await userRepository.getByProp('username', user.username);
+    const users = await userRepository.getByUsername(user.username);
 
     if (users.length > 0) {
-      const err = new Error('User already exists');
-      err.status = 409;
-      throw err;
+      throw new GenericError(409, 'User already exists');
     } else {
       user.password = await Hash.create(user.password);
       const addedUser = await userRepository.add(user);
@@ -56,9 +55,15 @@ export const UpdateUser = (userRepository) => {
 
 export const DeleteUser = (userRepository) => {
   return BaseUseCase(async (id) => {
-    const isSuccess = await userRepository.delete(id);
+    const users = await userRepository.getById(id);
 
-    return isSuccess;
+    if (users.length > 0) {
+      const isSuccess = await userRepository.delete(id);
+
+      return isSuccess;
+    } else {
+      throw new GenericError(404, 'User not found');
+    }
   });
 };
 

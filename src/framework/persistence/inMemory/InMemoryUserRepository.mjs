@@ -65,6 +65,18 @@ export default class InMemoryUserRepository extends UserRepository {
     return result;
   }
 
+  async getByUsername(username) {
+    let results = [];
+    for (let user of this.users) {
+      if (user.username == username) {
+        results.push(user);
+        break;
+      }
+    }
+
+    return results;
+  }
+
   async getById(id) {
     let result = [];
     for (let user of this.users) {

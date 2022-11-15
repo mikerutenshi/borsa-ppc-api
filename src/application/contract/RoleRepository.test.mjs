@@ -1,6 +1,6 @@
 import ProjectDependencies from '../../di/projectDependencies.mjs';
 import { ValidationError } from '../../model/Error.mjs';
-import { finance, invalidRole, production } from '../../model/mock/Users.mjs';
+import { finance, invalidRole, production } from '../../model/mock/Roles.mjs';
 import Role from '../../model/Role.mjs';
 import Roles from '../../model/Roles.mjs';
 

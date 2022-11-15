@@ -1,2 +1,2 @@
-INSERT INTO role(name) 
-VALUES(${name}) 
+INSERT INTO factory.role(name) 
+VALUES(${name}) RETURNING *
