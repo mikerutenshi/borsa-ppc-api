@@ -56,10 +56,6 @@ export default class PgUserRepository extends UserRepository {
     });
   }
 
-  async refreshAccessToken(username, refreshToken) {
-    return Promise.reject(new Error('not implemented'));
-  }
-
   async clear() {
     await db.none(UserSql.deleteAll);
   }

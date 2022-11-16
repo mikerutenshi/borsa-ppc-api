@@ -131,42 +131,4 @@ export default class InMemoryUserRepository extends UserRepository {
 
     return results;
   }
-
-  async refreshAccessToken(username, refreshToken) {
-    let userExist = null;
-
-    for (let user of this.users) {
-      if (user.username == username) {
-        userExist = user;
-        break;
-      }
-    }
-
-    if (!userExist) {
-      const userNotFoundError = new Error('User not found');
-      userNotFoundError.status = 403;
-      throw userNotFoundError;
-    }
-
-    const tokenValid = await Token.validateRefreshToken(
-      refreshToken,
-      userExist.refresh_token_exp_date,
-      userExist.refresh_token
-    );
-
-    switch (tokenValid) {
-      case 'expired':
-        const expiredError = new Error('Refresh token has expired');
-        expiredError.status = 403;
-      case 'valid':
-        return await Token.generateAccessToken(
-          userExist.username,
-          userExist.role_id
-        );
-      case 'invalid':
-        const invalidError = new Error('Refresh token does not match');
-        invalidError.status = 403;
-        throw invalidError;
-    }
-  }
 }

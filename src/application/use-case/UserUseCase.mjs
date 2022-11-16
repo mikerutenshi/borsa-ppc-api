@@ -71,7 +71,6 @@ export const DeleteUser = (userRepository) => {
 export const Authenticate = (userRepository) => {
   return BaseUseCase(async (username, password) => {
     const users = await userRepository.getByUsername(username);
-    console.log('users', users);
     if (users.length > 0) {
       const user = users[0];
 
@@ -91,7 +90,6 @@ export const Authenticate = (userRepository) => {
             refresh_token_exp_date: date,
           });
 
-          console.log('results', results);
           const cleanusers = results.map((user) => {
             const { id, is_active, refresh_token_exp_date, password, ...rest } =
               user;
@@ -101,7 +99,6 @@ export const Authenticate = (userRepository) => {
             return rest;
           });
 
-          console.log('cleanusers', cleanusers);
           return cleanusers;
         } else {
           throw new ValidationError({
@@ -121,12 +118,27 @@ export const Authenticate = (userRepository) => {
 
 export const RefreshAccessToken = (userRepository) => {
   return BaseUseCase(async (username, refreshToken) => {
-    const newAccessToken = await userRepository.refreshAccessToken(
-      username,
-      refreshToken
-    );
+    const users = await userRepository.getByUsername(username);
 
-    return newAccessToken;
+    if (users.length > 0) {
+      const user = users[0];
+      const tokenValid = await Token.validateRefreshToken(
+        refreshToken,
+        user.refresh_token_exp_date,
+        user.refresh_token
+      );
+
+      switch (tokenValid) {
+        case 'expired':
+          throw new GenericError(403, 'Refresh token has expired');
+        case 'invalid':
+          throw new GenericError(403, 'Refresh tokens do not match');
+        case 'valid':
+          return await Token.generateAccessToken(user.username, user.role_id);
+      }
+    } else {
+      return new GenericError(409, 'User is not found');
+    }
   });
 };
 

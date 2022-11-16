@@ -104,7 +104,6 @@ export const userTestSuite = () =>
         username: 'Unknown User',
         password: 'UnknownPassword123',
       });
-      console.log('response', response.body);
       const invalidResponse = await agent
         .post('/v2/users/authenticate')
         .send({
