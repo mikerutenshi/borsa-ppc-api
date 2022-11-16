@@ -118,57 +118,18 @@ export default class InMemoryUserRepository extends UserRepository {
     this.currentUserId = 1;
   }
 
-  async authenticate(username, password) {
-    let userExist = null;
-    let users = [];
+  async authenticate(authInstance) {
+    const results = [];
 
     for (let user of this.users) {
-      if (user.username == username) {
-        userExist = user;
-        break;
+      if (user.id == authInstance.id) {
+        user.refresh_token = authInstance.refresh_token;
+        user.refresh_token_exp_date = authInstance.refresh_token_exp_date;
+        results.push(user);
       }
     }
 
-    if (userExist && userExist.is_active == false) {
-      const err = new Error('User is not yet activated');
-      err.status = 403;
-      throw err;
-    }
-
-    if (userExist) {
-      if (await Hash.compare(password, userExist.password)) {
-        const refreshToken = await Token.generateRefreshToken();
-        let expDate = new Date();
-        expDate = DateUtil.addDays(expDate, 7);
-
-        userExist.refresh_token = await Hash.create(refreshToken);
-        userExist.refresh_token_exp_date = expDate;
-        userExist.access_token = await Token.generateAccessToken(
-          userExist.username,
-          userExist.username
-        );
-
-        const returnUser = new User(
-          userExist.username,
-          userExist.first_name,
-          userExist.last_name,
-          userExist.password,
-          userExist.role_id
-        );
-        returnUser.refresh_token = refreshToken;
-        users.push(returnUser);
-
-        return users;
-      } else {
-        throw new ValidationError({
-          password: 'Incorrect password',
-        });
-      }
-    } else {
-      throw new ValidationError({
-        username: 'User not found',
-      });
-    }
+    return results;
   }
 
   async refreshAccessToken(username, refreshToken) {

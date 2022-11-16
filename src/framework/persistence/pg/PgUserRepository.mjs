@@ -47,8 +47,13 @@ export default class PgUserRepository extends UserRepository {
     return await db.any(UserSql.delete, userId);
   }
 
-  async authenticate(username, password) {
-    return Promise.reject(new Error('not implemented'));
+  async authenticate(authInstance) {
+    return await db.any(UserSql.authenticate, {
+      id: authInstance.id,
+      access_token: authInstance.access_token,
+      refresh_token: authInstance.refresh_token,
+      refresh_token_exp_date: authInstance.refresh_token_exp_date,
+    });
   }
 
   async refreshAccessToken(username, refreshToken) {

@@ -1,6 +1,7 @@
-import { Hash } from '../../framework/web/encryption/Encrypt.mjs';
+import { Hash, Token } from '../../framework/web/encryption/Encrypt.mjs';
 import { BaseUseCase } from './BaseUseCase.mjs';
-import { GenericError } from '../../model/Error.mjs';
+import { GenericError, ValidationError } from '../../model/Error.mjs';
+import DateUtil from '../../util/DateUtil.mjs';
 
 export const AddUser = (userRepository) => {
   return BaseUseCase(async (user) => {
@@ -69,16 +70,51 @@ export const DeleteUser = (userRepository) => {
 
 export const Authenticate = (userRepository) => {
   return BaseUseCase(async (username, password) => {
-    const users = await userRepository.authenticate(username, password);
-    if (users && users.length == 1) {
-      const cleanusers = users.map((user) => {
-        const { id, is_active, refresh_token_exp_date, password, ...rest } =
-          user;
+    const users = await userRepository.getByUsername(username);
+    console.log('users', users);
+    if (users.length > 0) {
+      const user = users[0];
 
-        return rest;
+      if (user.is_active) {
+        if (await Hash.compare(password, user.password)) {
+          const refreshToken = await Token.generateRefreshToken();
+          const encryptRefreshToken = await Hash.create(refreshToken);
+          let date = new Date();
+          date = DateUtil.addDays(date, 7);
+          const accessToken = await Token.generateAccessToken(
+            username,
+            user.role_id
+          );
+          const results = await userRepository.authenticate({
+            id: user.id,
+            refresh_token: encryptRefreshToken,
+            refresh_token_exp_date: date,
+          });
+
+          console.log('results', results);
+          const cleanusers = results.map((user) => {
+            const { id, is_active, refresh_token_exp_date, password, ...rest } =
+              user;
+
+            rest.refresh_token = refreshToken;
+            rest.access_token = accessToken;
+            return rest;
+          });
+
+          console.log('cleanusers', cleanusers);
+          return cleanusers;
+        } else {
+          throw new ValidationError({
+            password: 'Incorrect password',
+          });
+        }
+      } else {
+        throw new GenericError(403, 'User is not yet activated');
+      }
+    } else {
+      throw new ValidationError({
+        username: 'User not found',
       });
-
-      return cleanusers;
     }
   });
 };

@@ -16,7 +16,6 @@ export const roleTestSuite = () => {
       await agent.post('/v2/roles').send(finance);
       await agent.post('/v2/roles').send(production);
 
-      console.log('mresponse', response.body);
       expect(response.status).toBe(201);
       expect(response.body.data[0].name).toMatch(superuser.name);
       expect(response.body.message).toContain('Role is successfully added');
@@ -35,7 +34,6 @@ export const roleTestSuite = () => {
       const response = await agent.get('/v2/roles');
       expect(response.status).toBe(200);
       expect(response.body.data).toHaveLength(3);
-      console.log('mresponse - all roles', response.body);
     });
 
     test('GET /v2/roles => get role by id', async () => {

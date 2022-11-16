@@ -35,7 +35,6 @@ export const userTestSuite = () =>
         .post('/v2/users')
         .send(christ)
         .set('Accept', 'application/json');
-      console.log('user already', response.body);
       expect(response.status).toEqual(409);
       expect(response.body.message).toMatch('User already exists');
     });
@@ -49,7 +48,6 @@ export const userTestSuite = () =>
       if (response.body.data.length != 0) {
         expect(response.body.data[0]).toHaveProperty('username');
         expect(response.body.data[0]).not.toHaveProperty('password');
-        console.log('all users', response.body.data);
       }
     });
 
@@ -58,7 +56,6 @@ export const userTestSuite = () =>
         search_key: 'first_name',
         search_value: 'christi',
       });
-      console.log('filtered users', response.body.data);
       expect(response.status).toEqual(200);
       expect(response.body.data).toHaveLength(1);
       expect(response.body.data[0].username).toBe(christine.username);
@@ -107,6 +104,7 @@ export const userTestSuite = () =>
         username: 'Unknown User',
         password: 'UnknownPassword123',
       });
+      console.log('response', response.body);
       const invalidResponse = await agent
         .post('/v2/users/authenticate')
         .send({

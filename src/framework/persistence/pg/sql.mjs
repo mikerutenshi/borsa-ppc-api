@@ -22,4 +22,5 @@ export const UserSql = {
   getAll: sql('user/get-all.sql'),
   update: sql('user/update.sql'),
   delete: sql('user/delete.sql'),
+  authenticate: sql('user/authenticate.sql'),
 };

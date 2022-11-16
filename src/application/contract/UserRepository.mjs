@@ -17,6 +17,10 @@ export default class UserRepository {
     return Promise.reject(new Error('not implemented'));
   }
 
+  getByUsername(username) {
+    return Promise.reject(new Error('not implemented'));
+  }
+
   update(userInstance) {
     return Promise.reject(new Error('not implemented'));
   }
@@ -25,7 +29,7 @@ export default class UserRepository {
     return Promise.reject(new Error('not implemented'));
   }
 
-  authenticate(username, password) {
+  authenticate(authInstance) {
     return Promise.reject(new Error('not implemented'));
   }
 
