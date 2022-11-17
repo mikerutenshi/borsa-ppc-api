@@ -12,7 +12,6 @@ export default class PgUserRepository extends UserRepository {
   }
 
   async getByProp(property, value) {
-    value = `%${value}%`;
     return await db.any(UserSql.getByPropApprox, {
       column: property,
       value: value,

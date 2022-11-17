@@ -1,2 +1,2 @@
 SELECT * FROM factory.role
-WHERE ${column~} ilike ${value}
+WHERE ${column~} ilike '%${value#}%'

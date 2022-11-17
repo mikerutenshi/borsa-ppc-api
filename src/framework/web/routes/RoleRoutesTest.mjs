@@ -41,5 +41,15 @@ export const roleTestSuite = () => {
       expect(response.status).toBe(200);
       expect(response.body.data[0].name).toMatch(finance.name);
     });
+
+    test('GET /v2/roles => get role by name approx', async () => {
+      const response = await agent.get('/v2/roles').query({
+        search_key: 'name',
+        search_value: 'fin',
+      });
+      console.log('response', response.body);
+      expect(response.status).toBe(200);
+      expect(response.body.data[0].name).toMatch(finance.name);
+    });
   });
 };

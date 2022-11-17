@@ -5,6 +5,7 @@ import {
   GetRole,
   UpdateRole,
   DeleteRole,
+  GetFilteredRoles,
 } from '../application/use-case/RoleUseCase.mjs';
 import { Response, SuccessfulResponse, Status } from '../model/Response.mjs';
 
@@ -25,7 +26,7 @@ export default (dependencies) => {
       res.json(new SuccessfulResponse(data, message));
     } else {
       const key = req.query.search_key;
-      const value = req.query.value;
+      const value = req.query.search_value;
       const data = await GetFilteredRoles(RoleRepository).execute(key, value);
       const message = 'Filtered roles are loaded';
       res.json(new Response(Status.get(200), data, message));

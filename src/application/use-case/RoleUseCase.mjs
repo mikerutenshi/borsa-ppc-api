@@ -28,7 +28,7 @@ export const GetRoles = (roleRepository) => {
   });
 };
 export const GetFilteredRoles = (roleRepository) => {
-  return BaseUseCase(async () => {
+  return BaseUseCase(async (key, value) => {
     return await roleRepository.getByProp(key, value);
   });
 };

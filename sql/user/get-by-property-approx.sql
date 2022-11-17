@@ -1,2 +1,2 @@
 SELECT * FROM factory.user
-WHERE ${column~} ilike ${value}
+WHERE ${column~} ilike '%${value#}%'
