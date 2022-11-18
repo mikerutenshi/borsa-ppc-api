@@ -2,6 +2,7 @@ import ProjectDependencies from '../../../di/projectDependencies.mjs';
 import request from 'supertest';
 import app from '../../../app.mjs';
 import { finance, production, superuser } from '../../../model/mock/Roles.mjs';
+import Roles from '../../../model/Roles.mjs';
 
 export const roleTestSuite = () => {
   beforeAll(async () => {
@@ -40,6 +41,10 @@ export const roleTestSuite = () => {
       const response = await agent.get('/v2/roles/2');
       expect(response.status).toBe(200);
       expect(response.body.data[0].name).toMatch(finance.name);
+
+      const outOfBound = await agent.get('/v2/roles/100');
+      expect(outOfBound.status).toBe(200);
+      expect(outOfBound.body.data).toHaveLength(0);
     });
 
     test('GET /v2/roles => get role by name approx', async () => {
@@ -49,14 +54,57 @@ export const roleTestSuite = () => {
       });
       expect(response.status).toBe(200);
       expect(response.body.data[0].name).toMatch(finance.name);
+
+      const notFound = await agent.get('/v2/roles').query({
+        search_key: 'name',
+        search_value: 'huahahaha',
+      });
+      expect(notFound.status).toBe(200);
+      expect(notFound.body.data).toHaveLength(0);
+
+      const invalidKey = await agent.get('/v2/roles').query({
+        search_key: 'invalidKey',
+        search_value: 'huahahaha',
+      });
+      expect(invalidKey.status).toBe(500);
+      expect(invalidKey.body.message.toLowerCase()).toContain('column');
+
+      const undefinedValue = await agent.get('/v2/roles').query({
+        search_key: undefined,
+        search_value: undefined,
+      });
+      expect(undefinedValue.status).toBe(200);
+      expect(undefinedValue.body.message.toLowerCase()).toContain('all roles');
     });
 
     test('PUT /v2/roles => update role by id', async () => {
       const response = await agent
         .put('/v2/roles/2')
-        .send({ name: 'financial' });
+        .send({ name: Roles.qualityControl });
       expect(response.status).toBe(200);
-      expect(response.body.data[0].name).toMatch('financial');
+      expect(response.body.data[0].name).toMatch(Roles.qualityControl);
+
+      const outOfBound = await agent
+        .put('/v2/roles/100')
+        .send({ name: Roles.finance });
+      expect(outOfBound.status).toBe(404);
+      expect(outOfBound.body.message.toLowerCase()).toContain('not found');
+
+      const invalidName = await agent
+        .put('/v2/roles/2')
+        .send({ name: 'financial' });
+      expect(invalidName.status).toBe(400);
+      expect(invalidName.body.message.toLowerCase()).toContain(
+        'validation error'
+      );
+
+      const duplicateName = await agent
+        .put('/v2/roles/2')
+        .send({ name: Roles.superuser });
+      expect(duplicateName.status).toBe(409);
+      expect(duplicateName.body.message.toLowerCase()).toContain(
+        'already exists'
+      );
     });
 
     test('DELETE /v2/roles => delete role get should return null', async () => {

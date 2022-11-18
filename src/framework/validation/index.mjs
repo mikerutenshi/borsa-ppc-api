@@ -3,6 +3,7 @@ import { loginSchema, refreshTokenSchema, userSchema } from './UserSchema.mjs';
 
 export default {
   'roles/': roleSchema,
+  'roles/:id': roleSchema,
   'users/': userSchema,
   'users/authenticate': loginSchema,
   'users/:id': userSchema,

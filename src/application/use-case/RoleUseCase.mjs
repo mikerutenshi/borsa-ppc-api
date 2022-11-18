@@ -39,6 +39,17 @@ export const GetRole = (roleRepository) => {
 };
 export const UpdateRole = (roleRepository) => {
   return BaseUseCase(async (id, data) => {
+    const roleDuplicates = await roleRepository.getByName(data.name);
+    const roleExists = await roleRepository.getById(id);
+
+    if (roleExists.length == 0) {
+      throw new GenericError(404, 'Role not found');
+    }
+
+    if (roleDuplicates.length > 0) {
+      throw new GenericError(409, 'Role already exists');
+    }
+
     data.id = id;
     return await roleRepository.update(data);
   });

@@ -9,9 +9,9 @@ const options = {
 
 export const pgp = pgPromise(options);
 
-if (config.nodeEnv !== 'production') {
-  monitor.attach(options);
-}
+//if (config.nodeEnv !== 'production') {
+//  monitor.attach(options);
+//}
 
 const databaseUrl = config.postgres.url;
 const cn = {

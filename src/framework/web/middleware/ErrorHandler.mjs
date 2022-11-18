@@ -11,7 +11,7 @@ const ErrorHandler = (err, _, res, __) => {
   const status = err.status || 500;
   res
     .status(status)
-    .json(new Response(Status.get(status), undefined, err.stack));
+    .json(new Response(Status.get(status), undefined, err.message));
 };
 
 export default ErrorHandler;
