@@ -102,15 +102,11 @@ export default class InMemoryUserRepository extends UserRepository {
   }
 
   async delete(userId) {
-    let result = false;
     this.users.forEach((value, index, array) => {
       if (value.id == userId) {
         array.splice(index, 1);
-        result = true;
       }
     });
-
-    return result;
   }
 
   async clear() {

@@ -33,11 +33,14 @@ export default class PgRoleRepository extends RoleRepository {
   }
 
   async update(roleInstance) {
-    return Promise.reject(Error('not implemented'));
+    return await db.any(RoleSql.update, {
+      id: roleInstance.id,
+      name: roleInstance.name,
+    });
   }
 
   async delete(roleId) {
-    return Promise.reject(Error('not implemented'));
+    return await db.none(RoleSql.delete, roleId);
   }
 
   async clear() {

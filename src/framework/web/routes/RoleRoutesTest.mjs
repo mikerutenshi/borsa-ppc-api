@@ -47,9 +47,31 @@ export const roleTestSuite = () => {
         search_key: 'name',
         search_value: 'fin',
       });
-      console.log('response', response.body);
       expect(response.status).toBe(200);
       expect(response.body.data[0].name).toMatch(finance.name);
+    });
+
+    test('PUT /v2/roles => update role by id', async () => {
+      const response = await agent
+        .put('/v2/roles/2')
+        .send({ name: 'financial' });
+      expect(response.status).toBe(200);
+      expect(response.body.data[0].name).toMatch('financial');
+    });
+
+    test('DELETE /v2/roles => delete role get should return null', async () => {
+      const response = await agent.delete('/v2/roles/2');
+      expect(response.status).toBe(200);
+      expect(response.body.data).toBeUndefined();
+      expect(response.body.message).toContain('successfully deleted');
+
+      const deleteAgain = await agent.delete('/v2/roles/2');
+      expect(deleteAgain.status).toEqual(404);
+      44;
+
+      const getResponse = await agent.get('/v2/roles/2');
+      expect(getResponse.status).toBe(200);
+      expect(getResponse.body.data).toHaveLength(0);
     });
   });
 };

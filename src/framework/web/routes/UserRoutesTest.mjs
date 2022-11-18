@@ -85,6 +85,8 @@ export const userTestSuite = () =>
       const notFound = await agent.delete('/v2/users/1');
       const searchFail = await agent.get('/v2/users/1');
       expect(response.status).toEqual(200);
+      expect(response.body.data).toBeUndefined();
+
       expect(notFound.status).toEqual(404);
       expect(searchFail.body.data).toHaveLength(0);
     });

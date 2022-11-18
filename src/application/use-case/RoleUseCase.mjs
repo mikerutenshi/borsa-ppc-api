@@ -45,7 +45,12 @@ export const UpdateRole = (roleRepository) => {
 };
 export const DeleteRole = (roleRepository) => {
   return BaseUseCase(async (id) => {
-    const isSuccess = await roleRepository.delete(id);
-    return isSuccess;
+    const foundRoles = await roleRepository.getById(id);
+
+    if (foundRoles.length > 0) {
+      await roleRepository.delete(id);
+    } else {
+      throw new GenericError(404, 'Role not found');
+    }
   });
 };

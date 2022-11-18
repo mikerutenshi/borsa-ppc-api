@@ -50,9 +50,9 @@ export default (dependencies) => {
 
   const deleteRole = async (req, res) => {
     const id = req.params.id;
-    const result = await DeleteRole(RoleRepository).execute(id);
+    await DeleteRole(RoleRepository).execute(id);
     const message = 'Role is successfully deleted';
-    res.json(new SuccessfulResponse(result, message));
+    res.json(new SuccessfulResponse(undefined, message));
   };
   return {
     addNewRole,

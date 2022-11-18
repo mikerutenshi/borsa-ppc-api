@@ -43,7 +43,7 @@ export default class PgUserRepository extends UserRepository {
   }
 
   async delete(userId) {
-    return await db.any(UserSql.delete, userId);
+    return await db.none(UserSql.delete, userId);
   }
 
   async authenticate(authInstance) {

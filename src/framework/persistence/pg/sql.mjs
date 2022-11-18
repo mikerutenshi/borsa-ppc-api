@@ -12,6 +12,8 @@ export const RoleSql = {
   getByPropApprox: sql('role/get-by-property-approx.sql'),
   getByPropExact: sql('role/get-by-property-exact.sql'),
   getAll: sql('role/get-all.sql'),
+  update: sql('role/update.sql'),
+  delete: sql('role/delete.sql'),
 };
 
 export const UserSql = {

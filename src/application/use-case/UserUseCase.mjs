@@ -59,9 +59,7 @@ export const DeleteUser = (userRepository) => {
     const users = await userRepository.getById(id);
 
     if (users.length > 0) {
-      const isSuccess = await userRepository.delete(id);
-
-      return isSuccess;
+      await userRepository.delete(id);
     } else {
       throw new GenericError(404, 'User not found');
     }

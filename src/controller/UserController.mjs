@@ -60,9 +60,9 @@ export default (dependencies) => {
 
   const deleteUser = async (req, res) => {
     const message = 'User is successfully deleted';
-    const result = await DeleteUser(UserRepository).execute(req.params.id);
+    await DeleteUser(UserRepository).execute(req.params.id);
 
-    res.status(200).json(new SuccessfulResponse(result, message));
+    res.status(200).json(new SuccessfulResponse(undefined, message));
   };
 
   const authenticate = async (req, res) => {
