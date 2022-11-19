@@ -1,6 +1,11 @@
 import { Hash, Token } from '../../framework/web/encryption/Encrypt.mjs';
 import { BaseUseCase } from './BaseUseCase.mjs';
-import { GenericError, ValidationError } from '../../model/Error.mjs';
+import {
+  ConflictError,
+  ForbiddenError,
+  NotFoundError,
+  ValidationError,
+} from '../../model/Error.mjs';
 import DateUtil from '../../util/DateUtil.mjs';
 
 export const AddUser = (userRepository) => {
@@ -8,7 +13,7 @@ export const AddUser = (userRepository) => {
     const users = await userRepository.getByUsername(user.username);
 
     if (users.length > 0) {
-      throw new GenericError(409, 'User already exists');
+      throw new ConflictError('User');
     } else {
       user.password = await Hash.create(user.password);
       const addedUser = await userRepository.add(user);
@@ -48,6 +53,12 @@ export const GetUser = (userRepository) => {
 
 export const UpdateUser = (userRepository) => {
   return BaseUseCase(async (id, user) => {
+    const userExists = await userRepository.getById(id);
+
+    if (userExists.length == 0) {
+      throw new NotFoundError('User');
+    }
+
     user.id = id;
     const updatedUser = await userRepository.update(user);
     return updatedUser;
@@ -61,7 +72,7 @@ export const DeleteUser = (userRepository) => {
     if (users.length > 0) {
       await userRepository.delete(id);
     } else {
-      throw new GenericError(404, 'User not found');
+      throw new NotFoundError('User');
     }
   });
 };
@@ -104,7 +115,7 @@ export const Authenticate = (userRepository) => {
           });
         }
       } else {
-        throw new GenericError(403, 'User is not yet activated');
+        throw new ForbiddenError('User is not yet activated');
       }
     } else {
       throw new ValidationError({
@@ -128,14 +139,14 @@ export const RefreshAccessToken = (userRepository) => {
 
       switch (tokenValid) {
         case 'expired':
-          throw new GenericError(403, 'Refresh token has expired');
+          throw new ForbiddenError('Refresh token has expired');
         case 'invalid':
-          throw new GenericError(403, 'Refresh tokens do not match');
+          throw new ForbiddenError('Refresh tokens do not match');
         case 'valid':
           return await Token.generateAccessToken(user.username, user.role_id);
       }
     } else {
-      return new GenericError(409, 'User is not found');
+      return new NotFoundError('User');
     }
   });
 };

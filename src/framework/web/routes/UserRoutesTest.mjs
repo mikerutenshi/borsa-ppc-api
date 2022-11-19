@@ -78,6 +78,10 @@ export const userTestSuite = () =>
       expect(response.body.data[0].username).toMatch(christine.username);
       expect(updated.body.data[0].username).toMatch(christine.username);
       expect(updated.body.data[0].username).toBeTruthy();
+
+      const outOfBound = await agent.put('/v2/users/100').send(christine);
+      expect(outOfBound.status).toBe(404);
+      expect(outOfBound.body.message.toLowerCase()).toContain('not found');
     });
 
     test('DELETE /v2/users => delete user', async () => {

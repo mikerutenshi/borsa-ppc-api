@@ -1,4 +1,4 @@
-import { GenericError } from '../../model/Error.mjs';
+import { ConflictError, NotFoundError } from '../../model/Error.mjs';
 import { BaseUseCase } from './BaseUseCase.mjs';
 
 export const AddRole = (roleRepository) => {
@@ -13,7 +13,7 @@ export const AddRole = (roleRepository) => {
       });
       return results;
     } else {
-      throw new GenericError(409, 'Role already exists');
+      throw new ConflictError('Role');
     }
   });
 };
@@ -43,11 +43,11 @@ export const UpdateRole = (roleRepository) => {
     const roleExists = await roleRepository.getById(id);
 
     if (roleExists.length == 0) {
-      throw new GenericError(404, 'Role not found');
+      throw new NotFoundError('Role');
     }
 
     if (roleDuplicates.length > 0) {
-      throw new GenericError(409, 'Role already exists');
+      throw new ConflictError('Role');
     }
 
     data.id = id;
@@ -61,7 +61,7 @@ export const DeleteRole = (roleRepository) => {
     if (foundRoles.length > 0) {
       await roleRepository.delete(id);
     } else {
-      throw new GenericError(404, 'Role not found');
+      throw new NotFoundError('Role');
     }
   });
 };
