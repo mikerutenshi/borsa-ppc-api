@@ -67,7 +67,6 @@ export const roleTestSuite = () => {
         search_value: 'huahahaha',
       });
       expect(invalidKey.status).toBe(500);
-      expect(invalidKey.body.message.toLowerCase()).toContain('column');
 
       const undefinedValue = await agent.get('/v2/roles').query({
         search_key: undefined,

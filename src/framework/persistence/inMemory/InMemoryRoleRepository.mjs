@@ -70,7 +70,7 @@ export default class InMemoryRoleRepository extends RoleRepository {
   async getByProp(property, value) {
     const results = [];
     for (let role of this.roles) {
-      if (role[property] == value) {
+      if (role[property].toLowerCase().includes(value)) {
         results.push(role);
         break;
       }
