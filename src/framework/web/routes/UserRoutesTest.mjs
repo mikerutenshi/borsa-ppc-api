@@ -82,6 +82,14 @@ export const userTestSuite = () =>
       const outOfBound = await agent.put('/v2/users/100').send(christine);
       expect(outOfBound.status).toBe(404);
       expect(outOfBound.body.message.toLowerCase()).toContain('not found');
+
+      christine.first_name = 'ch';
+      const invalidName = await agent.put('/v2/roles/2').send(christine);
+      expect(invalidName.status).toBe(400);
+      expect(invalidName.body.message.toLowerCase()).toContain(
+        'validation error'
+      );
+      christine.first_name = 'Christine';
     });
 
     test('DELETE /v2/users => delete user', async () => {
