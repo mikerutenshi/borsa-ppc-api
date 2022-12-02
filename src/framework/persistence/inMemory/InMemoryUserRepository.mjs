@@ -1,11 +1,4 @@
 import UserRepository from '../../../application/contract/UserRepository.mjs';
-import { validateUser } from '../../validation/UserValidation.mjs';
-import { Token } from '../../web/encryption/Encrypt.mjs';
-import DateUtil from '../../../util/DateUtil.mjs';
-import { Hash } from '../../web/encryption/Encrypt.mjs';
-import { handleValidationError } from '../../validation/HandleValidationError.mjs';
-import { ValidationError } from '../../../model/Error.mjs';
-import User from '../../../model/User.mjs';
 
 export default class InMemoryUserRepository extends UserRepository {
   constructor() {
@@ -15,22 +8,6 @@ export default class InMemoryUserRepository extends UserRepository {
   }
 
   async add(userInstance) {
-    //const { value, error } = validateUser(userInstance);
-
-    //if (error === undefined) {
-    //  try {
-    //    value.password = await Hash.create(value.password);
-    //    value.id = this.currentUserId;
-    //    this.users.push(value);
-    //    this.currentUserId++;
-    //    return value;
-    //  } catch (error) {
-    //    throw error;
-    //  }
-    //} else {
-    //  handleValidationError(error);
-    //}
-
     try {
       //value.password = await Hash.create(value.password);
       userInstance.id = this.currentUserId;
@@ -65,7 +42,7 @@ export default class InMemoryUserRepository extends UserRepository {
     return result;
   }
 
-  async getByUsername(username) {
+  async getByName(username) {
     let results = [];
     for (let user of this.users) {
       if (user.username == username) {

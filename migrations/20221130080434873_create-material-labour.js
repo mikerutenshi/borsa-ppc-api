@@ -83,6 +83,9 @@ exports.up = (pgm) => {
         type: 'integer',
         references: { schema: 'factory', name: 'material' },
       },
+      qty_req: {
+        type: 'numeric(4, 2)',
+      },
       created_at: 'createdAt',
       updated_at: 'updatedAt',
       created_by: 'createdBy',
@@ -94,7 +97,6 @@ exports.up = (pgm) => {
     { schema: 'factory', name: 'labour_cost' },
     {
       id: 'id',
-      cost: 'integer',
       product_group_id: {
         type: 'integer',
         references: { schema: 'factory', name: 'product_group' },
@@ -103,6 +105,7 @@ exports.up = (pgm) => {
         type: 'integer',
         references: { schema: 'factory', name: 'job_type' },
       },
+      cost: 'integer',
       created_at: 'createdAt',
       updated_at: 'updatedAt',
       created_by: 'createdBy',

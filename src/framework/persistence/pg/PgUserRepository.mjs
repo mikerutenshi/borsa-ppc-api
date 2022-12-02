@@ -25,10 +25,10 @@ export default class PgUserRepository extends UserRepository {
     });
   }
 
-  async getByUsername(username) {
+  async getByName(name) {
     return await db.any(UserSql.getByPropExact, {
       column: 'username',
-      value: username,
+      value: name,
     });
   }
 

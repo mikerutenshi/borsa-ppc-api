@@ -2,6 +2,7 @@ import DatabaseService from '../../../application/contract/DatabaseService.mjs';
 import PgUserRepository from './PgUserRepository.mjs';
 import { db } from './db.mjs';
 import PgRoleRepository from './PgRoleRepository.mjs';
+import { RoleSql } from './sql.mjs';
 //import pgPromise from 'pg-promise';
 //import promise from 'bluebird';
 //import monitor from 'pg-monitor';
@@ -11,7 +12,7 @@ export default class PgDatabaseService extends DatabaseService {
   constructor() {
     super();
     this.UserRepository = new PgUserRepository();
-    this.RoleRepository = new PgRoleRepository();
+    this.RoleRepository = new PgRoleRepository(RoleSql);
   }
 
   async initDatabase() {

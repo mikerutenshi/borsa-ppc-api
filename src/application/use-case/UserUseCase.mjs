@@ -10,7 +10,7 @@ import DateUtil from '../../util/DateUtil.mjs';
 
 export const AddUser = (userRepository) => {
   return BaseUseCase(async (user) => {
-    const users = await userRepository.getByUsername(user.username);
+    const users = await userRepository.getByName(user.username);
 
     if (users.length > 0) {
       throw new ConflictError('User');
@@ -79,7 +79,7 @@ export const DeleteUser = (userRepository) => {
 
 export const Authenticate = (userRepository) => {
   return BaseUseCase(async (username, password) => {
-    const users = await userRepository.getByUsername(username);
+    const users = await userRepository.getByName(username);
     if (users.length > 0) {
       const user = users[0];
 
@@ -127,7 +127,7 @@ export const Authenticate = (userRepository) => {
 
 export const RefreshAccessToken = (userRepository) => {
   return BaseUseCase(async (username, refreshToken) => {
-    const users = await userRepository.getByUsername(username);
+    const users = await userRepository.getByName(username);
 
     if (users.length > 0) {
       const user = users[0];
