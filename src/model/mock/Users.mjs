@@ -1,4 +1,4 @@
-import User from '../User.mjs';
+import User from '../User';
 
 export const michael = new User(
   'michaelhs',

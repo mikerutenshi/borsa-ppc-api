@@ -3,4 +3,4 @@ factory.user(username, first_name, last_name, password, role_id)
 VALUES(
   ${username}, ${first_name}, ${last_name}, ${password}, ${role_id}
 )
-RETURNING *
+RETURNING username, first_name, last_name, role_id, is_active
