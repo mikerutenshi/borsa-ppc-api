@@ -4,7 +4,7 @@
   "description": "API for Borsa PPC App",
   "main": "index.mjs",
   "scripts": {
-    "dev": "npx nodemon -r dotenv/config src/server.mjs --trace-warning",
+    "dev": "nodemon -r dotenv/config src/server.ts --trace-warning",
     "migrate": "node-pg-migrate --migration-filename-format utc",
     "prestart": "node-pg-migrate --migration-filename-format utc up",
     "start": "node src/server.mjs",

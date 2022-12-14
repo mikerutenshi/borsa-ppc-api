@@ -1,12 +1,13 @@
 import express from 'express';
+import ProjectDependencies from './di/ProjectDependencies';
 require('express-async-errors');
-import projectDependencies from './di/projectDependencies';
-import ErrorHandler from './framework/web/middleware/ErrorHandler.mjs';
-import ApiRouter from './framework/web/routes/index.mjs';
+import ErrorHandler from './framework/web/middleware/ErrorHandler';
+import ApiRouter from './framework/web/routes/index';
 
 const app = express();
 
-projectDependencies.DatabaseService.initDatabase().then(
+const projectDependencies = new ProjectDependencies();
+projectDependencies.databaseService.initDatabase().then(
   () => {
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));

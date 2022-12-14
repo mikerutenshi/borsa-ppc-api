@@ -1,9 +1,10 @@
 import express from 'express';
-import UserController from '../../../controller/UserController.mjs';
+import UserController from '../../../controller/UserController';
+import ProjectDependencies from '../../../di/ProjectDependencies';
 //import UserController from '../../../controller/UserController.mjs';
-import validateForm from '../middleware/SchemaValidator.mjs';
+import validateForm from '../middleware/SchemaValidator';
 
-export default (dependencies) => {
+export default (dependencies: ProjectDependencies) => {
   const router = express.Router();
   const controller = UserController(dependencies);
 
@@ -14,7 +15,7 @@ export default (dependencies) => {
         validateForm(req, res, next);
       },
       async (req, res) => {
-        await controller.addNewUser(req, res);
+        await controller.createUser(req, res);
       }
     )
     .get(async (req, res) => {
@@ -43,7 +44,7 @@ export default (dependencies) => {
       validateForm(req, res, next);
     },
     async (req, res) => {
-      await controller.authenticate(req, res);
+      await controller.authUser(req, res);
     }
   );
 

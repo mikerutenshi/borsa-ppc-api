@@ -9,19 +9,20 @@ const ErrorHandler = (
   res: Response,
   _next: NextFunction
 ) => {
+  const statusCode = (
+    err as GeneralError
+  ).statusCode.toString() as keyof typeof Status;
   if (err instanceof ValidationError) {
-    const statusName = Status.get(err.statusCode) || 'Unregistered Status';
+    const statusName = Status[statusCode];
     res
       .status(err.statusCode)
       .json(new GeneralResponse(statusName, err.message, err.body as []));
   } else if (err instanceof GeneralError) {
-    const statusName = Status.get(err.statusCode) || 'Unregistered Status';
     res
       .status(err.statusCode)
-      .json(new GeneralResponse(statusName, err.message));
+      .json(new GeneralResponse(Status[statusCode], err.message));
   } else {
-    const statusName = Status.get(500) || 'Unregistered Status';
-    res.status(500).json(new GeneralResponse(statusName, err.message));
+    res.status(500).json(new GeneralResponse(Status[statusCode], err.message));
   }
 };
 

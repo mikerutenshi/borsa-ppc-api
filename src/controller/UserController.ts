@@ -1,12 +1,26 @@
-import CreateUser from '../application/use-case/user/CreateUser.js';
-import GetUsers from '../application/use-case/user/GetUsers.js';
-import { Response, Status, SuccessfulResponse } from '../model/Response.mjs';
-import User from '../model/User.mjs';
+import { Request, RequestHandler, Response } from 'express';
+import CreateUser from '../application/use-case/user/CreateUser';
+import GetFilteredUsers from '../application/use-case/user/GetFilteredUsers';
+import GetUser from '../application/use-case/user/GetUser';
+import GetUsers from '../application/use-case/user/GetUsers';
+import UpdateUser from '../application/use-case/user/UpdateUser';
+import DeleteUser from '../application/use-case/user/DeleteUser';
+import ProjectDependencies from '../di/ProjectDependencies';
+import { Status } from '../model/Enums';
+import { GeneralResponse, SuccessfulResponse } from '../model/Responses';
+import { User } from '../model/Users';
+import AuthUser from '../application/use-case/user/AuthUser';
+import RefreshAccessToken from '../application/use-case/user/RefreshAccessToken';
 
-export default (dependencies) => {
-  const { UserRepository } = dependencies.DatabaseService;
+export default (dependencies: ProjectDependencies) => {
+  type ReqQuery = {
+    search_key: string;
+    search_value: string;
+  };
 
-  const addNewUser = async (req, res) => {
+  const { userRepository } = dependencies.databaseService;
+
+  const createUser = async (req: Request, res: Response) => {
     const user = new User(
       req.body.username,
       req.body.first_name,
@@ -15,84 +29,74 @@ export default (dependencies) => {
       req.body.role_id
     );
 
-    const newUser = new CreateUser(UserRepository).execute(user);
+    const newUser = await new CreateUser(userRepository!).execute(user);
     const message = 'User was added successfully';
-    res.status(201).json(new Response(Status.get(201), newUser, message));
+    res.status(201).json(new GeneralResponse(Status[201], message, newUser));
   };
 
-  const getUsers = async (req, res) => {
+  const getUsers = async (req: Request, res: Response) => {
     if (req.query.search_key === undefined) {
-      const data = await GetUsers(UserRepository).execute();
-      res.json(new Response(Status.get(200), data, 'All users are loaded'));
+      const data = await new GetUsers(userRepository!).execute();
+      res.json(new SuccessfulResponse('All users are loaded', data));
     } else {
-      const data = await GetFilteredUsers(UserRepository).execute(
-        req.query.search_key,
-        req.query.search_value
+      const data = await new GetFilteredUsers(userRepository!).execute(
+        req.query.search_key as string,
+        req.query.search_value as string
       );
-      res.json(
-        new Response(Status.get(200), data, 'Filtered users are loaded')
-      );
+      res.json(new SuccessfulResponse('Filtered users are loaded', data));
     }
   };
 
-  const getUser = async (req, res) => {
-    const data = await GetUser(UserRepository).execute(req.params.id);
-    res.json(new Response(Status.get(200), data, 'User is loaded'));
+  const getUser = async (req: Request, res: Response) => {
+    const data = await new GetUser(userRepository!).execute(
+      parseInt(req.params.id)
+    );
+    res.json(new SuccessfulResponse('User is loaded', data));
   };
 
-  const updateUser = async (req, res) => {
-    const data = await UpdateUser(UserRepository).execute(
-      req.params.id,
-      req.body
-    );
-    res.json(
-      new Response(Status.get(200), data, 'User is successfully updated')
-    );
+  const updateUser = async (req: Request, res: Response) => {
+    const data = await new UpdateUser(userRepository!).execute(req.body);
+    res.json(new SuccessfulResponse('User is successfully updated', data));
   };
 
-  const deleteUser = async (req, res) => {
+  const deleteUser = async (req: Request, res: Response) => {
     const message = 'User is successfully deleted';
-    await DeleteUser(UserRepository).execute(req.params.id);
+    await new DeleteUser(userRepository!).execute(parseInt(req.params.id));
 
-    res.status(200).json(new SuccessfulResponse(undefined, message));
+    res.json(new SuccessfulResponse(message));
   };
 
-  const authenticate = async (req, res) => {
-    const users = await Authenticate(UserRepository).execute(
+  const authUser = async (req: Request, res: Response) => {
+    const users = await new AuthUser(userRepository!).execute(
       req.body.username,
       req.body.password
     );
 
     res.json(
-      new Response(Status.get(200), users, 'User is successfully authenticated')
+      new SuccessfulResponse('User is successfully authenticated', users)
     );
   };
 
-  const refreshAccessToken = async (req, res) => {
-    const newAccessToken = await RefreshAccessToken(UserRepository).execute(
-      req.body.username,
-      req.body.refresh_token
-    );
+  const refreshAccessToken = async (req: Request, res: Response) => {
+    const newAccessToken = await new RefreshAccessToken(
+      userRepository!
+    ).execute(req.body.username, req.body.refresh_token);
     const data = [];
     data.push({
       access_token: newAccessToken,
     });
     res.json(
-      new Response(
-        Status.get(200),
-        data,
-        'New access token is successfully generated'
-      )
+      new SuccessfulResponse('New access token is successfully generated', data)
     );
   };
 
   return {
-    addNewUser,
+    createUser,
     getUsers,
     getUser,
     updateUser,
     deleteUser,
-    authenticate,
+    authUser,
     refreshAccessToken,
   };
 };

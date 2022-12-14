@@ -1,19 +1,19 @@
 import { Status } from './Enums';
 
-class GeneralResponse {
+class GeneralResponse<T> {
   status: string;
-  data?: [];
+  data?: T[];
   message: string;
-  constructor(status: string, message: string, data?: []) {
+  constructor(status: string, message: string, data?: T[]) {
     this.status = status;
-    this.data = data;
     this.message = message;
+    this.data = data;
   }
 }
 
-class SuccessfulResponse extends GeneralResponse {
-  constructor(data: [], message: string) {
-    super(Status.get(200) || 'OK', message, data);
+class SuccessfulResponse<T> extends GeneralResponse<T> {
+  constructor(message: string, data?: T[]) {
+    super(Status[200], message, data);
   }
 }
 
