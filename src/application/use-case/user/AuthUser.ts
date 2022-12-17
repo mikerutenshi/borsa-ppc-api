@@ -12,23 +12,30 @@ export default class Authenticate extends UseCase<string, User[]> {
     super();
     this.repository = repository;
   }
+
   async execute(username: string, password: string): Promise<User[]> {
-    const isUser = await this.repository.getByName(username);
-    if (isUser) {
-      if (isUser.is_active) {
-        if (await Hash.compare(password, isUser.password!)) {
+    const storedUser = await this.repository.getByName(username);
+    if (storedUser) {
+      if (storedUser.is_active) {
+        debugger;
+        if (await Hash.compare(password, storedUser.password!)) {
           const refreshToken = Token.generateRefreshToken();
           const hashedRefreshToken = await Hash.create(refreshToken);
           let date = new Date();
           date = DateUtil.addDays(date, 7);
           const accessToken = await Token.generateAccessToken(
             username,
-            isUser.role_id
+            storedUser.role_id
           );
           const stored = await this.repository.createAuth(
-            new AuthParam(isUser.id!, hashedRefreshToken, date.toString())
+            new AuthParam(
+              storedUser.id!,
+              hashedRefreshToken,
+              date.toUTCString()
+            )
           );
-          stored.setAccessToken(accessToken);
+          stored.access_token = accessToken;
+          stored.refresh_token = refreshToken;
           return [stored];
         } else {
           throw new ValidationError([

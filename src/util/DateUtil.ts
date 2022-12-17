@@ -1,8 +1,7 @@
 const DateUtil = {
   addDays(date: Date, days: number): Date {
-    const result = new Date(date);
-    result.setDate(result.getDate() + days);
-    return result;
+    date.setDate(date.getDate() + days);
+    return date;
   },
 
   minusDays(date: Date, days: number): Date {

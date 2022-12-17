@@ -9,9 +9,7 @@ const ErrorHandler = (
   res: Response,
   _next: NextFunction
 ) => {
-  const statusCode = (
-    err as GeneralError
-  ).statusCode.toString() as keyof typeof Status;
+  const statusCode = (err as GeneralError).statusCode as keyof typeof Status;
   if (err instanceof ValidationError) {
     const statusName = Status[statusCode];
     res
@@ -22,7 +20,7 @@ const ErrorHandler = (
       .status(err.statusCode)
       .json(new GeneralResponse(Status[statusCode], err.message));
   } else {
-    res.status(500).json(new GeneralResponse(Status[statusCode], err.message));
+    res.status(500).json(new GeneralResponse(Status[statusCode], err.stack!));
   }
 };
 

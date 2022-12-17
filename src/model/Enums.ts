@@ -1,4 +1,4 @@
-const Role = {
+const Roles = {
   superuser: 'superuser',
   production: 'production',
   finance: 'finance',
@@ -6,13 +6,13 @@ const Role = {
 };
 
 const Status = {
-  '200': 'OK',
-  '201': 'Created',
-  '400': 'Bad Request',
-  '409': 'Conflict',
-  '404': 'Not Found',
-  '403': 'Forbidden',
-  '500': 'Internal Server Error',
+  200: 'OK',
+  201: 'Created',
+  400: 'Bad Request',
+  409: 'Conflict',
+  404: 'Not Found',
+  403: 'Forbidden',
+  500: 'Internal Server Error',
 };
 
-export { Role, Status };
+export { Roles, Status };

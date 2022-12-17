@@ -16,13 +16,13 @@ export default class RefreshAccessToken extends UseCase<string, string> {
   }
 
   async execute(username: string, oldRefreshToken: string): Promise<string> {
-    const isUser = await this.repository.getByName(username);
+    const userExist = await this.repository.getByName(username);
 
-    if (isUser) {
+    if (userExist) {
       const isTokenValid = await Token.validateRefreshToken(
         oldRefreshToken,
-        isUser.refresh_token!,
-        isUser.refresh_token_exp_date!
+        userExist.refresh_token!,
+        userExist.refresh_token_exp_date!
       );
 
       switch (isTokenValid) {
@@ -32,8 +32,8 @@ export default class RefreshAccessToken extends UseCase<string, string> {
           throw new ForbiddenError('Refresh tokens do not match');
         case 'valid':
           return await Token.generateAccessToken(
-            isUser.username,
-            isUser.role_id
+            userExist.username,
+            userExist.role_id
           );
         default:
           throw new GeneralError(500, 'Token validation failed');

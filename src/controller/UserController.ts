@@ -13,11 +13,6 @@ import AuthUser from '../application/use-case/user/AuthUser';
 import RefreshAccessToken from '../application/use-case/user/RefreshAccessToken';
 
 export default (dependencies: ProjectDependencies) => {
-  type ReqQuery = {
-    search_key: string;
-    search_value: string;
-  };
-
   const { userRepository } = dependencies.databaseService;
 
   const createUser = async (req: Request, res: Response) => {
@@ -30,7 +25,7 @@ export default (dependencies: ProjectDependencies) => {
     );
 
     const newUser = await new CreateUser(userRepository!).execute(user);
-    const message = 'User was added successfully';
+    const message = 'User is successfully created';
     res.status(201).json(new GeneralResponse(Status[201], message, newUser));
   };
 
@@ -55,6 +50,8 @@ export default (dependencies: ProjectDependencies) => {
   };
 
   const updateUser = async (req: Request, res: Response) => {
+    const request = req.body;
+    request.id = req.params.id;
     const data = await new UpdateUser(userRepository!).execute(req.body);
     res.json(new SuccessfulResponse('User is successfully updated', data));
   };

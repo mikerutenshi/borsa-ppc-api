@@ -8,10 +8,11 @@ export default class PgRoleRepository implements RoleRepository {
     return await db.one(RoleSql.create, instance);
   }
   async getById(id: number): Promise<Role> {
-    return await db.one(RoleSql.getOneByProp, {
+    const role = await db.oneOrNone(RoleSql.getOneByProp, {
       column: 'id',
       value: id,
     });
+    return role;
   }
   async getAll(): Promise<Role[]> {
     return await db.any(RoleSql.getAll);
@@ -23,10 +24,11 @@ export default class PgRoleRepository implements RoleRepository {
     });
   }
   async getByName(name: string): Promise<Role> {
-    return await db.one(RoleSql.getOneByProp, {
-      column: 'username',
+    const role = await db.oneOrNone(RoleSql.getOneByProp, {
+      column: 'name',
       value: name,
     });
+    return role;
   }
   async update(instance: Role): Promise<Role> {
     return await db.one(RoleSql.update, {

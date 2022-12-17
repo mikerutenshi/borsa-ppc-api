@@ -9,10 +9,12 @@ export default class PgUserRepository implements UserRepository {
   }
 
   async getById(id: number): Promise<User> {
-    return await db.one(UserSql.getOneByProp, {
+    const user = await db.oneOrNone(UserSql.getOneByProp, {
       column: 'id',
       value: id,
     });
+
+    return user;
   }
   async getAll(): Promise<User[]> {
     return await db.any(UserSql.getAll);
@@ -24,10 +26,11 @@ export default class PgUserRepository implements UserRepository {
     });
   }
   async getByName(name: string): Promise<User> {
-    return await db.one(UserSql.getOneByProp, {
+    const user = await db.oneOrNone(UserSql.getOneByProp, {
       column: 'username',
       value: name,
     });
+    return user;
   }
   async update(instance: User): Promise<User> {
     return await db.one(UserSql.update, {

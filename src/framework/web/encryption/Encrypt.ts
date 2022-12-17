@@ -19,7 +19,7 @@ const Token = {
   },
 
   async generateAccessToken(username: string, roleId: number) {
-    const payload = { sub: username, role: roleId };
+    const payload = { username: username, role_id: roleId };
     try {
       return jwt.sign(payload, config.jwtSecret, {
         expiresIn: config.accessTokenExpIn,

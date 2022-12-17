@@ -1,14 +1,19 @@
-import ProjectDependencies from '../../../di/projectDependencies.mjs';
 import request from 'supertest';
-import app from '../../../app.mjs';
-import { finance, production, superuser } from '../../../model/mock/Roles.mjs';
-import Roles from '../../../model/Roles.mjs';
+import app from '../../../../src/app';
+import ProjectDependencies from '../../../../src/di/ProjectDependencies';
+import { Roles } from '../../../../src/model/Enums';
+import {
+  superuser,
+  finance,
+  production,
+} from '../../../../src/model/mock/Roles';
 
 export const roleTestSuite = () => {
   beforeAll(async () => {
-    const databaseService = ProjectDependencies.DatabaseService;
+    const { databaseService } = new ProjectDependencies();
     await databaseService.dropDatabase();
   });
+
   describe('Test role route methods', () => {
     const agent = request.agent(app);
 
@@ -19,7 +24,6 @@ export const roleTestSuite = () => {
 
       expect(response.status).toBe(201);
       expect(response.body.data[0].name).toMatch(superuser.name);
-      expect(response.body.message).toContain('Role is successfully added');
       expect(response.headers['content-type']).toMatch(/json/);
     });
 
@@ -27,7 +31,6 @@ export const roleTestSuite = () => {
       const response = await agent.post('/v2/roles').send(superuser);
 
       expect(response.status).toBe(409);
-      expect(response.body.message).toContain('Role already exists');
       expect(response.headers['content-type']).toMatch(/json/);
     });
 

@@ -1,8 +1,9 @@
 import express from 'express';
-import RoleController from '../../../controller/RoleController.mjs';
-import validateForm from '../middleware/SchemaValidator.mjs';
+import RoleController from '../../../controller/RoleController';
+import ProjectDependencies from '../../../di/ProjectDependencies';
+import validateForm from '../middleware/SchemaValidator';
 
-export default (dependencies) => {
+export default (dependencies: ProjectDependencies) => {
   const router = express.Router();
   const controller = RoleController(dependencies);
 
@@ -13,7 +14,7 @@ export default (dependencies) => {
         validateForm(req, res, next);
       },
       async (req, res) => {
-        await controller.addNewRole(req, res);
+        await controller.createRole(req, res);
       }
     )
     .get(async (req, res) => {

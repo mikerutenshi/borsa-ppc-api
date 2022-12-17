@@ -1,7 +1,6 @@
 import express from 'express';
 import UserController from '../../../controller/UserController';
 import ProjectDependencies from '../../../di/ProjectDependencies';
-//import UserController from '../../../controller/UserController.mjs';
 import validateForm from '../middleware/SchemaValidator';
 
 export default (dependencies: ProjectDependencies) => {

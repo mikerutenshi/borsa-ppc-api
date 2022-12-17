@@ -13,9 +13,9 @@ export default class CreateUser extends UseCase<User, User[]> {
   }
 
   async execute(param: User): Promise<User[]> {
-    const user = await this.repository.getByName(param.username);
+    const userExist = await this.repository.getByName(param.username);
 
-    if (user) {
+    if (userExist) {
       throw new ConflictError('User');
     } else {
       param.password = await Hash.create(param.password!);

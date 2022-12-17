@@ -25,10 +25,6 @@ class User {
     this.role_id = role_id;
     this.is_active = false;
   }
-
-  setAccessToken(accessToken: string) {
-    this.access_token = accessToken;
-  }
 }
 
 class Login {

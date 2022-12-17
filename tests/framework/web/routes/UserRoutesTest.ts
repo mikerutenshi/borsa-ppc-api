@@ -1,6 +1,13 @@
+import { Response } from 'express';
 import request from 'supertest';
-import app from '../../../app.mjs';
-import { christ, christine, invalidUser } from '../../../model/mock/Users.mjs';
+import app from '../../../../src/app';
+import {
+  christ,
+  christine,
+  invalidUser,
+} from '../../../../src/model/mock/Users';
+import { User } from '../../../../src/model/Users';
+import { loggerJest } from '../../../../src/util/Logger';
 
 export const rootTestSuite = () =>
   describe('Test root path', () => {
@@ -56,6 +63,7 @@ export const userTestSuite = () =>
         search_key: 'first_name',
         search_value: 'christi',
       });
+      loggerJest.info(response.body);
       expect(response.status).toEqual(200);
       expect(response.body.data).toHaveLength(1);
       expect(response.body.data[0].username).toBe(christine.username);
@@ -109,6 +117,7 @@ export const userTestSuite = () =>
         password: christine.password,
       });
       christine.refresh_token = response.body.data[0].refresh_token;
+      loggerJest.info(response.body.data[0].refresh_token);
       expect(response.status).toBe(200);
       expect(response.body.data[0].access_token).toBeDefined();
     });
@@ -125,19 +134,21 @@ export const userTestSuite = () =>
           password: invalidUser.password,
         })
         .catch((err) => {
-          expect(err.body).toHaveProperty('username');
-          expect(err.body).toHaveProperty('password');
+          expect(err.body[0]).toHaveProperty('username');
+          expect(err.body[1]).toHaveProperty('password');
         });
       expect(response.status).toBe(400);
-      expect(response.body.data.username).toMatch('User not found');
-      expect(invalidResponse.status).toBe(400);
+      expect(response.body.data[0].username).toMatch('User not found');
+      expect((invalidResponse as unknown as Response).status).toBe(400);
     });
 
     test('REFRESH TOKEN / v2/users/refresh-access-token => refresh access token', async () => {
+      loggerJest.info(christine);
       const response = await agent.post('/v2/users/refresh-access-token').send({
         username: christine.username,
         refresh_token: christine.refresh_token,
       });
+      loggerJest.info(response.body);
       expect(response.status).toBe(200);
       expect(response.body.data[0].access_token).toBeDefined();
     });
@@ -147,7 +158,7 @@ export const userTestSuite = () =>
         .post('/v2/users/refresh-access-token')
         .send({
           username: christine.username,
-          refresh_token: christine.refresh_token.substring(0, 10),
+          refresh_token: christine.refresh_token?.substring(0, 10),
         })
         .catch((err) => {
           expect(err.body).toHaveProperty('access_token');
@@ -156,10 +167,10 @@ export const userTestSuite = () =>
         .post('/v2/users/refresh-access-token')
         .send({
           username: christine.username,
-          refresh_token: christine.refresh_token.toLowerCase(),
+          refresh_token: christine.refresh_token?.toLowerCase(),
         });
 
-      expect(badRequest.status).toBe(400);
+      expect((badRequest as unknown as Response).status).toBe(400);
       expect(invalidToken.status).toBe(403);
     });
   });

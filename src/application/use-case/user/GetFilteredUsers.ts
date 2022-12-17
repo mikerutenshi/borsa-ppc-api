@@ -10,6 +10,10 @@ export default class GetFilteredUsers extends UseCase<string, User[]> {
     this.repository = repository;
   }
   async execute(key: string, value: string): Promise<User[]> {
-    return await this.repository.getByProp(key, value);
+    const users = await this.repository.getByProp(key, value);
+    users.forEach((u) => {
+      if (u.password) u.password = undefined;
+    });
+    return users;
   }
 }
