@@ -11,6 +11,11 @@ export default class GetFilteredRoles extends UseCase<string, Role[]> {
   }
 
   async execute(key: string, value: string): Promise<Role[]> {
-    return await this.repository.getByProp(key, value);
+    const roles = await this.repository.getManyByProp(key, value);
+    if (roles) {
+      return roles;
+    } else {
+      return [];
+    }
   }
 }

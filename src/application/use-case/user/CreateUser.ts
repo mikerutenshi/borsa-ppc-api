@@ -13,7 +13,10 @@ export default class CreateUser extends UseCase<User, User[]> {
   }
 
   async execute(param: User): Promise<User[]> {
-    const userExist = await this.repository.getByName(param.username);
+    const userExist = await this.repository.getOneByProp(
+      'username',
+      param.username
+    );
 
     if (userExist) {
       throw new ConflictError('User');

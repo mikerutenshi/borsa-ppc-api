@@ -5,7 +5,7 @@ class GeneralResponse<T> {
   data?: T[];
   message: string;
   constructor(status: string, message: string, data?: T[]) {
-    data = data?.flatMap((d) => (!!d ? [d] : []));
+    //data = data?.flatMap((d) => (!!d ? [d] : []));
     this.status = status;
     this.message = message;
     this.data = data;

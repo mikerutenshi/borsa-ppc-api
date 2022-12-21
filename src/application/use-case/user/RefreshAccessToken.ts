@@ -16,7 +16,7 @@ export default class RefreshAccessToken extends UseCase<string, string> {
   }
 
   async execute(username: string, oldRefreshToken: string): Promise<string> {
-    const userExist = await this.repository.getByName(username);
+    const userExist = await this.repository.getOneByProp('username', username);
 
     if (userExist) {
       const isTokenValid = await Token.validateRefreshToken(

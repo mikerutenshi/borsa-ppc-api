@@ -11,7 +11,11 @@ export default class GetRole extends UseCase<number, Role[]> {
   }
 
   async execute(param: number): Promise<Role[]> {
-    const roles = await this.repository.getById(param);
-    return [roles];
+    const role = await this.repository.getById(param);
+    if (role) {
+      return [role];
+    } else {
+      return [];
+    }
   }
 }

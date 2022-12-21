@@ -1,5 +1,6 @@
-class User {
-  id?: number;
+import { BaseModel } from './BaseModel';
+
+class User extends BaseModel {
   username: string;
   first_name: string;
   last_name: string;
@@ -17,7 +18,8 @@ class User {
     password: string,
     role_id: number
   ) {
-    this.id = 1;
+    super('User');
+
     this.username = username;
     this.first_name = first_name;
     this.last_name = last_name;

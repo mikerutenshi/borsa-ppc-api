@@ -1,48 +1,44 @@
-class ProductCategoryType {
-  id: number;
+import { BaseModel } from './BaseModel';
+
+class Type extends BaseModel {
   name: string;
+
+  constructor(name: string, className: string) {
+    super(className);
+    this.name = name;
+  }
+}
+
+class ProductCategoryType extends Type {
   parent_id: number;
   constructor(name: string, parent_id: number) {
-    this.id = 1;
-    this.name = name;
+    super(name, 'Product Category Type');
     this.parent_id = parent_id;
   }
 }
 
-class MaterialType {
-  id: number;
-  name: string;
+class MaterialType extends Type {
   constructor(name: string) {
-    this.id = 1;
-    this.name = name;
+    super(name, 'Material Type');
   }
 }
 
-class JobType {
-  id: number;
-  name: string;
+class JobType extends Type {
   constructor(name: string) {
-    this.id = 1;
-    this.name = name;
+    super(name, 'Job Type');
   }
 }
 
-class Size {
-  id: number;
-  name: string;
+class Size extends Type {
   constructor(name: string) {
-    this.id = 1;
-    this.name = name;
+    super(name, 'Size');
   }
 }
 
-class Color {
-  id: number;
-  name: string;
+class Color extends Type {
   constructor(name: string) {
-    this.id = 1;
-    this.name = name;
+    super(name, 'Color');
   }
 }
 
-export { ProductCategoryType, MaterialType, JobType, Size, Color };
+export { Type, ProductCategoryType, MaterialType, JobType, Size, Color };

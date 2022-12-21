@@ -1,6 +1,5 @@
 import Joi from 'joi';
-
-const idSchema = Joi.number().integer().positive().required();
+import { idSchema } from './CommonSchema';
 
 export const userSchema = Joi.object().keys({
   username: Joi.string().min(3).max(16).required(),

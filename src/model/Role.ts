@@ -1,9 +1,8 @@
-class Role {
-  id: number;
-  name: string;
+import { Type } from './Types';
+
+class Role extends Type {
   constructor(name: string) {
-    this.id = 1;
-    this.name = name;
+    super(name, 'Role');
   }
 }
 

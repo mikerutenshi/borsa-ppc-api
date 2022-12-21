@@ -5,7 +5,7 @@ import DateUtil from '../../../util/DateUtil';
 import UserRepository from '../../contract/UserRepository';
 import UseCase from '../UseCase';
 
-export default class Authenticate extends UseCase<string, User[]> {
+export default class AuthUser extends UseCase<string, User[]> {
   repository: UserRepository;
 
   constructor(repository: UserRepository) {
@@ -14,7 +14,7 @@ export default class Authenticate extends UseCase<string, User[]> {
   }
 
   async execute(username: string, password: string): Promise<User[]> {
-    const storedUser = await this.repository.getByName(username);
+    const storedUser = await this.repository.getOneByProp('username', username);
     if (storedUser) {
       if (storedUser.is_active) {
         debugger;

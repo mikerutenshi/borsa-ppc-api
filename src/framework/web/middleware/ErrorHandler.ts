@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import config from '../../../../config/config';
 import { Status } from '../../../model/Enums';
 import { GeneralError, ValidationError } from '../../../model/Errors';
 import { GeneralResponse } from '../../../model/Responses';
@@ -20,7 +21,15 @@ const ErrorHandler = (
       .status(err.statusCode)
       .json(new GeneralResponse(Status[statusCode], err.message));
   } else {
-    res.status(500).json(new GeneralResponse(Status[statusCode], err.stack!));
+    let errorMsg;
+
+    if (config.nodeEnv !== 'production') {
+      errorMsg = err.stack!;
+    } else {
+      errorMsg = err.message;
+    }
+
+    res.status(500).json(new GeneralResponse(Status[statusCode], errorMsg));
   }
 };
 

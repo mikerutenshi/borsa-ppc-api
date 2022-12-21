@@ -1,4 +1,5 @@
 import { ObjectSchema } from 'joi';
+import { productCategorySchema } from './ProductCategorySchema';
 import { roleSchema } from './RoleSchema';
 import { loginSchema, refreshTokenSchema, userSchema } from './UserSchema';
 
@@ -6,13 +7,15 @@ type JoiSchema = {
   [route: string]: ObjectSchema<any>;
 };
 
-const schemaMap: JoiSchema = {};
-
-schemaMap['roles/'] = roleSchema;
-schemaMap['roles/:id'] = roleSchema;
-schemaMap['users/'] = userSchema;
-schemaMap['users/authenticate'] = loginSchema;
-schemaMap['users/:id'] = userSchema;
-schemaMap['users/refresh-access-token'] = refreshTokenSchema;
+const schemaMap: JoiSchema = {
+  'roles/': roleSchema,
+  'roles/:id': roleSchema,
+  'users/': userSchema,
+  'users/authenticate': loginSchema,
+  'users/:id': userSchema,
+  'users/refresh-access-token': refreshTokenSchema,
+  'product-categories/': productCategorySchema,
+  'product-categories/:id': productCategorySchema,
+};
 
 export default schemaMap;

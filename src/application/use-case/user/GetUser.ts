@@ -13,7 +13,9 @@ export default class GetUser extends UseCase<number, User[]> {
     const user = await this.repository.getById(id);
     if (user) {
       user.password = undefined;
+      return [user];
+    } else {
+      return [];
     }
-    return [user];
   }
 }

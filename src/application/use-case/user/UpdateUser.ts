@@ -1,4 +1,4 @@
-import { ConflictError, NotFoundError } from '../../../model/Errors';
+import { NotFoundError } from '../../../model/Errors';
 import { User } from '../../../model/Users';
 import UserRepository from '../../contract/UserRepository';
 import UseCase from '../UseCase';

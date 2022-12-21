@@ -25,7 +25,10 @@ export default class UpdateRole extends UseCase<Role, Role[]> {
     if (!roleExist) {
       throw new NotFoundError('Role');
     } else {
-      const duplicateName = await this.repository.getByName(param.name);
+      const duplicateName = await this.repository.getOneByProp(
+        'name',
+        param.name
+      );
       if (!duplicateName) {
         return [await this.repository.update(param)];
       } else {

@@ -1,4 +1,4 @@
-import { Request, RequestHandler, Response } from 'express';
+import { Request, Response } from 'express';
 import CreateUser from '../application/use-case/user/CreateUser';
 import GetFilteredUsers from '../application/use-case/user/GetFilteredUsers';
 import GetUser from '../application/use-case/user/GetUser';
@@ -24,17 +24,17 @@ export default (dependencies: ProjectDependencies) => {
       req.body.role_id
     );
 
-    const newUser = await new CreateUser(userRepository!).execute(user);
+    const newUser = await new CreateUser(userRepository).execute(user);
     const message = 'User is successfully created';
     res.status(201).json(new GeneralResponse(Status[201], message, newUser));
   };
 
   const getUsers = async (req: Request, res: Response) => {
     if (req.query.search_key === undefined) {
-      const data = await new GetUsers(userRepository!).execute();
+      const data = await new GetUsers(userRepository).execute();
       res.json(new SuccessfulResponse('All users are loaded', data));
     } else {
-      const data = await new GetFilteredUsers(userRepository!).execute(
+      const data = await new GetFilteredUsers(userRepository).execute(
         req.query.search_key as string,
         req.query.search_value as string
       );
@@ -43,7 +43,7 @@ export default (dependencies: ProjectDependencies) => {
   };
 
   const getUser = async (req: Request, res: Response) => {
-    const data = await new GetUser(userRepository!).execute(
+    const data = await new GetUser(userRepository).execute(
       parseInt(req.params.id)
     );
     res.json(new SuccessfulResponse('User is loaded', data));
@@ -52,19 +52,19 @@ export default (dependencies: ProjectDependencies) => {
   const updateUser = async (req: Request, res: Response) => {
     const request = req.body;
     request.id = req.params.id;
-    const data = await new UpdateUser(userRepository!).execute(req.body);
+    const data = await new UpdateUser(userRepository).execute(req.body);
     res.json(new SuccessfulResponse('User is successfully updated', data));
   };
 
   const deleteUser = async (req: Request, res: Response) => {
     const message = 'User is successfully deleted';
-    await new DeleteUser(userRepository!).execute(parseInt(req.params.id));
+    await new DeleteUser(userRepository).execute(parseInt(req.params.id));
 
     res.json(new SuccessfulResponse(message));
   };
 
   const authUser = async (req: Request, res: Response) => {
-    const users = await new AuthUser(userRepository!).execute(
+    const users = await new AuthUser(userRepository).execute(
       req.body.username,
       req.body.password
     );
@@ -75,9 +75,10 @@ export default (dependencies: ProjectDependencies) => {
   };
 
   const refreshAccessToken = async (req: Request, res: Response) => {
-    const newAccessToken = await new RefreshAccessToken(
-      userRepository!
-    ).execute(req.body.username, req.body.refresh_token);
+    const newAccessToken = await new RefreshAccessToken(userRepository).execute(
+      req.body.username,
+      req.body.refresh_token
+    );
     const data = [];
     data.push({
       access_token: newAccessToken,

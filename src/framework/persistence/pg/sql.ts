@@ -6,6 +6,10 @@ const sql = (file: string): QueryFile => {
   return new pgPromise.QueryFile(fullPath, { minify: true });
 };
 
+interface CrudSql {
+  [method: string]: QueryFile;
+}
+
 const RoleSql = {
   create: sql('role/create.sql'),
   getManyByProp: sql('role/get-many-by-property.sql'),
@@ -37,4 +41,4 @@ const ProductCategorySql = {
   deleteAll: sql('product-category/delete-all.sql'),
 };
 
-export { RoleSql, UserSql, ProductCategorySql };
+export { CrudSql, RoleSql, UserSql, ProductCategorySql };
