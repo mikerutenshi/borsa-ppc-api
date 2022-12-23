@@ -1,7 +1,7 @@
 import { ConflictError } from '../../../model/Errors';
 import Role from '../../../model/Role';
 import RoleRepository from '../../contract/RoleRepository';
-import CreateType from '../CreateType';
+import CreateUseCase from '../CreateUseCase';
 import UseCase from '../UseCase';
 
 //export default class CreateRole extends UseCase<Role, Role[]> {
@@ -23,7 +23,11 @@ import UseCase from '../UseCase';
 //  }
 //}
 
-export default class CreateRole extends CreateType<RoleRepository, Role, Role> {
+export default class CreateRole extends CreateUseCase<
+  RoleRepository,
+  Role,
+  Role
+> {
   constructor(repository: RoleRepository) {
     super(repository);
   }

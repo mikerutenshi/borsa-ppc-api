@@ -7,6 +7,7 @@ import {
   finance,
   production,
 } from '../../../../src/model/mock/Roles';
+import { logger } from '../../../../src/util/Logger';
 
 export const roleTestSuite = () => {
   beforeAll(async () => {
@@ -111,6 +112,7 @@ export const roleTestSuite = () => {
 
     test('DELETE /v2/roles => delete role get should return null', async () => {
       const response = await agent.delete('/v2/roles/2');
+      logger.info(response.body, 'deleteRoleRes');
       expect(response.status).toBe(200);
       expect(response.body.data).toBeUndefined();
       expect(response.body.message).toContain('successfully deleted');

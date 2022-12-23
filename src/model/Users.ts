@@ -18,7 +18,7 @@ class User extends BaseModel {
     password: string,
     role_id: number
   ) {
-    super('User');
+    super('user', 'username', username);
 
     this.username = username;
     this.first_name = first_name;

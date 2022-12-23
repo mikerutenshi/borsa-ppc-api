@@ -1,9 +1,16 @@
-export class BaseModel {
+interface DynamicColumn {
+  [key: string]: any;
+}
+export class BaseModel implements DynamicColumn {
   id: number;
-  className: string;
+  table: string;
+  uniqueKey: string;
+  uniqueVal: string;
 
-  constructor(className: string) {
+  constructor(table: string, uniqueKey: string, uniqueVal: string) {
     this.id = 1;
-    this.className = className;
+    this.table = table;
+    this.uniqueKey = uniqueKey;
+    this.uniqueVal = uniqueVal;
   }
 }

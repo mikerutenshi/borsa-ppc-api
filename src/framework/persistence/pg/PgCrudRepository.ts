@@ -11,34 +11,45 @@ export default class PgCrudRepository<M> {
     return await db.one(this.sql.create, instance);
   }
 
-  async getById(id: number): Promise<M | null> {
+  async getById(id: number, table?: string): Promise<M | null> {
     return await db.oneOrNone(this.sql.getOneByProp, {
       column: 'id',
       value: id,
+      table,
     });
   }
-  async getAll(): Promise<M[]> {
-    return await db.any(this.sql.getAll);
+  async getAll(table?: string): Promise<M[]> {
+    return await db.any(this.sql.getAll, { table });
   }
-  async getManyByProp(property: string, value: string): Promise<M[]> {
+  async getManyByProp(
+    property: string,
+    value: string,
+    table?: string
+  ): Promise<M[]> {
     return await db.any(this.sql.getManyByProp, {
       column: property,
       value: value,
+      table,
     });
   }
-  async getOneByProp(property: string, value: string): Promise<M | null> {
+  async getOneByProp(
+    property: string,
+    value: string,
+    table?: string
+  ): Promise<M | null> {
     return await db.oneOrNone(this.sql.getOneByProp, {
       column: property,
       value: value,
+      table,
     });
   }
   async update(instance: M): Promise<M> {
     return await db.one(this.sql.update, instance);
   }
-  async delete(id: number): Promise<void> {
-    await db.none(this.sql.delete, id);
+  async delete(id: number, table?: string): Promise<void> {
+    await db.none(this.sql.delete, { id, table });
   }
-  async clear(): Promise<void> {
-    await db.none(this.sql.deleteAll);
+  async clear(table?: string): Promise<void> {
+    await db.none(this.sql.deleteAll, { table });
   }
 }

@@ -1,2 +1,2 @@
 DELETE FROM factory.role
-WHERE factory.role.id = $1
+WHERE factory.role.id = ${id}
