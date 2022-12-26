@@ -21,7 +21,7 @@ export default class CreateType extends UseCase<Type, Type[]> {
       const _type = await this.repository.create(param);
       return [_type];
     } else {
-      throw new ConflictError('Role');
+      throw new ConflictError();
     }
   }
 }

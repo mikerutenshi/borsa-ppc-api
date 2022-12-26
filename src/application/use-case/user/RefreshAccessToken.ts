@@ -39,7 +39,9 @@ export default class RefreshAccessToken extends UseCase<string, string> {
           throw new GeneralError(500, 'Token validation failed');
       }
     } else {
-      throw new NotFoundError('User');
+      const err = new NotFoundError();
+      err.message = `User ${err.message}`;
+      throw err;
     }
   }
 }

@@ -1,33 +1,34 @@
-import { BaseModel } from '../../model/BaseModel';
 import { ConflictError } from '../../model/Errors';
+import Table from '../../model/Table';
 import StringUtil from '../../util/StringUtil';
 import CrudRepository from '../contract/CrudRepository';
 import UseCase from './UseCase';
 
-export default class CreateUseCase<R, P, T> extends UseCase<P, T[]> {
-  private repository: R;
+export default class CreateUseCase<T> extends UseCase<T, T[]> {
+  private repository: CrudRepository<T>;
+  private table: Table;
 
-  constructor(repository: R) {
+  constructor(repository: CrudRepository<T>, table: Table) {
     super();
     this.repository = repository;
+    this.table = table;
   }
-  async execute(param: P): Promise<T[]> {
-    const uniqueKey = (param as BaseModel).uniqueKey;
-    const uniqueVal = (param as BaseModel).uniqueVal;
-    const item = await (
-      this.repository as CrudRepository<BaseModel>
-    ).getOneByProp(uniqueKey, uniqueVal);
+  async execute(param: T): Promise<T[]> {
+    if (this.table.uniqueKey && this.table.uniqueVal) {
+      const item = await this.repository.getOneByProp(
+        this.table.uniqueKey,
+        this.table.uniqueVal
+      );
 
-    if (item) {
-      const tableName = StringUtil.transformTableName(
-        (param as BaseModel).table
-      );
-      throw new ConflictError(tableName);
+      if (item) {
+        throw new ConflictError(StringUtil.transformTableName(this.table.name));
+      } else {
+        const item = await this.repository.create(param);
+        return [item];
+      }
     } else {
-      const item = await (this.repository as CrudRepository<BaseModel>).create(
-        param as BaseModel
-      );
-      return [item as T];
+      const item = await this.repository.create(param);
+      return [item];
     }
   }
 }

@@ -1,23 +1,19 @@
 import { User } from '../../../model/Users';
 import UserRepository from '../../contract/UserRepository';
-import UseCase from '../UseCase';
+import GetFilteredUseCase from '../GetFilteredUseCase';
 
-export default class GetFilteredUsers extends UseCase<string, User[]> {
-  repository: UserRepository;
-
+export default class GetFilteredUsers extends GetFilteredUseCase<User> {
   constructor(repository: UserRepository) {
-    super();
-    this.repository = repository;
+    super(repository);
   }
+
   async execute(key: string, value: string): Promise<User[]> {
-    const users = await this.repository.getManyByProp(key, value);
-    if (users) {
-      users.forEach((u) => {
-        if (u.password) u.password = undefined;
-      });
-      return users;
-    } else {
-      return [];
+    const items = await super.execute(key, value);
+
+    if (items.length > 0) {
+      items.forEach((u) => (u.password = undefined));
     }
+
+    return items;
   }
 }

@@ -1,15 +1,9 @@
 import { User } from '../../../model/Users';
 import UserRepository from '../../contract/UserRepository';
-import UseCase from '../UseCase';
+import GetManyUseCase from '../GetManyUseCase';
 
-export default class GetUsers extends UseCase<undefined, User[]> {
-  repository: UserRepository;
-
+export default class GetUsers extends GetManyUseCase<User> {
   constructor(repository: UserRepository) {
-    super();
-    this.repository = repository;
-  }
-  async execute(): Promise<User[]> {
-    return await this.repository.getAll();
+    super(repository);
   }
 }

@@ -78,6 +78,7 @@ export const userTestSuite = () =>
       christine.first_name = 'Christian';
       christine.is_active = true;
       const response = await agent.put('/v2/users/2').send(christine);
+      loggerJest.info(response.body, 'update user res');
       const updated = await agent.get('/v2/users').query({
         search_key: 'first_name',
         search_value: 'christian',

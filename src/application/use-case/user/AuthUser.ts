@@ -45,7 +45,7 @@ export default class AuthUser extends UseCase<string, User[]> {
           ]);
         }
       } else {
-        throw new ForbiddenError('User is not yet activated');
+        throw new ForbiddenError('User not yet activated');
       }
     } else {
       throw new ValidationError([

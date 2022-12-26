@@ -1,16 +1,9 @@
 import Role from '../../../model/Role';
 import RoleRepository from '../../contract/RoleRepository';
-import UseCase from '../UseCase';
+import GetManyUseCase from '../GetManyUseCase';
 
-export default class GetRoles extends UseCase<undefined, Role[]> {
-  repository: RoleRepository;
-
+export default class GetRoles extends GetManyUseCase<Role> {
   constructor(repository: RoleRepository) {
-    super();
-    this.repository = repository;
-  }
-
-  async execute(): Promise<Role[]> {
-    return await this.repository.getAll();
+    super(repository);
   }
 }

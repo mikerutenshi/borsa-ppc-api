@@ -3,8 +3,8 @@ import { BaseModel } from './BaseModel';
 class Type extends BaseModel {
   name: string;
 
-  constructor(name: string, table: string) {
-    super(table, 'name', name);
+  constructor(name: string) {
+    super();
     this.name = name;
   }
 }
@@ -12,32 +12,32 @@ class Type extends BaseModel {
 class ProductCategoryType extends Type {
   parent_id: number;
   constructor(name: string, parent_id: number) {
-    super(name, 'product_category_type');
+    super(name);
     this.parent_id = parent_id;
   }
 }
 
 class MaterialType extends Type {
   constructor(name: string) {
-    super(name, 'material_type');
+    super(name);
   }
 }
 
 class JobType extends Type {
   constructor(name: string) {
-    super(name, 'job_type');
+    super(name);
   }
 }
 
 class Size extends Type {
   constructor(name: string) {
-    super(name, 'size');
+    super(name);
   }
 }
 
 class Color extends Type {
   constructor(name: string) {
-    super(name, 'color');
+    super(name);
   }
 }
 

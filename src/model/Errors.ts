@@ -4,6 +4,14 @@ export class GeneralError extends Error {
     super(message);
     this.statusCode = statusCode;
   }
+
+  prefixMes(prefix: string) {
+    this.message = prefix + ' ' + this.message;
+  }
+
+  suffixMes(suffix: string) {
+    this.message = this.message + ' ' + suffix;
+  }
 }
 
 export class ValidationError extends GeneralError {
@@ -15,21 +23,19 @@ export class ValidationError extends GeneralError {
 }
 
 export class ConflictError extends GeneralError {
-  constructor(target: string) {
-    const message = `${target} already exists`;
-    super(409, message);
+  constructor(prefix?: string, suffix?: string) {
+    super(409, `${prefix} already exists ${suffix}`);
   }
 }
 
 export class NotFoundError extends GeneralError {
-  constructor(target: string) {
-    const message = `${target} is not found`;
-    super(404, message);
+  constructor(prefix?: string, suffix?: string) {
+    super(404, `${prefix} not found ${suffix}`);
   }
 }
 
 export class ForbiddenError extends GeneralError {
-  constructor(message: string) {
-    super(403, message);
+  constructor(message?: string) {
+    super(403, `Forbidden. ${message}`);
   }
 }

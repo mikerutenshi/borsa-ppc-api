@@ -7,7 +7,7 @@ import {
   finance,
   production,
 } from '../../../../src/model/mock/Roles';
-import { logger } from '../../../../src/util/Logger';
+import { logger, loggerJest } from '../../../../src/util/Logger';
 
 export const roleTestSuite = () => {
   beforeAll(async () => {
@@ -84,6 +84,7 @@ export const roleTestSuite = () => {
       const response = await agent
         .put('/v2/roles/2')
         .send({ name: Roles.qualityControl });
+      loggerJest.info(response.body, 'update role res');
       expect(response.status).toBe(200);
       expect(response.body.data[0].name).toMatch(Roles.qualityControl);
 

@@ -1,21 +1,9 @@
-import { NotFoundError } from '../../../model/Errors';
+import { User } from '../../../model/Users';
 import UserRepository from '../../contract/UserRepository';
-import UseCase from '../UseCase';
+import DeleteUseCase from '../DeleteUseCase';
 
-export default class DeleteUser extends UseCase<number, void> {
-  repository: UserRepository;
-
+export default class DeleteUser extends DeleteUseCase<User> {
   constructor(repository: UserRepository) {
-    super();
-    this.repository = repository;
-  }
-  async execute(id: number): Promise<void> {
-    const userExist = await this.repository.getById(id);
-
-    if (!userExist) {
-      throw new NotFoundError('User');
-    } else {
-      await this.repository.delete(id);
-    }
+    super(repository, 'user');
   }
 }

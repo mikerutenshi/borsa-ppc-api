@@ -15,7 +15,9 @@ export default (dependencies: ProjectDependencies) => {
 
   const createRole = async (req: Request, res: Response) => {
     const role = new Role(req.body.name);
-    const result = await new CreateRole(roleRepository).execute(role);
+    const result = await new CreateRole(roleRepository, role.name).execute(
+      role
+    );
     const message = 'Role is successfully created';
     res.status(201).json(new GeneralResponse(Status[201], message, result));
   };
@@ -45,9 +47,11 @@ export default (dependencies: ProjectDependencies) => {
   };
 
   const updateRole = async (req: Request, res: Response) => {
-    const data = req.body;
-    data.id = req.params.id;
-    const result = await new UpdateRole(roleRepository).execute(data);
+    const data = new Role(req.body.name);
+    data.id = parseInt(req.params.id);
+    const result = await new UpdateRole(roleRepository, data.name).execute(
+      data
+    );
     const message = 'Role is successfully updated';
     res.json(new SuccessfulResponse(message, result));
   };

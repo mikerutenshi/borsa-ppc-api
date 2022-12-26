@@ -24,7 +24,9 @@ export default (dependencies: ProjectDependencies) => {
       req.body.role_id
     );
 
-    const newUser = await new CreateUser(userRepository).execute(user);
+    const newUser = await new CreateUser(userRepository, user.username).execute(
+      user
+    );
     const message = 'User is successfully created';
     res.status(201).json(new GeneralResponse(Status[201], message, newUser));
   };
@@ -51,8 +53,16 @@ export default (dependencies: ProjectDependencies) => {
 
   const updateUser = async (req: Request, res: Response) => {
     const request = req.body;
-    request.id = req.params.id;
-    const data = await new UpdateUser(userRepository).execute(req.body);
+    const user = new User(
+      '',
+      request.first_name,
+      request.last_name,
+      '',
+      request.role_id,
+      request.is_active
+    );
+    user.id = parseInt(req.params.id);
+    const data = await new UpdateUser(userRepository).execute(user);
     res.json(new SuccessfulResponse('User is successfully updated', data));
   };
 

@@ -1,20 +1,9 @@
-import { NotFoundError } from '../../../model/Errors';
+import Role from '../../../model/Role';
 import RoleRepository from '../../contract/RoleRepository';
-import UseCase from '../UseCase';
+import DeleteUseCase from '../DeleteUseCase';
 
-export default class DeleteRole extends UseCase<number, void> {
-  repository: RoleRepository;
-
+export default class DeleteRole extends DeleteUseCase<Role> {
   constructor(repository: RoleRepository) {
-    super();
-    this.repository = repository;
-  }
-  async execute(id: number): Promise<void> {
-    const roleExist = await this.repository.getById(id);
-    if (roleExist) {
-      await this.repository.delete(id);
-    } else {
-      throw new NotFoundError('Role');
-    }
+    super(repository, 'role');
   }
 }

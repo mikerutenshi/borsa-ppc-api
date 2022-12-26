@@ -9,7 +9,7 @@ export default (table: string, dependencies: ProjectDependencies) => {
   const { typeRepository } = dependencies.databaseService;
 
   const createType = async (req: Request, res: Response) => {
-    const _type = new Type(req.body.name, table);
+    const _type = new Type(req.body.name);
     const result = await new CreateType(typeRepository).execute(_type, table);
     const message = 'Role is successfully created';
     res.status(201).json(new GeneralResponse(Status[201], message, result));

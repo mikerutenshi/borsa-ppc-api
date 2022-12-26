@@ -16,16 +16,17 @@ class User extends BaseModel {
     first_name: string,
     last_name: string,
     password: string,
-    role_id: number
+    role_id: number,
+    is_active?: boolean
   ) {
-    super('user', 'username', username);
+    super();
 
     this.username = username;
     this.first_name = first_name;
     this.last_name = last_name;
     this.password = password;
     this.role_id = role_id;
-    this.is_active = false;
+    this.is_active = is_active ? is_active : false;
   }
 }
 

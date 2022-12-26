@@ -1,21 +1,9 @@
 import Role from '../../../model/Role';
 import RoleRepository from '../../contract/RoleRepository';
-import UseCase from '../UseCase';
+import GetOneUseCase from '../GetOneUseCase';
 
-export default class GetRole extends UseCase<number, Role[]> {
-  repository: RoleRepository;
-
+export default class GetRole extends GetOneUseCase<Role> {
   constructor(repository: RoleRepository) {
-    super();
-    this.repository = repository;
-  }
-
-  async execute(param: number): Promise<Role[]> {
-    const role = await this.repository.getById(param);
-    if (role) {
-      return [role];
-    } else {
-      return [];
-    }
+    super(repository);
   }
 }
