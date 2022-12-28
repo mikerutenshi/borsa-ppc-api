@@ -9,8 +9,8 @@ export default class GetOneUseCase<T> extends UseCase<number, T[]> {
     this.repository = repository;
   }
 
-  async execute(id: number): Promise<T[]> {
-    const item = await this.repository.getById(id);
+  async execute(id: number, tableName?: string): Promise<T[]> {
+    const item = await this.repository.getById(id, tableName);
     return item ? [item] : [];
   }
 }

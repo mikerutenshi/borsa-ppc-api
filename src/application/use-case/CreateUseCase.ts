@@ -13,21 +13,22 @@ export default class CreateUseCase<T> extends UseCase<T, T[]> {
     this.repository = repository;
     this.table = table;
   }
-  async execute(param: T): Promise<T[]> {
+  async execute(param: T, tableName?: string): Promise<T[]> {
     if (this.table.uniqueKey && this.table.uniqueVal) {
       const item = await this.repository.getOneByProp(
         this.table.uniqueKey,
-        this.table.uniqueVal
+        this.table.uniqueVal,
+        tableName
       );
 
       if (item) {
         throw new ConflictError(StringUtil.transformTableName(this.table.name));
       } else {
-        const item = await this.repository.create(param);
+        const item = await this.repository.create(param, tableName);
         return [item];
       }
     } else {
-      const item = await this.repository.create(param);
+      const item = await this.repository.create(param, tableName);
       return [item];
     }
   }

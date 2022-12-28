@@ -13,11 +13,11 @@ export default class DeleteUseCase<T> extends UseCase<number, void> {
     this.tableName = tableName;
   }
 
-  async execute(id: number): Promise<void> {
-    const exist = await this.repository.getById(id);
+  async execute(id: number, tableName?: string): Promise<void> {
+    const exist = await this.repository.getById(id, tableName);
 
     if (exist) {
-      await this.repository.delete(id);
+      await this.repository.delete(id, tableName);
     } else {
       throw new NotFoundError(StringUtil.transformTableName(this.tableName));
     }

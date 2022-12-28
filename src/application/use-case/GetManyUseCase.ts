@@ -9,7 +9,7 @@ export default class GetManyUseCase<T> extends UseCase<undefined, T[]> {
     this.repository = repository;
   }
 
-  async execute(): Promise<T[]> {
-    return await this.repository.getAll();
+  async execute(tableName?: string): Promise<T[]> {
+    return await this.repository.getAll(tableName);
   }
 }

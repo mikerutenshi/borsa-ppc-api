@@ -1,9 +1,9 @@
 import { Type } from '../../../model/Types';
 import TypeRepository from '../../contract/TypeRepository';
-import DeleteUseCase from '../DeleteUseCase';
+import GetFilteredUseCase from '../GetFilteredUseCase';
 
-export default class DeleteType extends DeleteUseCase<Type> {
+export default class GetFilteredTypes extends GetFilteredUseCase<Type> {
   constructor(repository: TypeRepository) {
-    super(repository, 'type');
+    super(repository);
   }
 }

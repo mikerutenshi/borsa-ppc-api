@@ -15,33 +15,34 @@ export default class UpdateUseCase<T> extends UseCase<T, T[]> {
     this.table = table;
   }
 
-  async execute(param: T): Promise<T[]> {
+  async execute(param: T, tableName?: string): Promise<T[]> {
     const p = param as BaseModel;
-    const tableName = StringUtil.transformTableName(this.table.name);
+    const tn = StringUtil.transformTableName(this.table.name);
 
     if (!p.id) {
-      throw Error(`${tableName} id is not provided`);
+      throw Error(`${tn} id is not provided`);
     }
 
-    const itemExist = await this.repository.getById(p.id);
+    const itemExist = await this.repository.getById(p.id, tableName);
 
     if (itemExist) {
       if (this.table.uniqueKey && this.table.uniqueVal) {
         const duplicateItem = await this.repository.getOneByProp(
           this.table.uniqueKey,
-          this.table.uniqueVal
+          this.table.uniqueVal,
+          tableName
         );
 
         if (duplicateItem) {
-          throw new ConflictError(tableName);
+          throw new ConflictError(tn);
         } else {
-          return [await this.repository.update(p as T)];
+          return [await this.repository.update(p as T, tableName)];
         }
       } else {
-        return [await this.repository.update(p as T)];
+        return [await this.repository.update(p as T, tableName)];
       }
     } else {
-      throw new NotFoundError(tableName);
+      throw new NotFoundError(tn);
     }
   }
 }
