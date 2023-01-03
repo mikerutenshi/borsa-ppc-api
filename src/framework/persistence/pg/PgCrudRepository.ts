@@ -1,3 +1,4 @@
+import { logger } from '../../../util/Logger';
 import { db } from './db';
 import { CrudSql } from './sql';
 
@@ -7,8 +8,9 @@ export default class PgCrudRepository<M> {
   constructor(sql: CrudSql) {
     this.sql = sql;
   }
-  async create(instance: M): Promise<M> {
-    return await db.one(this.sql.create, instance);
+  async create(instance: M, table?: string): Promise<M> {
+    const obj = { ...instance, table };
+    return await db.one(this.sql.create, obj);
   }
 
   async getById(id: number, table?: string): Promise<M | null> {
@@ -40,11 +42,12 @@ export default class PgCrudRepository<M> {
     return await db.oneOrNone(this.sql.getOneByProp, {
       column: property,
       value: value,
-      table,
+      table: table,
     });
   }
-  async update(instance: M): Promise<M> {
-    return await db.one(this.sql.update, instance);
+  async update(instance: M, table?: string): Promise<M> {
+    const obj = { ...instance, table };
+    return await db.one(this.sql.update, obj);
   }
   async delete(id: number, table?: string): Promise<void> {
     await db.none(this.sql.delete, { id, table });

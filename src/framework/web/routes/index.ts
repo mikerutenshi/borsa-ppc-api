@@ -9,10 +9,18 @@ export default (dependencies: ProjectDependencies) => {
   const userRouter = UserRouter(dependencies);
   const roleRouter = RoleRouter(dependencies);
   const prodCatTypeRouter = TypeRouter('product_category_type', dependencies);
+  const materialTypeRouter = TypeRouter('material_type', dependencies);
+  const jobTypeRouter = TypeRouter('job_type', dependencies);
+  const sizeRouter = TypeRouter('size', dependencies);
+  const colorRouter = TypeRouter('color', dependencies);
 
   routes.use('/users', userRouter);
   routes.use('/roles', roleRouter);
   routes.use('/product-category-types', prodCatTypeRouter);
+  routes.use('/material-types', materialTypeRouter);
+  routes.use('/job-types', jobTypeRouter);
+  routes.use('/sizes', sizeRouter);
+  routes.use('/colors', colorRouter);
 
   return routes;
 };

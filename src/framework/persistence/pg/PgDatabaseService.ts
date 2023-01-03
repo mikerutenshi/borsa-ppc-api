@@ -5,7 +5,13 @@ import PgRoleRepository from './PgRoleRepository';
 import PgTypeRepository from './PgTypeRepository';
 
 export default class PgDatabaseService extends DatabaseService {
-  private typeRepoTables = ['product_category_type'];
+  private typeRepoTables = [
+    'product_category_type',
+    'material_type',
+    'job_type',
+    'size',
+    'color',
+  ];
 
   constructor() {
     super();

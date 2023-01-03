@@ -10,8 +10,8 @@ class Type extends BaseModel {
 }
 
 class ProductCategoryType extends Type {
-  parent_id: number;
-  constructor(name: string, parent_id: number) {
+  parent_id: number | null;
+  constructor(name: string, parent_id: number | null) {
     super(name);
     this.parent_id = parent_id;
   }

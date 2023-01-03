@@ -84,7 +84,7 @@ export const roleTestSuite = () => {
       const response = await agent
         .put('/v2/roles/2')
         .send({ name: Roles.qualityControl });
-      loggerJest.info(response.body, 'update role res');
+      loggerJest.debug(response.body, 'update role res');
       expect(response.status).toBe(200);
       expect(response.body.data[0].name).toMatch(Roles.qualityControl);
 
@@ -113,7 +113,7 @@ export const roleTestSuite = () => {
 
     test('DELETE /v2/roles => delete role get should return null', async () => {
       const response = await agent.delete('/v2/roles/2');
-      logger.info(response.body, 'deleteRoleRes');
+      logger.debug(response.body, 'deleteRoleRes');
       expect(response.status).toBe(200);
       expect(response.body.data).toBeUndefined();
       expect(response.body.message).toContain('successfully deleted');

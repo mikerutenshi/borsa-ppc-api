@@ -1,2 +1,2 @@
-SELECT * FROM factory.{table~}
+SELECT * FROM factory.${table~}
 WHERE ${column~} ilike '%${value#}%'

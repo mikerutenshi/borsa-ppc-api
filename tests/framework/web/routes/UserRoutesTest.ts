@@ -63,7 +63,7 @@ export const userTestSuite = () =>
         search_key: 'first_name',
         search_value: 'christi',
       });
-      loggerJest.info(response.body);
+      loggerJest.debug(response.body);
       expect(response.status).toEqual(200);
       expect(response.body.data).toHaveLength(1);
       expect(response.body.data[0].username).toBe(christine.username);
@@ -78,7 +78,7 @@ export const userTestSuite = () =>
       christine.first_name = 'Christian';
       christine.is_active = true;
       const response = await agent.put('/v2/users/2').send(christine);
-      loggerJest.info(response.body, 'update user res');
+      loggerJest.debug(response.body, 'update user res');
       const updated = await agent.get('/v2/users').query({
         search_key: 'first_name',
         search_value: 'christian',
@@ -118,7 +118,7 @@ export const userTestSuite = () =>
         password: christine.password,
       });
       christine.refresh_token = response.body.data[0].refresh_token;
-      loggerJest.info(response.body.data[0].refresh_token);
+      loggerJest.debug(response.body.data[0].refresh_token);
       expect(response.status).toBe(200);
       expect(response.body.data[0].access_token).toBeDefined();
     });
@@ -144,12 +144,12 @@ export const userTestSuite = () =>
     });
 
     test('REFRESH TOKEN / v2/users/refresh-access-token => refresh access token', async () => {
-      loggerJest.info(christine);
+      loggerJest.debug(christine);
       const response = await agent.post('/v2/users/refresh-access-token').send({
         username: christine.username,
         refresh_token: christine.refresh_token,
       });
-      loggerJest.info(response.body);
+      loggerJest.debug(response.body);
       expect(response.status).toBe(200);
       expect(response.body.data[0].access_token).toBeDefined();
     });

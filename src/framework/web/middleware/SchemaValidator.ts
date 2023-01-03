@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { logger } from '../../../util/Logger';
 import handleValidationError from '../../validation/HandleValidationError';
 import Schemas from '../../validation/index';
 

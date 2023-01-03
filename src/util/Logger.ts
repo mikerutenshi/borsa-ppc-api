@@ -1,15 +1,20 @@
 import { default as Pino } from 'pino';
 import pretty from 'pino-pretty';
+import config from '../../config/config';
 
-export const logger = Pino({
+const options = {
   name: 'borsappc',
-  level: 'debug',
+  level: config.pinoLogLevel,
   transport: {
     target: 'pino-pretty',
     options: {
       colorize: true,
     },
   },
-});
+};
 
-export const loggerJest = Pino(pretty({ sync: true }));
+const logger = Pino(options);
+
+const loggerJest = Pino(options, pretty({ sync: true }));
+
+export { logger, loggerJest };
