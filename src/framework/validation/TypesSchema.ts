@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { nameSchema } from './CommonSchema';
+import { idSchema, nameSchema } from './CommonSchema';
 
 const typesSchema = Joi.object().keys({
   name: nameSchema,
@@ -7,7 +7,7 @@ const typesSchema = Joi.object().keys({
 
 const productCategoryTypeSchema = Joi.object().keys({
   name: nameSchema,
-  parent_id: Joi.number().integer().positive().required().allow(null),
+  parent_id: idSchema.allow(null),
 });
 
 export { typesSchema, productCategoryTypeSchema };
