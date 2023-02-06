@@ -1,7 +1,6 @@
 import Joi from 'joi';
 
-export const idSchema = Joi.number().integer().positive().required();
+const idSchema = Joi.number().integer().positive().required();
+const nameSchema = Joi.string().min(2).max(32).required();
 
-export const typesSchema = Joi.object().keys({
-  name: Joi.string().min(3).max(64).required(),
-});
+export { idSchema, nameSchema };

@@ -1,8 +1,8 @@
 import Joi from 'joi';
-import { idSchema } from './CommonSchema';
+import { idSchema, nameSchema } from './CommonSchema';
 
 export const productCategorySchema = Joi.object().keys({
-  name: Joi.string().min(3).max(30).required(),
+  name: nameSchema,
   product_category_type_id: idSchema,
   parent_id: idSchema,
 });

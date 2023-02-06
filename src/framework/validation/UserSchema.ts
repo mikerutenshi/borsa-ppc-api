@@ -1,25 +1,28 @@
 import Joi from 'joi';
 import { idSchema } from './CommonSchema';
 
-export const userSchema = Joi.object().keys({
-  username: Joi.string().min(3).max(16).required(),
+const usernameSchema = Joi.string().min(3).max(16).required();
+const passwordSchema = Joi.string()
+  .regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)
+  .required();
+
+const userSchema = Joi.object().keys({
+  username: usernameSchema,
   first_name: Joi.string().min(3).max(16).required(),
   last_name: Joi.string().min(3).max(32),
-  password: Joi.string()
-    .regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)
-    .required(),
+  password: passwordSchema,
   role_id: idSchema,
   is_active: Joi.boolean(),
 });
 
-export const loginSchema = Joi.object().keys({
-  username: Joi.string().min(3).max(16).required(),
-  password: Joi.string()
-    .regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)
-    .required(),
+const loginSchema = Joi.object().keys({
+  username: usernameSchema,
+  password: passwordSchema,
 });
 
-export const refreshTokenSchema = Joi.object().keys({
-  username: Joi.string().min(3).max(16).required(),
+const refreshTokenSchema = Joi.object().keys({
+  username: usernameSchema,
   refresh_token: Joi.string().length(256).required(),
 });
+
+export { userSchema, loginSchema, refreshTokenSchema };

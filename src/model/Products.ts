@@ -2,11 +2,17 @@ class ProductCategory {
   id: number;
   name: string;
   parent_id: number;
+  product_category_type_id: number;
 
-  constructor(name: string, parent_id: number) {
+  constructor(
+    name: string,
+    parent_id: number,
+    product_category_type_id: number
+  ) {
     this.id = 1;
     this.name = name;
     this.parent_id = parent_id;
+    this.product_category_type_id = product_category_type_id;
   }
 }
 
