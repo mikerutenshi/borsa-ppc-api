@@ -22,4 +22,8 @@ export default class DeleteUseCase<T> extends UseCase<number, void> {
       throw new NotFoundError(StringUtil.transformTableName(this.tableName));
     }
   }
+
+  getRepository() {
+    return this.repository;
+  }
 }

@@ -8,6 +8,8 @@ import {
   drawerType,
   insoleType,
   invalidType,
+  jobStatusAssigned,
+  jobStatusCompleted,
   leatherType,
   outsoleType,
   sewerType,
@@ -41,6 +43,16 @@ export const typeTestSuite = () => {
       expect(insoleRes.body.data[0].name).toMatch(insoleType.name);
       expect(insoleRes.headers['content-type']).toMatch(/json/);
       expect(insoleRes.body.message).toContain('created');
+    });
+
+    test('POST /v2/job-statuses => create a new job status', async () => {
+      const response = await agent
+        .post('/v2/job-statuses')
+        .send(jobStatusAssigned);
+      expect(response.status).toBe(201);
+      expect(response.body.data[0].name).toMatch(jobStatusAssigned.name);
+      expect(response.headers['content-type']).toMatch(/json/);
+      expect(response.body.message).toContain('created');
     });
 
     test('POST /v2/job-types => create a new job type', async () => {
@@ -121,6 +133,7 @@ export const typeTestSuite = () => {
       const jobsRes = await agent.get('/v2/job-types');
       const sizesRes = await agent.get('/v2/sizes');
       const colorsRes = await agent.get('/v2/colors');
+      const jobStatusRes = await agent.get('/v2/job-statuses');
       expect(materialsRes.status).toBe(200);
       expect(materialsRes.body.data.length).toBe(2);
       expect(materialsRes.headers['content-type']).toMatch(/json/);
@@ -130,6 +143,11 @@ export const typeTestSuite = () => {
       expect(jobsRes.body.data.length).toBe(2);
       expect(jobsRes.headers['content-type']).toMatch(/json/);
       expect(jobsRes.body.message).toContain('load');
+
+      expect(jobStatusRes.status).toBe(200);
+      expect(jobStatusRes.body.data.length).toBe(1);
+      expect(jobStatusRes.headers['content-type']).toMatch(/json/);
+      expect(jobStatusRes.body.message).toContain('load');
 
       expect(sizesRes.status).toBe(200);
       expect(sizesRes.body.data.length).toBe(2);
@@ -210,7 +228,6 @@ export const typeTestSuite = () => {
       const outsoleRes = await agent
         .put('/v2/material-types/2')
         .send(outsoleType);
-      loggerJest.debug(outsoleRes.body, 'update to outsole res');
       const findOutsoleRes = await agent.get('/v2/material-types/2');
       expect(outsoleRes.status).toBe(200);
       expect(outsoleRes.body.data[0].name).toMatch(outsoleType.name);
@@ -225,6 +242,20 @@ export const typeTestSuite = () => {
       expect(drawerRes.headers['content-type']).toMatch(/json/);
       expect(drawerRes.body.message).toContain('update');
       expect(findDrawerRes.body.data[0].name).toMatch(drawerType.name);
+
+      const jobCompletedRes = await agent
+        .put('/v2/job-statuses/1')
+        .send(jobStatusCompleted);
+      const findJobCompletedRes = await agent.get('/v2/job-statuses/1');
+      expect(jobCompletedRes.status).toBe(200);
+      expect(jobCompletedRes.body.data[0].name).toMatch(
+        jobStatusCompleted.name
+      );
+      expect(jobCompletedRes.headers['content-type']).toMatch(/json/);
+      expect(jobCompletedRes.body.message).toContain('update');
+      expect(findJobCompletedRes.body.data[0].name).toMatch(
+        jobStatusCompleted.name
+      );
 
       const blackRes = await agent.put('/v2/colors/2').send(blackType);
       const findBlackRes = await agent.get('/v2/colors/2');
@@ -259,6 +290,14 @@ export const typeTestSuite = () => {
       expect(delSewerRes.headers['content-type']).toMatch(/json/);
       expect(delSewerRes.body.message).toContain('delete');
       expect(noSewerRes.status).toEqual(404);
+
+      const delJobStatusRes = await agent.delete('/v2/job-statuses/1');
+      const notFoundRes = await agent.delete('/v2/job-statuses/1');
+      expect(delJobStatusRes.status).toBe(200);
+      expect(delJobStatusRes.body.data).toBe(undefined);
+      expect(delJobStatusRes.headers['content-type']).toMatch(/json/);
+      expect(delJobStatusRes.body.message).toContain('delete');
+      expect(notFoundRes.status).toEqual(404);
 
       const delWhiteRes = await agent.delete('/v2/colors/1');
       const noWhiteRes = await agent.delete('/v2/colors/1');

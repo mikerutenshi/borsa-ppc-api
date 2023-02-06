@@ -41,6 +41,16 @@ const ProductCategorySql = {
   deleteAll: sql('product-category/delete-all.sql'),
 };
 
+const ProductCategoryTypeSql = {
+  create: sql('product-category-type/create.sql'),
+  getManyByProp: sql('product-category-type/get-many-by-property.sql'),
+  getOneByProp: sql('product-category-type/get-one-by-property.sql'),
+  getAll: sql('product-category-type/get-all.sql'),
+  update: sql('product-category-type/update.sql'),
+  delete: sql('product-category-type/delete.sql'),
+  deleteAll: sql('product-category-type/delete-all.sql'),
+};
+
 const TypeSql = {
   create: sql('type/create.sql'),
   getManyByProp: sql('type/get-many-by-property.sql'),
@@ -51,4 +61,11 @@ const TypeSql = {
   deleteAll: sql('type/delete-all.sql'),
 };
 
-export { CrudSql, RoleSql, UserSql, ProductCategorySql, TypeSql };
+export {
+  CrudSql,
+  RoleSql,
+  UserSql,
+  ProductCategorySql,
+  ProductCategoryTypeSql,
+  TypeSql,
+};

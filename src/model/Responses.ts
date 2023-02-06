@@ -18,4 +18,10 @@ class SuccessfulResponse<T> extends GeneralResponse<T> {
   }
 }
 
-export { GeneralResponse, SuccessfulResponse };
+class CreatedResponse<T> extends GeneralResponse<T> {
+  constructor(message: string, data?: T[]) {
+    super(Status[201], message, data);
+  }
+}
+
+export { GeneralResponse, SuccessfulResponse, CreatedResponse };

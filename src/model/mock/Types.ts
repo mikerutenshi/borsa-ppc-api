@@ -1,6 +1,7 @@
 import {
   Color,
   JobType,
+  JobStatus,
   MaterialType,
   ProductCategoryType,
   Size,
@@ -14,6 +15,9 @@ const drawerType = new JobType('Drawer');
 const sewerType = new JobType('Sewer');
 const assemblerType = new JobType('Assembler');
 
+const jobStatusAssigned = new JobStatus('Assigned');
+const jobStatusCompleted = new JobStatus('Completed');
+
 const _36Type = new Size('36');
 const _36_5Type = new Size('36.5');
 const _37Type = new Size('37');
@@ -23,9 +27,10 @@ const blackType = new Color('Black');
 const brownType = new Color('Brown');
 
 const genderType = new ProductCategoryType('Gender', null);
-const categoryType = new ProductCategoryType('Slip-on', 1);
-categoryType.id = 3;
-const subCategoryType = new ProductCategoryType('Moccasin', 3);
+const categoryType = new ProductCategoryType('Category', 1);
+categoryType.id = 2;
+const subCategoryType = new ProductCategoryType('Sub-category', 2);
+subCategoryType.id = 3;
 const invalidType = { name: '' };
 
 export {
@@ -45,4 +50,6 @@ export {
   categoryType,
   subCategoryType,
   invalidType,
+  jobStatusAssigned,
+  jobStatusCompleted,
 };

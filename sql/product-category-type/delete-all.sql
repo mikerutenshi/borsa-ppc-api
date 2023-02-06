@@ -1,0 +1,2 @@
+DELETE FROM factory.product_category_type;
+ALTER SEQUENCE factory.product_category_type_id_seq RESTART

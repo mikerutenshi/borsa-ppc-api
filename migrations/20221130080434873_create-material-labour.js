@@ -24,6 +24,16 @@ exports.up = (pgm) => {
   );
 
   pgm.createTable(
+    { schema: 'factory', name: 'job_status' },
+    {
+      id: 'id',
+      name: 'varchar(16)',
+      created_at: 'createdAt',
+      updated_at: 'updatedAt',
+    }
+  );
+
+  pgm.createTable(
     { schema: 'factory', name: 'size' },
     {
       id: 'id',

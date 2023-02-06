@@ -41,4 +41,18 @@ class Color extends Type {
   }
 }
 
-export { Type, ProductCategoryType, MaterialType, JobType, Size, Color };
+class JobStatus extends Type {
+  constructor(name: string) {
+    super(name);
+  }
+}
+
+export {
+  Type,
+  ProductCategoryType,
+  MaterialType,
+  JobType,
+  Size,
+  Color,
+  JobStatus,
+};

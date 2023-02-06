@@ -45,4 +45,8 @@ export default class UpdateUseCase<T> extends UseCase<T, T[]> {
       throw new NotFoundError(tn);
     }
   }
+
+  getRepository() {
+    return this.repository;
+  }
 }
