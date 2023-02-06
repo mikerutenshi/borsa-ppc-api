@@ -5,4 +5,9 @@ const typesSchema = Joi.object().keys({
   name: nameSchema,
 });
 
-export { typesSchema };
+const productCategoryTypeSchema = Joi.object().keys({
+  name: nameSchema,
+  parent_id: Joi.number().integer().positive().required().allow(null),
+});
+
+export { typesSchema, productCategoryTypeSchema };
