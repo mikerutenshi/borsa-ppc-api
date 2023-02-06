@@ -32,4 +32,8 @@ export default class CreateUseCase<T> extends UseCase<T, T[]> {
       return [item];
     }
   }
+
+  getRepository() {
+    return this.repository;
+  }
 }

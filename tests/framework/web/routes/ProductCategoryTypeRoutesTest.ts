@@ -12,7 +12,9 @@ import { loggerJest } from '../../../../src/util/Logger';
 export const productCategoryTypeTestSuite = () => {
   beforeAll(async () => {
     const { databaseService } = new ProjectDependencies();
-    await databaseService.dropDatabase();
+    await databaseService.dropRepository(
+      databaseService.repositoryList.productCategoryTypeRepository
+    );
   });
 
   describe('Test product category type CRUD routes', () => {
@@ -23,23 +25,24 @@ export const productCategoryTypeTestSuite = () => {
         .post('/v2/product-category-types')
         .send(genderType);
 
+      loggerJest.debug(genderResponse.body, 'Create gender response');
+      expect(genderResponse.status).toBe(201);
+      expect(genderResponse.body.data[0].name).toMatch(genderType.name);
+      expect(genderResponse.headers['content-type']).toMatch(/json/);
+      expect(genderResponse.body.message.toLowerCase()).toContain('created');
+
       const categoryResponse = await agent
         .post('/v2/product-category-types')
         .send(categoryType);
-
-      const subCategoryResponse = await agent
-        .post('/v2/product-category-types')
-        .send(subCategoryType);
 
       expect(categoryResponse.status).toBe(201);
       expect(categoryResponse.body.data[0].name).toMatch(categoryType.name);
       expect(categoryResponse.headers['content-type']).toMatch(/json/);
       expect(categoryResponse.body.message.toLowerCase()).toContain('created');
 
-      expect(genderResponse.status).toBe(201);
-      expect(genderResponse.body.data[0].name).toMatch(genderType.name);
-      expect(genderResponse.headers['content-type']).toMatch(/json/);
-      expect(genderResponse.body.message.toLowerCase()).toContain('created');
+      const subCategoryResponse = await agent
+        .post('/v2/product-category-types')
+        .send(subCategoryType);
 
       expect(subCategoryResponse.status).toBe(201);
       expect(subCategoryResponse.body.data[0].name).toMatch(
@@ -108,7 +111,7 @@ export const productCategoryTypeTestSuite = () => {
       );
 
       const deleteUnexistingResponse = await agent.delete(
-        '/v2/product-category-types/2'
+        '/v2/product-category-types/5'
       );
       expect(deleteUnexistingResponse.status).toEqual(404);
     });

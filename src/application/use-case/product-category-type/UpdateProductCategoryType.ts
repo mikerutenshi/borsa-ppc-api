@@ -18,7 +18,7 @@ export default class UpdateProductCategoryType extends UpdateUseCase<ProductCate
         'id',
         param.parent_id.toString()
       );
-      if (parentTable) {
+      if (!parentTable) {
         throw new ForbiddenError(
           'Parent id does not exist. Please create it first'
         );

@@ -37,4 +37,15 @@ export default class PgDatabaseService extends DatabaseService {
       this.typeRepository?.clear(table);
     });
   }
+  async dropRepository(repoName: string): Promise<void> {
+    switch (repoName) {
+      case this.repositoryList.productCategoryTypeRepository: {
+        this.productCategoryTypeRepository.clear();
+        break;
+      }
+      default: {
+        throw Error('Repository is not found');
+      }
+    }
+  }
 }

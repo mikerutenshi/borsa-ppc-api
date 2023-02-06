@@ -1,29 +1,32 @@
-import { ConflictError } from '../../../model/Errors';
-import { Product, ProductCategory } from '../../../model/Products';
+import { ForbiddenError } from '../../../model/Errors';
+import { ProductCategory } from '../../../model/Products';
+import Table from '../../../model/Table';
 import ProductCategoryRepository from '../../contract/ProductCategoryRepository';
-import UseCase from '../UseCase';
+import CreateUseCase from '../CreateUseCase';
 
-export default class CreateProductCategory extends UseCase<
-  ProductCategory,
-  ProductCategory[]
-> {
-  private repository: ProductCategoryRepository;
-
-  constructor(repository: ProductCategoryRepository) {
-    super();
-    this.repository = repository;
+export default class CreateProductCategory extends CreateUseCase<ProductCategory> {
+  constructor(repository: ProductCategoryRepository, uniqueVal: string) {
+    super(repository, new Table('product_category', 'name', uniqueVal));
   }
 
   async execute(
     param: ProductCategory,
-    ...args: any[]
+    tableName?: string | undefined
   ): Promise<ProductCategory[]> {
-    const productCat = await this.repository.getOneByProp('name', param.name);
-
-    if (productCat) {
-      throw new ConflictError('Product Category');
+    if (param.parent_id == null) {
+      return super.execute(param, tableName);
     } else {
-      return [await this.repository.create(param)];
+      const parentTable = await this.getRepository().getOneByProp(
+        'id',
+        param.parent_id.toString()
+      );
+      if (parentTable) {
+        return super.execute(param, tableName);
+      } else {
+        throw new ForbiddenError(
+          'Parent id does not exist. Please create it first'
+        );
+      }
     }
   }
 }

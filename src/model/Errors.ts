@@ -24,12 +24,16 @@ export class ValidationError extends GeneralError {
 
 export class ConflictError extends GeneralError {
   constructor(prefix?: string, suffix?: string) {
+    if (suffix === undefined) suffix = '';
+    if (prefix === undefined) prefix = '';
     super(409, `${prefix} already exists ${suffix}`);
   }
 }
 
 export class NotFoundError extends GeneralError {
   constructor(prefix?: string, suffix?: string) {
+    if (suffix === undefined) suffix = '';
+    if (prefix === undefined) prefix = '';
     super(404, `${prefix} not found ${suffix}`);
   }
 }

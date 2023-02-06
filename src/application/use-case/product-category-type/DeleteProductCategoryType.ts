@@ -1,6 +1,5 @@
 import { ForbiddenError, NotFoundError } from '../../../model/Errors';
 import { ProductCategoryType } from '../../../model/Types';
-import { logger } from '../../../util/Logger';
 import ProductCategoryTypeRepository from '../../contract/ProductCategoryTypeRepository';
 import DeleteUseCase from '../DeleteUseCase';
 
