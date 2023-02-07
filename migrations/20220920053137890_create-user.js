@@ -8,6 +8,9 @@ exports.shorthands = {
   updatedAt: {
     type: 'timestamp without time zone',
   },
+  name: {
+    type: 'varchar(32)',
+  },
 };
 
 exports.up = (pgm) => {
@@ -16,7 +19,7 @@ exports.up = (pgm) => {
     { schema: 'factory', name: 'role' },
     {
       id: 'id',
-      name: 'varchar(32)',
+      name: 'name',
       created_at: 'createdAt',
       updated_at: 'updatedAt',
     }
@@ -26,7 +29,7 @@ exports.up = (pgm) => {
     {
       id: 'id',
       username: {
-        type: 'varchar(36)',
+        type: 'name',
         notNull: true,
         unique: true,
       },

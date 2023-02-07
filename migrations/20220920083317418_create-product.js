@@ -16,7 +16,7 @@ exports.up = (pgm) => {
     { schema: 'factory', name: 'product_category' },
     {
       id: 'id',
-      name: 'varchar(16)',
+      name: 'name',
       parent_id: {
         type: 'integer',
         references: { schema: 'factory', name: 'product_category' },
@@ -30,7 +30,7 @@ exports.up = (pgm) => {
     { schema: 'factory', name: 'product_category_type' },
     {
       id: 'id',
-      name: 'varchar(16)',
+      name: 'name',
       parent_id: {
         type: 'integer',
         references: { schema: 'factory', name: 'product_category_type' },
@@ -44,7 +44,7 @@ exports.up = (pgm) => {
     { schema: 'factory', name: 'product_group' },
     {
       id: 'id',
-      code: 'varchar(16)',
+      code: 'name',
       name: 'varchar(36)',
       product_category_id: {
         type: 'integer',
@@ -60,7 +60,7 @@ exports.up = (pgm) => {
     { schema: 'factory', name: 'product' },
     {
       id: 'id',
-      code: 'varchar(16)',
+      code: 'name',
       product_group_id: {
         type: 'integer',
         references: { schema: 'factory', name: 'product_group' },

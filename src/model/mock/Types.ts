@@ -31,6 +31,8 @@ const categoryType = new ProductCategoryType('Category', 1);
 categoryType.id = 2;
 const subCategoryType = new ProductCategoryType('Sub-category', 2);
 subCategoryType.id = 3;
+const extraCategoryType = new ProductCategoryType('Extra-category', 3);
+const subExtraCategoryType = new ProductCategoryType('Sub-Extra-Category', 4);
 const invalidType = { name: '' };
 
 export {
@@ -49,6 +51,8 @@ export {
   genderType,
   categoryType,
   subCategoryType,
+  extraCategoryType,
+  subExtraCategoryType,
   invalidType,
   jobStatusAssigned,
   jobStatusCompleted,

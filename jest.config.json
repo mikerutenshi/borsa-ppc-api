@@ -4,7 +4,6 @@
   "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(mjs?|jsx?|js?|tsx?|ts?)$",
   "testPathIgnorePatterns": [
     "<rootDir>/tests/application/contract",
-    "<rootDir>/tests/framework/web/encryption",
-    "<rootDir>/tests/framework/web/routes/AuthenticationSuites.test.ts"
+    "<rootDir>/tests/framework/web/encryption"
   ]
 }

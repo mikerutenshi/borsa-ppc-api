@@ -1,12 +1,12 @@
 class ProductCategory {
   id: number;
   name: string;
-  parent_id: number;
+  parent_id: number | null;
   product_category_type_id: number;
 
   constructor(
     name: string,
-    parent_id: number,
+    parent_id: number | null,
     product_category_type_id: number
   ) {
     this.id = 1;
