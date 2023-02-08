@@ -15,7 +15,7 @@ export const rootTestSuite = () =>
 
     test('It should response with greeting', async () => {
       const response = await agent.get('/');
-      expect(response.body.message).toBe('Welcome to BorsaPPC API.');
+      expect(response.body.message).toContain('Welcome to BorsaPPC API.');
     });
   });
 

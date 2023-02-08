@@ -15,4 +15,12 @@ const Status = {
   500: 'Internal Server Error',
 };
 
-export { Roles, Status };
+const Repositories = {
+  userRepository: 'UserRepository',
+  roleRepository: 'RoleRepository',
+  typeRepository: 'TypeRepository',
+  productCategoryTypeRepository: 'ProductCategoryTypeRepository',
+  ProductCategoryRepository: 'ProductCategoryRepository',
+};
+
+export { Roles, Status, Repositories };

@@ -61,6 +61,7 @@ exports.up = (pgm) => {
       material_type_id: {
         type: 'integer',
         references: { schema: 'factory', name: 'material_type' },
+        onDelete: 'cascade',
       },
       created_at: 'createdAt',
       updated_at: 'updatedAt',
@@ -88,6 +89,7 @@ exports.up = (pgm) => {
       product_id: {
         type: 'integer',
         references: { schema: 'factory', name: 'product' },
+        onDelete: 'cascade',
       },
       material_id: {
         type: 'integer',
@@ -110,6 +112,7 @@ exports.up = (pgm) => {
       product_group_id: {
         type: 'integer',
         references: { schema: 'factory', name: 'product_group' },
+        onDelete: 'cascade',
       },
       job_type_id: {
         type: 'integer',

@@ -4,6 +4,7 @@ import UserRouter from './UserRouter';
 import RoleRouter from './RoleRouter';
 import TypeRouter from './TypeRouter';
 import ProductCategoryTypeRouter from './ProductCategoryTypeRouter';
+import ProductCategoryRouter from './ProductCategoryRouter';
 
 export default (dependencies: ProjectDependencies) => {
   const routes = express.Router();
@@ -15,6 +16,7 @@ export default (dependencies: ProjectDependencies) => {
   const colorRouter = TypeRouter('color', dependencies);
   const jobStatusRouter = TypeRouter('job_status', dependencies);
   const productCategoryTypeRouter = ProductCategoryTypeRouter(dependencies);
+  const productCategoryRouter = ProductCategoryRouter(dependencies);
 
   routes.use('/users', userRouter);
   routes.use('/roles', roleRouter);
@@ -24,6 +26,7 @@ export default (dependencies: ProjectDependencies) => {
   routes.use('/colors', colorRouter);
   routes.use('/job-statuses', jobStatusRouter);
   routes.use('/product-category-types', productCategoryTypeRouter);
+  routes.use('/product-category', productCategoryRouter);
 
   return routes;
 };

@@ -22,7 +22,7 @@ export default (dependencies: ProjectDependencies) => {
       newProductCatType.name
     ).execute(newProductCatType);
 
-    const message = 'New product category is created';
+    const message = 'New product category type is created';
     res.status(201).json(new CreatedResponse(message, result));
   };
 

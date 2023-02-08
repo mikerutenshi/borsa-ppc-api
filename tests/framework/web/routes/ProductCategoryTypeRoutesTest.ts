@@ -1,6 +1,7 @@
 import request from 'supertest';
 import app from '../../../../src/app';
 import ProjectDependencies from '../../../../src/di/ProjectDependencies';
+import { Repositories } from '../../../../src/model/Enums';
 import {
   genderType,
   subCategoryType,
@@ -15,7 +16,7 @@ export const productCategoryTypeTestSuite = () => {
   beforeAll(async () => {
     const { databaseService } = new ProjectDependencies();
     await databaseService.dropRepository(
-      databaseService.repositoryList.productCategoryTypeRepository
+      Repositories.productCategoryTypeRepository
     );
   });
 
@@ -37,7 +38,6 @@ export const productCategoryTypeTestSuite = () => {
           .post('/v2/product-category-types')
           .send(data);
 
-        loggerJest.debug(response.body);
         expect(response.status).toBe(201);
         expect(response.body.data[0].name).toMatch(data.name);
         expect(response.headers['content-type']).toMatch(/json/);
@@ -47,7 +47,6 @@ export const productCategoryTypeTestSuite = () => {
 
     test('GET /v2/product-category-types => get all product category type', async () => {
       const allResponse = await agent.get('/v2/product-category-types');
-      loggerJest.debug(allResponse.body, 'Get All Response');
       expect(allResponse.status).toBe(200);
       expect(allResponse.body.data.length).toBe(5);
       expect(allResponse.headers['content-type']).toMatch(/json/);

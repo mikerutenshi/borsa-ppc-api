@@ -13,6 +13,20 @@ exports.shorthands = {
 
 exports.up = (pgm) => {
   pgm.createTable(
+    { schema: 'factory', name: 'product_category_type' },
+    {
+      id: 'id',
+      name: 'name',
+      parent_id: {
+        type: 'integer',
+        references: { schema: 'factory', name: 'product_category_type' },
+      },
+      created_at: 'createdAt',
+      updated_at: 'updatedAt',
+    }
+  );
+
+  pgm.createTable(
     { schema: 'factory', name: 'product_category' },
     {
       id: 'id',
@@ -21,19 +35,13 @@ exports.up = (pgm) => {
         type: 'integer',
         references: { schema: 'factory', name: 'product_category' },
       },
-      created_at: 'createdAt',
-      updated_at: 'updatedAt',
-    }
-  );
-
-  pgm.createTable(
-    { schema: 'factory', name: 'product_category_type' },
-    {
-      id: 'id',
-      name: 'name',
-      parent_id: {
+      product_category_type_id: {
         type: 'integer',
-        references: { schema: 'factory', name: 'product_category_type' },
+        references: {
+          schema: 'factory',
+          name: 'product_category_type',
+        },
+        onDelete: 'cascade',
       },
       created_at: 'createdAt',
       updated_at: 'updatedAt',
@@ -64,6 +72,7 @@ exports.up = (pgm) => {
       product_group_id: {
         type: 'integer',
         references: { schema: 'factory', name: 'product_group' },
+        onDelete: 'cascade',
       },
       attributes: 'jsonb',
       created_at: 'createdAt',

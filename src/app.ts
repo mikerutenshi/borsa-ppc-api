@@ -14,8 +14,8 @@ projectDependencies.databaseService.initDatabase().then(
     app.use('/v2', ApiRouter(projectDependencies));
     app.use(ErrorHandler);
     app.get('*', (_, res) =>
-      res.status(200).send({
-        message: 'Welcome to BorsaPPC API.',
+      res.status(404).send({
+        message: 'Welcome to BorsaPPC API. This route is not built yet',
       })
     );
   },
