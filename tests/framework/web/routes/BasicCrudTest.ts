@@ -1,14 +1,14 @@
 import request from 'supertest';
 import app from '../../../../src/app';
 import ProjectDependencies from '../../../../src/di/ProjectDependencies';
-import { BaseModel } from '../../../../src/model/BaseModel';
-import { Type } from '../../../../src/model/Types';
+import { ArbitraryTestObject } from '../../../../src/model/BaseModel';
 import { loggerJest } from '../../../../src/util/Logger';
 
 export const basicCrudTestSuite = <T>(
   repo: string,
   route: string,
-  dataset: T[]
+  dataset: T[],
+  checkColumn: string
 ) => {
   beforeAll(async () => {
     const { databaseService } = new ProjectDependencies();
@@ -28,6 +28,7 @@ export const basicCrudTestSuite = <T>(
 
     test(`GET ${route} => get all objects`, async () => {
       const response = await agent.get(route);
+      loggerJest.debug(response.body, 'All objects');
       expect(response.status).toBe(200);
       expect(response.body.data.length).toBe(dataset.length);
       expect(response.headers['content-type']).toMatch(/json/);
@@ -35,23 +36,25 @@ export const basicCrudTestSuite = <T>(
     });
 
     test(`GET then PUT ${route} => get then update filtered product categories`, async () => {
-      const name = (dataset[1] as Type).name;
+      const column = (dataset[1] as ArbitraryTestObject)[checkColumn];
 
-      if (name) {
+      if (column) {
         const secondObjectResponse = await agent
           .get(route)
-          .query({ search_key: 'name', search_value: name });
+          .query({ search_key: 'name', search_value: column });
         expect(secondObjectResponse.status).toBe(200);
-        if (secondObjectResponse.body.data.name) {
-          expect(secondObjectResponse.body.data.name).toMatch(name);
+        if (secondObjectResponse.body.data[checkColumn]) {
+          expect(secondObjectResponse.body.data[checkColumn]).toMatch(column);
         }
         expect(secondObjectResponse.body.data.length).toBe(1);
         const input = secondObjectResponse.body.data[0];
-        input.name = 'Changed';
+        input[checkColumn] = 'Changed';
         const secondRoute = `${route}/2`;
         const updateSecondResp = await agent.put(secondRoute).send(input);
         expect(updateSecondResp.status).toBe(200);
-        expect(updateSecondResp.body.data[0].name).toMatch(input.name);
+        expect(updateSecondResp.body.data[0][checkColumn]).toMatch(
+          input[checkColumn]
+        );
         expect(updateSecondResp.body.message.toLowerCase()).toContain(
           'updated'
         );

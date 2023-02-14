@@ -6,6 +6,7 @@ import PgTypeRepository from './PgTypeRepository';
 import PgProductCategoryTypeRepository from './PgProductCategoryTypeRepository';
 import { Repositories } from '../../../model/Enums';
 import PgProductCategoryRepository from './PgProductCategoryRepository';
+import PgProductGroupRepository from './PgProductGroupRepository';
 
 export default class PgDatabaseService extends DatabaseService {
   private typeRepoTables = [
@@ -24,6 +25,7 @@ export default class PgDatabaseService extends DatabaseService {
     this.typeRepository = new PgTypeRepository();
     this.productCategoryTypeRepository = new PgProductCategoryTypeRepository();
     this.productCategoryRepository = new PgProductCategoryRepository();
+    this.ProductGroupRepository = new PgProductGroupRepository();
   }
 
   async initDatabase() {
@@ -39,6 +41,7 @@ export default class PgDatabaseService extends DatabaseService {
     this.typeRepoTables.forEach((table) => {
       this.typeRepository?.clear(table);
     });
+    this.ProductGroupRepository?.clear();
   }
   async dropRepository(repoName: string): Promise<void> {
     switch (repoName) {

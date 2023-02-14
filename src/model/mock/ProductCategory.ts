@@ -6,3 +6,5 @@ export const moccasin = new ProductCategory('Moccasin', 2, 3);
 export const female = new ProductCategory('Female', null, 1);
 export const heels = new ProductCategory('Heels', 4, 2);
 export const pumps = new ProductCategory('Pumps', 5, 3);
+export const boots = new ProductCategory('Boots', 5, 3);
+export const flats = new ProductCategory('Flats', 4, 2);

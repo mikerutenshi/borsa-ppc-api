@@ -5,3 +5,7 @@ export class BaseModel {
     this.id = 1;
   }
 }
+
+export interface ArbitraryTestObject {
+  [column: string]: string;
+}

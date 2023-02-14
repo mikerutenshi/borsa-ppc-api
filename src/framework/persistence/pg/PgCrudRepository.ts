@@ -1,4 +1,4 @@
-import { logger } from '../../../util/Logger';
+import { Page } from '../../../model/Page';
 import { db } from './db';
 import { CrudSql } from './sql';
 
@@ -20,18 +20,20 @@ export default class PgCrudRepository<M> {
       table,
     });
   }
-  async getAll(table?: string): Promise<M[]> {
-    return await db.any(this.sql.getAll, { table });
+  async getAll(table?: string, page?: Page): Promise<M[]> {
+    return await db.any(this.sql.getAll, { table, ...page });
   }
   async getManyByProp(
     property: string,
     value: string,
-    table?: string
+    table?: string,
+    page?: Page
   ): Promise<M[]> {
     return await db.any(this.sql.getManyByProp, {
       column: property,
       value: value,
       table,
+      ...page,
     });
   }
   async getOneByProp(

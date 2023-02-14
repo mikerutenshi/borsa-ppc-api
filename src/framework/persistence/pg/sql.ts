@@ -61,6 +61,16 @@ const TypeSql = {
   deleteAll: sql('type/delete-all.sql'),
 };
 
+const ProductGroupSql = {
+  create: sql('product-group/create.sql'),
+  getManyByProp: sql('product-group/get-many-by-property.sql'),
+  getOneByProp: sql('product-group/get-one-by-property.sql'),
+  getAll: sql('product-group/get-all.sql'),
+  update: sql('product-group/update.sql'),
+  delete: sql('product-group/delete.sql'),
+  deleteAll: sql('product-group/delete-all.sql'),
+};
+
 export {
   CrudSql,
   RoleSql,
@@ -68,4 +78,5 @@ export {
   ProductCategorySql,
   ProductCategoryTypeSql,
   TypeSql,
+  ProductGroupSql,
 };

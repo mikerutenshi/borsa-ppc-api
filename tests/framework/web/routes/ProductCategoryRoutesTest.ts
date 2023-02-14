@@ -12,12 +12,14 @@ export const productCategoryTestSuite = (dataset: ProductCategory[]) => {
 
     test('DELETE /v2/product-category => delete type', async () => {
       // Real last route was deleted in previous test
-      const secLastRoute = `${route}/${dataset.length - 2}`;
+      const subParentRoute = `${route}/${dataset.length - 4}`;
       const lastRoute = `${route}/${dataset.length - 1}`;
       const unexistRoute = `${route}/${dataset.length + 1}`;
-      const delSecLastRes = await agent.delete(secLastRoute);
-      expect(delSecLastRes.status).toBe(403);
-      expect(delSecLastRes.body.message.toLowerCase()).toContain('child');
+      const delSubParentResponse = await agent.delete(subParentRoute);
+      expect(delSubParentResponse.status).toBe(403);
+      expect(delSubParentResponse.body.message.toLowerCase()).toContain(
+        'child'
+      );
 
       const delLastRes = await agent.delete(lastRoute);
       loggerJest.debug('delLastRes', delLastRes.body);

@@ -1,8 +1,15 @@
+import { Page } from '../../model/Page';
+
 interface CrudRepository<T> {
   create(instance: T, table?: string): Promise<T>;
   getById(id: number, table?: string): Promise<T | null>;
-  getAll(table?: string): Promise<T[]>;
-  getManyByProp(property: string, value: string, table?: string): Promise<T[]>;
+  getAll(table?: string, page?: Page): Promise<T[]>;
+  getManyByProp(
+    property: string,
+    value: string,
+    table?: string,
+    page?: Page
+  ): Promise<T[]>;
   getOneByProp(
     property: string,
     value: string,

@@ -24,7 +24,8 @@ describe('Sequentially run test suites', () => {
   basicCrudTestSuite(
     Repositories.ProductCategoryRepository,
     '/v2/product-category',
-    productCategoryDataset
+    productCategoryDataset,
+    'name'
   );
   productCategoryTestSuite(productCategoryDataset);
 });

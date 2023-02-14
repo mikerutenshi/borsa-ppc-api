@@ -64,6 +64,11 @@ exports.up = (pgm) => {
       updated_by: 'updatedBy',
     }
   );
+  pgm.createIndex({ schema: 'factory', name: 'product_group' }, [
+    'code',
+    'name',
+  ]);
+
   pgm.createTable(
     { schema: 'factory', name: 'product' },
     {
@@ -81,4 +86,5 @@ exports.up = (pgm) => {
       updated_by: 'updatedBy',
     }
   );
+  pgm.createIndex({ schema: 'factory', name: 'product' }, 'code');
 };
