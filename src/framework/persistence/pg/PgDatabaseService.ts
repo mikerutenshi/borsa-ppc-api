@@ -10,7 +10,6 @@ import PgProductGroupRepository from './PgProductGroupRepository';
 
 export default class PgDatabaseService extends DatabaseService {
   private typeRepoTables = [
-    'product_category_type',
     'material_type',
     'job_type',
     'job_status',
@@ -25,7 +24,7 @@ export default class PgDatabaseService extends DatabaseService {
     this.typeRepository = new PgTypeRepository();
     this.productCategoryTypeRepository = new PgProductCategoryTypeRepository();
     this.productCategoryRepository = new PgProductCategoryRepository();
-    this.ProductGroupRepository = new PgProductGroupRepository();
+    //this.ProductGroupRepository = new PgProductGroupRepository();
   }
 
   async initDatabase() {
@@ -38,10 +37,10 @@ export default class PgDatabaseService extends DatabaseService {
     this.userRepository?.clear();
     this.roleRepository?.clear();
     this.productCategoryTypeRepository?.clear();
-    this.typeRepoTables.forEach((table) => {
-      this.typeRepository?.clear(table);
-    });
-    this.ProductGroupRepository?.clear();
+    //this.typeRepoTables.forEach((table) => {
+    //  this.typeRepository?.clear(table);
+    //});
+    //this.ProductGroupRepository?.clear();
   }
   async dropRepository(repoName: string): Promise<void> {
     switch (repoName) {

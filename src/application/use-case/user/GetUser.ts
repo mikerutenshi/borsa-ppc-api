@@ -10,7 +10,7 @@ export default class GetUser extends UseCase<number, User[]> {
     this.repository = repository;
   }
   async execute(id: number): Promise<User[]> {
-    const user = await this.repository.getById(id);
+    const user = await this.repository.getOneById(id);
     user?.password ? undefined : undefined;
     return user ? [user] : [];
   }

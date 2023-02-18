@@ -1,8 +1,8 @@
 import { User } from '../../../model/Users';
 import UserRepository from '../../contract/UserRepository';
-import UpdateUseCase from '../UpdateUseCase';
+import GetAllUseCase from '../GetAllUseCase';
 
-export default class UpdateUser extends UpdateUseCase<User> {
+export default class GetAllUsers extends GetAllUseCase<User> {
   constructor(repository: UserRepository) {
     super(repository);
   }

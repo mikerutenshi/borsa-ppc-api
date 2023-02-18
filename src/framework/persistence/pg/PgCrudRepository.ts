@@ -1,60 +1,53 @@
-import { Page } from '../../../model/Page';
+import CrudRepository from '../../../application/contract/CrudRepository';
+import QueryParams from '../../../model/QueryParams';
+import { SqlFiles } from '../../../util/CustomTypes';
 import { db } from './db';
-import { CrudSql } from './sql';
+import QueryBuilder from './query-builder/QueryBuilder';
 
-export default class PgCrudRepository<M> {
-  sql: CrudSql;
+export default class PgCrudRepository<T> implements CrudRepository<T> {
+  sql: SqlFiles;
 
-  constructor(sql: CrudSql) {
+  constructor(sql: SqlFiles) {
     this.sql = sql;
   }
-  async create(instance: M, table?: string): Promise<M> {
-    const obj = { ...instance, table };
-    return await db.one(this.sql.create, obj);
+
+  async getOneById(id: number): Promise<T | null> {
+    const condition = new QueryBuilder()
+      .propertyFilter('id', id.toString())
+      .build();
+    return await db.oneOrNone(this.sql.read, condition);
   }
 
-  async getById(id: number, table?: string): Promise<M | null> {
-    return await db.oneOrNone(this.sql.getOneByProp, {
-      column: 'id',
-      value: id,
-      table,
-    });
+  async getOneByProperty(key: string, value: string): Promise<T | null> {
+    const condition = new QueryBuilder().propertyFilter(key, value).build();
+    return await db.oneOrNone(this.sql.read, condition);
   }
-  async getAll(table?: string, page?: Page): Promise<M[]> {
-    return await db.any(this.sql.getAll, { table, ...page });
+  async getMany(params: QueryParams): Promise<T[]> {
+    const condition = new QueryBuilder()
+      .search(params.search_key, params.search_properties)
+      .page(
+        params.order_by,
+        params.order_direction,
+        params.page_index,
+        params.page_limit
+      );
+    return await db.any(this.sql.read, condition);
   }
-  async getManyByProp(
-    property: string,
-    value: string,
-    table?: string,
-    page?: Page
-  ): Promise<M[]> {
-    return await db.any(this.sql.getManyByProp, {
-      column: property,
-      value: value,
-      table,
-      ...page,
-    });
+  async create(instance: T): Promise<T> {
+    return await db.one(this.sql.create, instance);
   }
-  async getOneByProp(
-    property: string,
-    value: string,
-    table?: string
-  ): Promise<M | null> {
-    return await db.oneOrNone(this.sql.getOneByProp, {
-      column: property,
-      value: value,
-      table: table,
-    });
+
+  async getAll(): Promise<T[]> {
+    return await db.any(this.sql.read);
   }
-  async update(instance: M, table?: string): Promise<M> {
-    const obj = { ...instance, table };
-    return await db.one(this.sql.update, obj);
+
+  async update(instance: T): Promise<T> {
+    return await db.one(this.sql.update, instance);
   }
-  async delete(id: number, table?: string): Promise<void> {
-    await db.none(this.sql.delete, { id, table });
+  async delete(id: number[]): Promise<void> {
+    await db.none(this.sql.delete, [id]);
   }
-  async clear(table?: string): Promise<void> {
-    await db.none(this.sql.deleteAll, { table });
+  async clear(): Promise<void> {
+    await db.none(this.sql.clear);
   }
 }

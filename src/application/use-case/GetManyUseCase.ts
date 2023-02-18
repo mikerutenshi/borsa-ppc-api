@@ -1,7 +1,8 @@
+import QueryParams from '../../model/QueryParams';
 import CrudRepository from '../contract/CrudRepository';
 import UseCase from './UseCase';
 
-export default class GetManyUseCase<T> extends UseCase<undefined, T[]> {
+export default class GetManyUseCase<T> extends UseCase<QueryParams, T[]> {
   repository: CrudRepository<T>;
 
   constructor(repository: CrudRepository<T>) {
@@ -9,7 +10,8 @@ export default class GetManyUseCase<T> extends UseCase<undefined, T[]> {
     this.repository = repository;
   }
 
-  async execute(tableName?: string): Promise<T[]> {
-    return await this.repository.getAll(tableName);
+  async execute(params: QueryParams): Promise<T[]> {
+    const items = await this.repository.getMany(params);
+    return items ? items : [];
   }
 }

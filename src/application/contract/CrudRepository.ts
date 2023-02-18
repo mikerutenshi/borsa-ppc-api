@@ -1,23 +1,14 @@
-import { Page } from '../../model/Page';
+import QueryParams from '../../model/QueryParams';
 
 interface CrudRepository<T> {
-  create(instance: T, table?: string): Promise<T>;
-  getById(id: number, table?: string): Promise<T | null>;
-  getAll(table?: string, page?: Page): Promise<T[]>;
-  getManyByProp(
-    property: string,
-    value: string,
-    table?: string,
-    page?: Page
-  ): Promise<T[]>;
-  getOneByProp(
-    property: string,
-    value: string,
-    table?: string
-  ): Promise<T | null>;
-  update(instance: T, table?: string): Promise<T>;
-  delete(id: number, table?: string): Promise<void>;
-  clear(table?: string): Promise<void>;
+  create(instance: T): Promise<T>;
+  getAll(): Promise<T[]>;
+  getOneById(id: number): Promise<T | null>;
+  getOneByProperty(key: string, value: string): Promise<T | null>;
+  getMany(params: QueryParams): Promise<T[]>;
+  update(instance: T): Promise<T>;
+  delete(id: number[]): Promise<void>;
+  clear(): Promise<void>;
 }
 
 export default CrudRepository;

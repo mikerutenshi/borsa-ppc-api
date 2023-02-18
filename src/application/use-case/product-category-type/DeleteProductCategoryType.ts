@@ -5,25 +5,36 @@ import DeleteUseCase from '../DeleteUseCase';
 
 export default class DeleteProductCategoryType extends DeleteUseCase<ProductCategoryType> {
   constructor(repository: ProductCategoryTypeRepository) {
-    super(repository, 'product_category_type');
+    super(repository);
   }
 
-  async execute(id: number, tableName?: string | undefined): Promise<void> {
-    const param = await this.getRepository().getOneByProp('id', id.toString());
-    if (param) {
-      const children = await this.getRepository().getOneByProp(
-        'parent_id',
-        param.id.toString()
+  async execute(params: ProductCategoryType[]): Promise<void> {
+    const ids: number[] = [];
+
+    params.forEach(async (p) => {
+      const itemFound = await this.getRepository().getOneByProperty(
+        'id',
+        p.id.toString()
       );
-      if (!children) {
-        super.execute(id, tableName);
-      } else {
-        throw new ForbiddenError(
-          `Child table present. Please remove them first.`
+
+      if (itemFound) {
+        const children = await this.getRepository().getOneByProperty(
+          'parent_id',
+          p.id.toString()
         );
+
+        if (children) {
+          throw new ForbiddenError(
+            `Child table present. Please remove them first.`
+          );
+        } else {
+          ids.push(p.id);
+        }
+      } else {
+        throw new NotFoundError(`Product Category Type ${p.id}`);
       }
-    } else {
-      throw new NotFoundError(`Product Category Type ${id}`);
-    }
+
+      super.execute(params);
+    });
   }
 }

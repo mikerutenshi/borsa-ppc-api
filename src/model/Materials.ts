@@ -1,21 +1,21 @@
-class MaterialGroup {
-  id: number;
+import { BaseModel } from './BaseModel';
+
+class MaterialGroup extends BaseModel {
   name: string;
   parent_id: number;
   constructor(name: string, parent_id: number) {
-    this.id = 1;
+    super('material_group', ['name']);
     this.name = name;
     this.parent_id = parent_id;
   }
 }
 
-class Material {
-  id: number;
+class Material extends BaseModel {
   name: string;
   attributes: object;
 
   constructor(name: string, attributes: object) {
-    this.id = 1;
+    super('material', ['name']);
     this.name = name;
     this.attributes = attributes;
   }

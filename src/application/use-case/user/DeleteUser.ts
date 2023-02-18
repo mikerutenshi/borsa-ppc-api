@@ -4,6 +4,6 @@ import DeleteUseCase from '../DeleteUseCase';
 
 export default class DeleteUser extends DeleteUseCase<User> {
   constructor(repository: UserRepository) {
-    super(repository, 'user');
+    super(repository);
   }
 }

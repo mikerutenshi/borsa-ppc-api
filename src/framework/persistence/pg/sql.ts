@@ -6,24 +6,18 @@ const sql = (file: string): QueryFile => {
   return new pgPromise.QueryFile(fullPath, { minify: true });
 };
 
-interface CrudSql {
-  [method: string]: QueryFile;
-}
-
 const RoleSql = {
   create: sql('role/create.sql'),
-  getManyByProp: sql('role/get-many-by-property.sql'),
-  getOneByProp: sql('role/get-one-by-property.sql'),
-  getAll: sql('role/get-all.sql'),
+  read: sql('role/read.sql'),
   update: sql('role/update.sql'),
   delete: sql('role/delete.sql'),
-  deleteAll: sql('role/delete-all.sql'),
+  clear: sql('role/clear.sql'),
 };
 
 const UserSql = {
   create: sql('user/create.sql'),
-  getManyByProp: sql('user/get-many-by-property.sql'),
-  getOneByProp: sql('user/get-one-by-property.sql'),
+  getMany: sql('user/get-many-by-property.sql'),
+  getOneByProperty: sql('user/get-one-by-property.sql'),
   getAll: sql('user/get-all.sql'),
   update: sql('user/update.sql'),
   delete: sql('user/delete.sql'),
@@ -33,8 +27,8 @@ const UserSql = {
 
 const ProductCategorySql = {
   create: sql('product-category/create.sql'),
-  getManyByProp: sql('product-category/get-many-by-property.sql'),
-  getOneByProp: sql('product-category/get-one-by-property.sql'),
+  getMany: sql('product-category/get-many-by-property.sql'),
+  getOneByProperty: sql('product-category/get-one-by-property.sql'),
   getAll: sql('product-category/get-all.sql'),
   update: sql('product-category/update.sql'),
   delete: sql('product-category/delete.sql'),
@@ -43,8 +37,8 @@ const ProductCategorySql = {
 
 const ProductCategoryTypeSql = {
   create: sql('product-category-type/create.sql'),
-  getManyByProp: sql('product-category-type/get-many-by-property.sql'),
-  getOneByProp: sql('product-category-type/get-one-by-property.sql'),
+  getMany: sql('product-category-type/get-many-by-property.sql'),
+  getOneByProperty: sql('product-category-type/get-one-by-property.sql'),
   getAll: sql('product-category-type/get-all.sql'),
   update: sql('product-category-type/update.sql'),
   delete: sql('product-category-type/delete.sql'),
@@ -53,8 +47,8 @@ const ProductCategoryTypeSql = {
 
 const TypeSql = {
   create: sql('type/create.sql'),
-  getManyByProp: sql('type/get-many-by-property.sql'),
-  getOneByProp: sql('type/get-one-by-property.sql'),
+  getMany: sql('type/get-many-by-property.sql'),
+  getOneByProperty: sql('type/get-one-by-property.sql'),
   getAll: sql('type/get-all.sql'),
   update: sql('type/update.sql'),
   delete: sql('type/delete.sql'),
@@ -63,8 +57,8 @@ const TypeSql = {
 
 const ProductGroupSql = {
   create: sql('product-group/create.sql'),
-  getManyByProp: sql('product-group/get-many-by-property.sql'),
-  getOneByProp: sql('product-group/get-one-by-property.sql'),
+  getMany: sql('product-group/get-many-by-property.sql'),
+  getOneByProperty: sql('product-group/get-one-by-property.sql'),
   getAll: sql('product-group/get-all.sql'),
   update: sql('product-group/update.sql'),
   delete: sql('product-group/delete.sql'),
@@ -72,7 +66,6 @@ const ProductGroupSql = {
 };
 
 export {
-  CrudSql,
   RoleSql,
   UserSql,
   ProductCategorySql,

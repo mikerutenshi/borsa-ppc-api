@@ -1,7 +1,7 @@
 import CrudRepository from '../contract/CrudRepository';
 import UseCase from './UseCase';
 
-export default class GetOneUseCase<T> extends UseCase<number, T[]> {
+export default class GetAllUseCase<T> extends UseCase<undefined, T[]> {
   repository: CrudRepository<T>;
 
   constructor(repository: CrudRepository<T>) {
@@ -9,8 +9,7 @@ export default class GetOneUseCase<T> extends UseCase<number, T[]> {
     this.repository = repository;
   }
 
-  async execute(id: number): Promise<T[]> {
-    const item = await this.repository.getOneById(id);
-    return item ? [item] : [];
+  async execute(): Promise<T[]> {
+    return await this.repository.getAll();
   }
 }
