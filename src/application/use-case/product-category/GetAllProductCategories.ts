@@ -1,8 +1,8 @@
 import { ProductCategory } from '../../../model/Products';
 import ProductCategoryRepository from '../../contract/ProductCategoryRepository';
-import GetFilteredUseCase from '../GetFilteredUseCase';
+import GetAllUseCase from '../GetAllUseCase';
 
-export default class GetFilteredProductCategories extends GetFilteredUseCase<ProductCategory> {
+export default class GetFilteredProductCategories extends GetAllUseCase<ProductCategory> {
   constructor(repository: ProductCategoryRepository) {
     super(repository);
   }

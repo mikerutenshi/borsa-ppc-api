@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import CreateUser from '../application/use-case/user/CreateUser';
-import GetFilteredUsers from '../application/use-case/user/GetFilteredUsers';
 import GetUser from '../application/use-case/user/GetUser';
 import GetUsers from '../application/use-case/user/GetUsers';
 import UpdateUser from '../application/use-case/user/UpdateUser';
@@ -11,6 +10,7 @@ import { GeneralResponse, SuccessfulResponse } from '../model/Responses';
 import { User } from '../model/Users';
 import AuthUser from '../application/use-case/user/AuthUser';
 import RefreshAccessToken from '../application/use-case/user/RefreshAccessToken';
+import GetAllUsers from '../application/use-case/user/GetAllUsers';
 
 export default (dependencies: ProjectDependencies) => {
   const { userRepository } = dependencies.databaseService;
@@ -24,23 +24,18 @@ export default (dependencies: ProjectDependencies) => {
       req.body.role_id
     );
 
-    const newUser = await new CreateUser(userRepository, user.username).execute(
-      user
-    );
+    const newUser = await new CreateUser(userRepository).execute(user);
     const message = 'User is successfully created';
     res.status(201).json(new GeneralResponse(Status[201], message, newUser));
   };
 
   const getUsers = async (req: Request, res: Response) => {
-    if (req.query.search_key === undefined) {
-      const data = await new GetUsers(userRepository).execute();
+    if (req.query === undefined) {
+      const data = await new GetAllUsers(userRepository).execute();
       res.json(new SuccessfulResponse('All users are loaded', data));
     } else {
-      const data = await new GetFilteredUsers(userRepository).execute(
-        req.query.search_key as string,
-        req.query.search_value as string
-      );
-      res.json(new SuccessfulResponse('Filtered users are loaded', data));
+      const data = await new GetUsers(userRepository).execute();
+      res.json(new SuccessfulResponse('Users are loaded', data));
     }
   };
 
@@ -66,9 +61,22 @@ export default (dependencies: ProjectDependencies) => {
     res.json(new SuccessfulResponse('User is successfully updated', data));
   };
 
-  const deleteUser = async (req: Request, res: Response) => {
-    const message = 'User is successfully deleted';
-    await new DeleteUser(userRepository).execute(parseInt(req.params.id));
+  const deleteUsers = async (req: Request, res: Response) => {
+    const message = 'Selected users are successfully deleted';
+    const ids = req.query.id;
+    let deleteIds: number[] = [];
+
+    if (Array.isArray(ids)) {
+      deleteIds = ids.map((id) => {
+        return parseInt(id as string);
+      });
+    } else {
+      deleteIds.push(parseInt(ids as string));
+    }
+    await new DeleteUser(userRepository).execute(
+      deleteIds,
+      new User('', '', '', '', 0)
+    );
 
     res.json(new SuccessfulResponse(message));
   };
@@ -103,7 +111,7 @@ export default (dependencies: ProjectDependencies) => {
     getUsers,
     getUser,
     updateUser,
-    deleteUser,
+    deleteUsers,
     authUser,
     refreshAccessToken,
   };

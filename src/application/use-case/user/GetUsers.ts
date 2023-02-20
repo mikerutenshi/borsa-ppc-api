@@ -13,5 +13,7 @@ export default class GetUsers extends GetManyUseCase<User> {
     if (users.length > 0) {
       users.forEach((u) => (u.password = undefined));
     }
+
+    return users;
   }
 }
