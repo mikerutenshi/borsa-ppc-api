@@ -10,9 +10,8 @@ export default class CreateProductCategoryType extends CreateUseCase<ProductCate
 
   async execute(param: ProductCategoryType): Promise<ProductCategoryType[]> {
     if (param.parent_id) {
-      const parentTable = await this.getRepository().getOneByProperty(
-        'id',
-        param.parent_id.toString()
+      const parentTable = await this.getRepository().getOneById(
+        param.parent_id
       );
       if (parentTable) {
         return super.execute(param);

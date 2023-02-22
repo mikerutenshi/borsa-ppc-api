@@ -11,6 +11,7 @@ import { User } from '../model/Users';
 import AuthUser from '../application/use-case/user/AuthUser';
 import RefreshAccessToken from '../application/use-case/user/RefreshAccessToken';
 import GetAllUsers from '../application/use-case/user/GetAllUsers';
+import { createParamsFromReq } from '../util/FilterUtil';
 
 export default (dependencies: ProjectDependencies) => {
   const { userRepository } = dependencies.databaseService;
@@ -30,12 +31,17 @@ export default (dependencies: ProjectDependencies) => {
   };
 
   const getUsers = async (req: Request, res: Response) => {
-    if (req.query === undefined) {
+    if (req.query) {
+      const reqParams = createParamsFromReq(req, [
+        'username',
+        'first_name',
+        'last_name',
+      ]);
+      const data = await new GetUsers(userRepository).execute(reqParams);
+      res.json(new SuccessfulResponse('Users are loaded', data));
+    } else {
       const data = await new GetAllUsers(userRepository).execute();
       res.json(new SuccessfulResponse('All users are loaded', data));
-    } else {
-      const data = await new GetUsers(userRepository).execute();
-      res.json(new SuccessfulResponse('Users are loaded', data));
     }
   };
 

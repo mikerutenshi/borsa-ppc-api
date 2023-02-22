@@ -1,4 +1,5 @@
 import CrudRepository from '../../../application/contract/CrudRepository';
+import KeyValuePair from '../../../model/KeyValuePair';
 import QueryParams from '../../../model/QueryParams';
 import { SqlFiles } from '../../../util/CustomTypes';
 import { db } from './db';
@@ -13,18 +14,18 @@ export default class PgCrudRepository<T> implements CrudRepository<T> {
 
   async getOneById(id: number): Promise<T | null> {
     const condition = new QueryBuilder()
-      .propertyFilter('id', id.toString())
+      .propertyFilter({ id: id.toString() })
       .build();
     return await db.oneOrNone(this.sql.read, condition);
   }
 
-  async getOneByProperty(key: string, value: string): Promise<T | null> {
-    const condition = new QueryBuilder().propertyFilter(key, value).build();
+  async getOneByProperty(keyValues: KeyValuePair): Promise<T | null> {
+    const condition = new QueryBuilder().propertyFilter(keyValues).build();
     return await db.oneOrNone(this.sql.read, condition);
   }
   async getMany(params: QueryParams): Promise<T[]> {
     const condition = new QueryBuilder()
-      .search(params.search_key, params.search_properties)
+      .search(params.search_key, params.getSearchProperties())
       .page(
         params.order_by,
         params.order_direction,

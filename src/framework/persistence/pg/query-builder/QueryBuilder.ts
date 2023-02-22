@@ -1,10 +1,17 @@
+import KeyValuePair from '../../../../model/KeyValuePair';
+
 export default class QueryBuilder {
   private filters: { [key: string]: string } = {};
   private orderString: string = '';
   private limitString: string = '';
 
-  propertyFilter(key: string, value: string) {
-    this.filters.propertyFilter = `${key} = ${value}`;
+  propertyFilter(keyValues: KeyValuePair) {
+    const propertyFilter = Object.entries(keyValues)
+      .map((key, value) => {
+        return `${key} = ${value}`;
+      })
+      .join(` AND `);
+    this.filters.propertyFilter = propertyFilter;
     return this;
   }
 

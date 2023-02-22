@@ -8,33 +8,24 @@ export default class DeleteProductCategory extends DeleteUseCase<ProductCategory
     super(repository);
   }
 
-  async execute(params: ProductCategory[]): Promise<void> {
-    const ids: number[] = [];
-
-    params.forEach(async (p) => {
-      const itemFound = await this.getRepository().getOneByProperty(
-        'id',
-        p.id.toString()
-      );
+  async execute(ids: number[], model: ProductCategory): Promise<void> {
+    ids.forEach(async (id) => {
+      const itemFound = await this.getRepository().getOneById(id);
 
       if (itemFound) {
-        const children = await this.getRepository().getOneByProperty(
-          'parent_id',
-          p.id.toString()
-        );
+        const children = await this.getRepository().getOneByProperty({
+          parent_id: id.toString(),
+        });
 
         if (children) {
           throw new ForbiddenError(
             `Child table present. Please remove them first.`
           );
-        } else {
-          ids.push(p.id);
         }
       } else {
-        throw new NotFoundError(`Product Category ${p.id}`);
+        throw new NotFoundError(`Product Category ${id}`);
       }
-
-      super.execute(params);
     });
+    super.execute(ids, new ProductCategory('', null, 0));
   }
 }

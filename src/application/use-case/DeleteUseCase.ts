@@ -1,11 +1,10 @@
 import { BaseModel } from '../../model/BaseModel';
 import { NotFoundError } from '../../model/Errors';
-import KeyValuePair from '../../model/KeyValuePair';
 import StringUtil from '../../util/StringUtil';
 import CrudRepository from '../contract/CrudRepository';
 import UseCase from './UseCase';
 
-export default class DeleteUseCase<T> extends UseCase<T[], void> {
+export default class DeleteUseCase<T> extends UseCase<number[], void> {
   private repository: CrudRepository<T>;
 
   constructor(repository: CrudRepository<T>) {
@@ -13,23 +12,16 @@ export default class DeleteUseCase<T> extends UseCase<T[], void> {
     this.repository = repository;
   }
 
-  async execute(param: T[]): Promise<void> {
-    const ids: number[] = [];
-    const _param = param[0] as BaseModel;
-    const __param = param[0] as KeyValuePair;
+  async execute(ids: number[], model: T): Promise<void> {
+    const _model = model as BaseModel;
+    const deleteIds: number[] = [];
 
-    param.forEach(async (o) => {
-      const id = (o as BaseModel).id;
-      if (
-        await this.repository.getOneByProperty(
-          _param.unique_key,
-          __param[_param.unique_key]
-        )
-      ) {
-        ids.push(id);
+    ids.forEach(async (id) => {
+      if (await this.repository.getOneById(id)) {
+        deleteIds.push(id);
       } else {
         throw new NotFoundError(
-          StringUtil.transformTableName(_param.table_name)
+          StringUtil.transformTableName(_model.table_name)
         );
       }
     });

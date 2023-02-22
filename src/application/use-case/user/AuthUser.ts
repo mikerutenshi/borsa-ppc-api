@@ -14,10 +14,9 @@ export default class AuthUser extends UseCase<string, User[]> {
   }
 
   async execute(username: string, password: string): Promise<User[]> {
-    const storedUser = await this.repository.getOneByProperty(
-      'username',
-      username
-    );
+    const storedUser = await this.repository.getOneByProperty({
+      username: username,
+    });
     if (storedUser) {
       if (storedUser.is_active) {
         debugger;

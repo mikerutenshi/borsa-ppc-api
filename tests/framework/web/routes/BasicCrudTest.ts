@@ -1,7 +1,7 @@
 import request from 'supertest';
 import app from '../../../../src/app';
 import ProjectDependencies from '../../../../src/di/ProjectDependencies';
-import { ArbitraryModel } from '../../../../src/model/BaseModel';
+import KeyValuePair from '../../../../src/model/KeyValuePair';
 import { loggerJest } from '../../../../src/util/Logger';
 
 export const basicCrudTestSuite = <T>(
@@ -36,7 +36,7 @@ export const basicCrudTestSuite = <T>(
     });
 
     test(`GET then PUT ${route} => get then update filtered product categories`, async () => {
-      const column = (dataset[1] as ArbitraryModel)[checkColumn];
+      const column = (dataset[1] as KeyValuePair)[checkColumn];
 
       if (column) {
         const secondObjectResponse = await agent

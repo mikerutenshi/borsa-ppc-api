@@ -1,6 +1,6 @@
 import { BaseModel } from '../../model/BaseModel';
 import { ConflictError } from '../../model/Errors';
-import KeyValuePair from '../../model/KeyValuePair';
+import { createPairFromParam } from '../../util/FilterUtil';
 import StringUtil from '../../util/StringUtil';
 import CrudRepository from '../contract/CrudRepository';
 import UseCase from './UseCase';
@@ -14,11 +14,8 @@ export default class CreateUseCase<T> extends UseCase<T, T[]> {
   }
   async execute(param: T): Promise<T[]> {
     const _param = param as BaseModel;
-    const __param = param as KeyValuePair;
-    const item = await this.repository.getOneByProperty(
-      _param.unique_key,
-      __param[_param.unique_key]
-    );
+    const keyValues = createPairFromParam(param);
+    const item = await this.repository.getOneByProperty(keyValues);
 
     if (item) {
       throw new ConflictError(StringUtil.transformTableName(_param.table_name));

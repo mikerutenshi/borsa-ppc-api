@@ -10,9 +10,8 @@ export default class UpdateProductCategoryType extends UpdateUseCase<ProductCate
 
   async execute(param: ProductCategoryType): Promise<ProductCategoryType[]> {
     if (param.parent_id) {
-      const parentExists = await this.getRepository().getOneByProperty(
-        'id',
-        param.parent_id.toString()
+      const parentExists = await this.getRepository().getOneById(
+        param.parent_id
       );
       if (parentExists) {
         return super.execute(param);

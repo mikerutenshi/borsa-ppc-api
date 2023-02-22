@@ -1,6 +1,7 @@
 import { BaseModel } from '../../model/BaseModel';
 import { ConflictError, NotFoundError } from '../../model/Errors';
 import KeyValuePair from '../../model/KeyValuePair';
+import { createPairFromParam } from '../../util/FilterUtil';
 import StringUtil from '../../util/StringUtil';
 import CrudRepository from '../contract/CrudRepository';
 import UseCase from './UseCase';
@@ -15,7 +16,6 @@ export default class UpdateUseCase<T> extends UseCase<T, T[]> {
 
   async execute(param: T): Promise<T[]> {
     const _param = param as BaseModel;
-    const __param = param as KeyValuePair;
     const tableName = StringUtil.transformTableName(_param.table_name);
 
     if (!_param.id) {
@@ -26,8 +26,7 @@ export default class UpdateUseCase<T> extends UseCase<T, T[]> {
 
     if (itemExist) {
       const duplicateItem = await this.repository.getOneByProperty(
-        _param.unique_key,
-        __param[_param.unique_key]
+        createPairFromParam(param)
       );
 
       if (duplicateItem) {

@@ -1,11 +1,11 @@
 export class BaseModel {
   id: number;
   table_name: string;
-  unique_key: string;
+  unique_keys: string[];
 
-  constructor(tableName: string, uniqueKey: string) {
+  constructor(tableName: string, uniqueKeys: string[]) {
     this.id = 0;
     this.table_name = tableName;
-    this.unique_key = uniqueKey;
+    this.unique_keys = uniqueKeys;
   }
 }

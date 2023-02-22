@@ -19,7 +19,7 @@ class User extends BaseModel {
     role_id: number,
     is_active?: boolean
   ) {
-    super('user', 'username');
+    super('user', ['username']);
 
     this.username = username;
     this.first_name = first_name;

@@ -9,6 +9,7 @@ import UpdateRole from '../application/use-case/role/UpdateRole';
 import DeleteRole from '../application/use-case/role/DeleteRole';
 import { Status } from '../model/Enums';
 import GetAllRoles from '../application/use-case/role/GetAllRoles';
+import { createParamsFromReq } from '../util/FilterUtil';
 
 export default (dependencies: ProjectDependencies) => {
   const { roleRepository } = dependencies.databaseService;
@@ -21,15 +22,13 @@ export default (dependencies: ProjectDependencies) => {
   };
 
   const getRoles = async (req: Request, res: Response) => {
-    if (req.query.search_key) {
-      const key = req.query.search_key;
-      const data = await new GetRoles(roleRepository).execute(key as string, [
-        'name',
-      ]);
-      const message = 'Search roles are loaded';
+    if (req.query) {
+      const queryParams = createParamsFromReq(req, ['name']);
+      const data = await new GetRoles(roleRepository).execute(queryParams);
+      const message = 'Roles are loaded';
       res.json(new SuccessfulResponse(message, data));
     } else {
-      const data = await new GetRoles(roleRepository).execute();
+      const data = await new GetAllRoles(roleRepository).execute();
       const message = 'All roles are loaded';
       res.json(new SuccessfulResponse(message, data));
     }
@@ -45,16 +44,18 @@ export default (dependencies: ProjectDependencies) => {
   const updateRole = async (req: Request, res: Response) => {
     const data = new Role(req.body.name);
     data.id = parseInt(req.params.id);
-    const result = await new UpdateRole(roleRepository, data.name).execute(
-      data
-    );
+    const result = await new UpdateRole(roleRepository).execute(data);
     const message = 'Role is successfully updated';
     res.json(new SuccessfulResponse(message, result));
   };
 
   const deleteRole = async (req: Request, res: Response) => {
-    const id = parseInt(req.params.id);
-    await new DeleteRole(roleRepository).execute(id);
+    const ids: number[] = Array.isArray(req.params.id)
+      ? req.params.id.map((id) => {
+          return parseInt(id);
+        })
+      : [parseInt(req.params.id)];
+    await new DeleteRole(roleRepository).execute(ids, new Role(''));
     const message = 'Role is successfully deleted';
     res.json(new SuccessfulResponse(message));
   };

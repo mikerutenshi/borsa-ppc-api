@@ -35,7 +35,7 @@ export default (dependencies: ProjectDependencies) => {
       }
     )
     .delete(async (req, res) => {
-      await controller.deleteUser(req, res);
+      await controller.deleteUsers(req, res);
     });
 
   router.route('/authenticate').post(
