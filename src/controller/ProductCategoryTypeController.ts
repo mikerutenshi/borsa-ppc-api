@@ -1,13 +1,14 @@
 import { Request, Response } from 'express';
 import CreateProductCategoryType from '../application/use-case/product-category-type/CreateProductCategoryType';
 import DeleteProductCategoryType from '../application/use-case/product-category-type/DeleteProductCategoryType';
-import GetFilteredProductCategoryTypes from '../application/use-case/product-category-type/GetFilteredProductCategoryTypes';
+import GetAllProductCategoryTypes from '../application/use-case/product-category-type/GetAllProductCategoryTypes';
 import GetProductCategoryType from '../application/use-case/product-category-type/GetProductCategoryType';
 import GetProductCategoryTypes from '../application/use-case/product-category-type/GetProductCategoryTypes';
 import UpdateProductCategoryType from '../application/use-case/product-category-type/UpdateProductCategoryType';
 import ProjectDependencies from '../di/ProjectDependencies';
 import { CreatedResponse, SuccessfulResponse } from '../model/Responses';
 import { ProductCategoryType } from '../model/Types';
+import { createParamsFromReq, getIdsFromReq } from '../util/FilterUtil';
 
 export default (dependencies: ProjectDependencies) => {
   const { productCategoryTypeRepository } = dependencies.databaseService;
@@ -18,8 +19,7 @@ export default (dependencies: ProjectDependencies) => {
       req.body.parent_id
     );
     const result = await new CreateProductCategoryType(
-      productCategoryTypeRepository,
-      newProductCatType.name
+      productCategoryTypeRepository
     ).execute(newProductCatType);
 
     const message = 'New product category type is created';
@@ -27,19 +27,18 @@ export default (dependencies: ProjectDependencies) => {
   };
 
   const getProductCategoryTypes = async (req: Request, res: Response) => {
-    if (req.query.search_key === undefined) {
+    const params = createParamsFromReq(req, ['name']);
+    if (req.query) {
       const results = await new GetProductCategoryTypes(
+        productCategoryTypeRepository
+      ).execute(params);
+      const message = 'Product category types are loaded';
+      res.json(new SuccessfulResponse(message, results));
+    } else {
+      const results = await new GetAllProductCategoryTypes(
         productCategoryTypeRepository
       ).execute();
       const message = 'All product category types are loaded';
-      res.json(new SuccessfulResponse(message, results));
-    } else {
-      const key = req.query.search_key;
-      const value = req.query.search_value;
-      const results = await new GetFilteredProductCategoryTypes(
-        productCategoryTypeRepository
-      ).execute(key as string, value as string);
-      const message = 'Filtered product category types are loaded';
       res.json(new SuccessfulResponse(message, results));
     }
   };
@@ -57,19 +56,18 @@ export default (dependencies: ProjectDependencies) => {
     const newData = new ProductCategoryType(req.body.name, req.body.parent_id);
     newData.id = parseInt(req.params.id);
     const result = await new UpdateProductCategoryType(
-      productCategoryTypeRepository,
-      newData.name
+      productCategoryTypeRepository
     ).execute(newData);
     const message = 'Product category type is successfully updated';
     res.json(new SuccessfulResponse(message, result));
   };
 
   const deleteProductCategoryType = async (req: Request, res: Response) => {
-    const id = parseInt(req.params.id);
+    const ids = getIdsFromReq(req);
     await new DeleteProductCategoryType(productCategoryTypeRepository).execute(
-      id
+      ids
     );
-    const message = 'Product category type is deleted';
+    const message = 'Selected product category types are deleted';
     res.json(new SuccessfulResponse(message));
   };
   return {

@@ -1,2 +1,2 @@
-DELETE FROM factory.${table~}
-WHERE factory.${table~}.id = ${id}
+DELETE FROM factory.${table_name~}
+WHERE factory.${table_name~}.id in (${id:csv})

@@ -19,6 +19,9 @@ export default (dependencies: ProjectDependencies) => {
     )
     .get(async (req, res) => {
       await controller.getUsers(req, res);
+    })
+    .delete(async (req, res) => {
+      await controller.deleteUser(req, res);
     });
 
   router
@@ -33,10 +36,7 @@ export default (dependencies: ProjectDependencies) => {
       async (req, res) => {
         await controller.updateUser(req, res);
       }
-    )
-    .delete(async (req, res) => {
-      await controller.deleteUsers(req, res);
-    });
+    );
 
   router.route('/authenticate').post(
     (req, res, next) => {

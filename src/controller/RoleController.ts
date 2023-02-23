@@ -1,15 +1,16 @@
-import Role from '../model/Role';
-import { GeneralResponse, SuccessfulResponse } from '../model/Responses';
-import ProjectDependencies from '../di/ProjectDependencies';
-import CreateRole from '../application/use-case/role/CreateRole';
 import { Request, Response } from 'express';
-import GetRoles from '../application/use-case/role/GetRoles';
-import GetRole from '../application/use-case/role/GetRole';
-import UpdateRole from '../application/use-case/role/UpdateRole';
+import CreateRole from '../application/use-case/role/CreateRole';
 import DeleteRole from '../application/use-case/role/DeleteRole';
-import { Status } from '../model/Enums';
 import GetAllRoles from '../application/use-case/role/GetAllRoles';
-import { createParamsFromReq } from '../util/FilterUtil';
+import GetRole from '../application/use-case/role/GetRole';
+import GetRoles from '../application/use-case/role/GetRoles';
+import UpdateRole from '../application/use-case/role/UpdateRole';
+import ProjectDependencies from '../di/ProjectDependencies';
+import { Status } from '../model/Enums';
+import { GeneralResponse, SuccessfulResponse } from '../model/Responses';
+import Role from '../model/Role';
+import { createParamsFromReq, getIdsFromReq } from '../util/FilterUtil';
+import { logger } from '../util/Logger';
 
 export default (dependencies: ProjectDependencies) => {
   const { roleRepository } = dependencies.databaseService;
@@ -22,6 +23,7 @@ export default (dependencies: ProjectDependencies) => {
   };
 
   const getRoles = async (req: Request, res: Response) => {
+    logger.debug(req.query, 'req query');
     if (req.query) {
       const queryParams = createParamsFromReq(req, ['name']);
       const data = await new GetRoles(roleRepository).execute(queryParams);
@@ -50,13 +52,9 @@ export default (dependencies: ProjectDependencies) => {
   };
 
   const deleteRole = async (req: Request, res: Response) => {
-    const ids: number[] = Array.isArray(req.params.id)
-      ? req.params.id.map((id) => {
-          return parseInt(id);
-        })
-      : [parseInt(req.params.id)];
+    const ids = getIdsFromReq(req);
     await new DeleteRole(roleRepository).execute(ids, new Role(''));
-    const message = 'Role is successfully deleted';
+    const message = 'Selected roles are successfully deleted';
     res.json(new SuccessfulResponse(message));
   };
   return {

@@ -1,2 +1,2 @@
-INSERT INTO factory.${table~}(name) 
+INSERT INTO factory.${table_name~}(name) 
 VALUES(${name}) RETURNING *

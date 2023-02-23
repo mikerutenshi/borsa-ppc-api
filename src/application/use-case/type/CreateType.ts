@@ -1,10 +1,9 @@
-import Table from '../../../model/Table';
 import { Type } from '../../../model/Types';
 import TypeRepository from '../../contract/TypeRepository';
-import CreateUseCase from '../CreateUseCase';
+import CreateiGenericTableUseCase from '../CreateGenericTableUseCase';
 
-export default class CreateType extends CreateUseCase<Type> {
-  constructor(repository: TypeRepository, uniqueVal: string) {
-    super(repository, new Table('type', 'name', uniqueVal));
+export default class CreateType extends CreateiGenericTableUseCase<Type> {
+  constructor(repository: TypeRepository) {
+    super(repository);
   }
 }

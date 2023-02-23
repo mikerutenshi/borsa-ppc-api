@@ -6,7 +6,6 @@ import {
   christine,
   invalidUser,
 } from '../../../../src/model/mock/Users';
-import { User } from '../../../../src/model/Users';
 import { loggerJest } from '../../../../src/util/Logger';
 
 export const rootTestSuite = () =>
@@ -33,6 +32,7 @@ export const userTestSuite = () =>
         .send(christine)
         .set('Accept', 'application/json');
       expect(response.status).toEqual(201);
+      expect(response.body.data[0].password).toBeUndefined();
       expect(response1.status).toEqual(201);
       expect(response.headers['content-type']).toMatch(/json/);
     });
@@ -54,24 +54,26 @@ export const userTestSuite = () =>
       expect(response.status).toEqual(200);
       if (response.body.data.length != 0) {
         expect(response.body.data[0]).toHaveProperty('username');
+        expect(response.body.data[0].password).toBeUndefined();
         expect(response.body.data[0]).not.toHaveProperty('password');
       }
     });
 
     test('GET /v2/user => get filtered users', async () => {
       const response = await agent.get('/v2/users').query({
-        search_key: 'first_name',
-        search_value: 'christi',
+        search_key: 'christi',
       });
       loggerJest.debug(response.body);
       expect(response.status).toEqual(200);
       expect(response.body.data).toHaveLength(1);
       expect(response.body.data[0].username).toBe(christine.username);
+      expect(response.body.data[0].password).toBeUndefined();
     });
 
     test('GET /v2/users => get single user', async () => {
       const kurnia = await agent.get('/v2/users/2');
       expect(kurnia.body.data[0].username).toMatch(christine.username);
+      expect(kurnia.body.data[0].password).toBeUndefined();
     });
 
     test('UPDATE /v2/users => update user', async () => {
@@ -80,13 +82,13 @@ export const userTestSuite = () =>
       const response = await agent.put('/v2/users/2').send(christine);
       loggerJest.debug(response.body, 'update user res');
       const updated = await agent.get('/v2/users').query({
-        search_key: 'first_name',
-        search_value: 'christian',
+        search_key: 'christian',
       });
       expect(response.status).toEqual(200);
       expect(response.body.data[0].username).toMatch(christine.username);
       expect(updated.body.data[0].username).toMatch(christine.username);
       expect(updated.body.data[0].username).toBeTruthy();
+      expect(updated.body.data[0].password).toBeUndefined();
 
       const outOfBound = await agent.put('/v2/users/100').send(christine);
       expect(outOfBound.status).toBe(404);
@@ -102,8 +104,8 @@ export const userTestSuite = () =>
     });
 
     test('DELETE /v2/users => delete user', async () => {
-      const response = await agent.delete('/v2/users/1');
-      const notFound = await agent.delete('/v2/users/1');
+      const response = await agent.delete('/v2/users').query({ id: 1 });
+      const notFound = await agent.delete('/v2/users').query({ id: 1 });
       const searchFail = await agent.get('/v2/users/1');
       expect(response.status).toEqual(200);
       expect(response.body.data).toBeUndefined();
@@ -117,8 +119,8 @@ export const userTestSuite = () =>
         username: christine.username,
         password: christine.password,
       });
-      christine.refresh_token = response.body.data[0].refresh_token;
       loggerJest.debug(response.body.data[0].refresh_token);
+      christine.refresh_token = response.body.data[0].refresh_token;
       expect(response.status).toBe(200);
       expect(response.body.data[0].access_token).toBeDefined();
     });

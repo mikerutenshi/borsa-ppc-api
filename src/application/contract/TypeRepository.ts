@@ -1,4 +1,5 @@
 import { Type } from '../../model/Types';
-import CrudRepository from './CrudRepository';
+import CrudGenericTableRepository from './CrudGenericTableRepository';
 
-export default interface TypeRepository extends CrudRepository<Type> {}
+export default interface TypeRepository
+  extends CrudGenericTableRepository<Type> {}

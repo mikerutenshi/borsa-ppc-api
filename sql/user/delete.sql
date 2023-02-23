@@ -1,2 +1,2 @@
 DELETE FROM factory.user
-WHERE factory.user.id = ${id}
+WHERE factory.user.id in (${id:csv})

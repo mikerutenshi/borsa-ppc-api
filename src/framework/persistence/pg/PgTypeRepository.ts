@@ -1,10 +1,10 @@
 import TypeRepository from '../../../application/contract/TypeRepository';
 import { Type } from '../../../model/Types';
-import PgCrudRepository from './PgCrudRepository';
+import PgCrudGenericTableRepository from './PgCrudGenericTableRepository';
 import { TypeSql } from './sql';
 
 export default class PgTypeRepository
-  extends PgCrudRepository<Type>
+  extends PgCrudGenericTableRepository<Type>
   implements TypeRepository
 {
   constructor() {

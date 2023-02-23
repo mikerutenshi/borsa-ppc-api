@@ -1,12 +1,11 @@
 import DatabaseService from '../../../application/contract/DatabaseService';
-import PgUserRepository from './PgUserRepository';
+import { Repositories } from '../../../model/Enums';
 import { db } from './db';
+import PgProductCategoryRepository from './PgProductCategoryRepository';
+import PgProductCategoryTypeRepository from './PgProductCategoryTypeRepository';
 import PgRoleRepository from './PgRoleRepository';
 import PgTypeRepository from './PgTypeRepository';
-import PgProductCategoryTypeRepository from './PgProductCategoryTypeRepository';
-import { Repositories } from '../../../model/Enums';
-import PgProductCategoryRepository from './PgProductCategoryRepository';
-import PgProductGroupRepository from './PgProductGroupRepository';
+import PgUserRepository from './PgUserRepository';
 
 export default class PgDatabaseService extends DatabaseService {
   private typeRepoTables = [
@@ -37,10 +36,10 @@ export default class PgDatabaseService extends DatabaseService {
     this.userRepository?.clear();
     this.roleRepository?.clear();
     this.productCategoryTypeRepository?.clear();
-    //this.typeRepoTables.forEach((table) => {
-    //  this.typeRepository?.clear(table);
-    //});
-    //this.ProductGroupRepository?.clear();
+    this.typeRepoTables.forEach((table) => {
+      this.typeRepository?.clear(table);
+    });
+    this.ProductGroupRepository?.clear();
   }
   async dropRepository(repoName: string): Promise<void> {
     switch (repoName) {

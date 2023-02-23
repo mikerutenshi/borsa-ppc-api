@@ -2,11 +2,12 @@ import CrudRepository from '../../../application/contract/CrudRepository';
 import KeyValuePair from '../../../model/KeyValuePair';
 import QueryParams from '../../../model/QueryParams';
 import { SqlFiles } from '../../../util/CustomTypes';
+import { logger } from '../../../util/Logger';
 import { db } from './db';
 import QueryBuilder from './query-builder/QueryBuilder';
 
 export default class PgCrudRepository<T> implements CrudRepository<T> {
-  sql: SqlFiles;
+  private sql: SqlFiles;
 
   constructor(sql: SqlFiles) {
     this.sql = sql;
@@ -21,6 +22,8 @@ export default class PgCrudRepository<T> implements CrudRepository<T> {
 
   async getOneByProperty(keyValues: KeyValuePair): Promise<T | null> {
     const condition = new QueryBuilder().propertyFilter(keyValues).build();
+    logger.debug(this.sql.read.toString());
+    logger.debug(condition);
     return await db.oneOrNone(this.sql.read, condition);
   }
   async getMany(params: QueryParams): Promise<T[]> {
@@ -31,7 +34,9 @@ export default class PgCrudRepository<T> implements CrudRepository<T> {
         params.order_direction,
         params.page_index,
         params.page_limit
-      );
+      )
+      .build();
+    logger.debug(condition, 'get many condition');
     return await db.any(this.sql.read, condition);
   }
   async create(instance: T): Promise<T> {
@@ -46,7 +51,7 @@ export default class PgCrudRepository<T> implements CrudRepository<T> {
     return await db.one(this.sql.update, instance);
   }
   async delete(id: number[]): Promise<void> {
-    await db.none(this.sql.delete, [id]);
+    await db.none(this.sql.delete, { id: id });
   }
   async clear(): Promise<void> {
     await db.none(this.sql.clear);

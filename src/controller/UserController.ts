@@ -1,17 +1,17 @@
 import { Request, Response } from 'express';
+import AuthUser from '../application/use-case/user/AuthUser';
 import CreateUser from '../application/use-case/user/CreateUser';
+import DeleteUser from '../application/use-case/user/DeleteUser';
+import GetAllUsers from '../application/use-case/user/GetAllUsers';
 import GetUser from '../application/use-case/user/GetUser';
 import GetUsers from '../application/use-case/user/GetUsers';
+import RefreshAccessToken from '../application/use-case/user/RefreshAccessToken';
 import UpdateUser from '../application/use-case/user/UpdateUser';
-import DeleteUser from '../application/use-case/user/DeleteUser';
 import ProjectDependencies from '../di/ProjectDependencies';
 import { Status } from '../model/Enums';
 import { GeneralResponse, SuccessfulResponse } from '../model/Responses';
 import { User } from '../model/Users';
-import AuthUser from '../application/use-case/user/AuthUser';
-import RefreshAccessToken from '../application/use-case/user/RefreshAccessToken';
-import GetAllUsers from '../application/use-case/user/GetAllUsers';
-import { createParamsFromReq } from '../util/FilterUtil';
+import { createParamsFromReq, getIdsFromReq } from '../util/FilterUtil';
 
 export default (dependencies: ProjectDependencies) => {
   const { userRepository } = dependencies.databaseService;
@@ -67,20 +67,11 @@ export default (dependencies: ProjectDependencies) => {
     res.json(new SuccessfulResponse('User is successfully updated', data));
   };
 
-  const deleteUsers = async (req: Request, res: Response) => {
+  const deleteUser = async (req: Request, res: Response) => {
     const message = 'Selected users are successfully deleted';
-    const ids = req.query.id;
-    let deleteIds: number[] = [];
-
-    if (Array.isArray(ids)) {
-      deleteIds = ids.map((id) => {
-        return parseInt(id as string);
-      });
-    } else {
-      deleteIds.push(parseInt(ids as string));
-    }
+    const ids = getIdsFromReq(req);
     await new DeleteUser(userRepository).execute(
-      deleteIds,
+      ids,
       new User('', '', '', '', 0)
     );
 
@@ -117,7 +108,7 @@ export default (dependencies: ProjectDependencies) => {
     getUsers,
     getUser,
     updateUser,
-    deleteUsers,
+    deleteUser,
     authUser,
     refreshAccessToken,
   };

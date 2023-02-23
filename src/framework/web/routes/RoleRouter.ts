@@ -19,6 +19,9 @@ export default (dependencies: ProjectDependencies) => {
     )
     .get(async (req, res) => {
       await controller.getRoles(req, res);
+    })
+    .delete(async (req, res) => {
+      await controller.deleteRole(req, res);
     });
 
   router
@@ -33,10 +36,7 @@ export default (dependencies: ProjectDependencies) => {
       async (req, res) => {
         await controller.updateRole(req, res);
       }
-    )
-    .delete(async (req, res) => {
-      await controller.deleteRole(req, res);
-    });
+    );
 
   return router;
 };

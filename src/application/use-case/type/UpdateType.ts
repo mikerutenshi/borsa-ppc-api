@@ -1,10 +1,9 @@
-import Table from '../../../model/Table';
 import { Type } from '../../../model/Types';
 import TypeRepository from '../../contract/TypeRepository';
-import UpdateUseCase from '../UpdateUseCase';
+import UpdateGenericTableUseCase from '../UpdateGenericTableUseCase';
 
-export default class UpdateType extends UpdateUseCase<Type> {
-  constructor(repository: TypeRepository, uniqueVal: string) {
-    super(repository, new Table('type', 'name', uniqueVal));
+export default class UpdateType extends UpdateGenericTableUseCase<Type> {
+  constructor(repository: TypeRepository) {
+    super(repository);
   }
 }

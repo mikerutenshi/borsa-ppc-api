@@ -11,7 +11,9 @@ export default class GetUser extends UseCase<number, User[]> {
   }
   async execute(id: number): Promise<User[]> {
     const user = await this.repository.getOneById(id);
-    user?.password ? undefined : undefined;
+    if (user?.password) {
+      user.password = undefined;
+    }
     return user ? [user] : [];
   }
 }

@@ -8,7 +8,7 @@ export default class DeleteProductCategory extends DeleteUseCase<ProductCategory
     super(repository);
   }
 
-  async execute(ids: number[], model: ProductCategory): Promise<void> {
+  async execute(ids: number[]): Promise<void> {
     ids.forEach(async (id) => {
       const itemFound = await this.getRepository().getOneById(id);
 

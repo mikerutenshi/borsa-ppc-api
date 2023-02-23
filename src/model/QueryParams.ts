@@ -3,8 +3,15 @@ import ReqParams from './ReqParams';
 export default class QueryParams extends ReqParams {
   private search_properties: string[];
 
-  constructor(searchProperties: string[]) {
-    super();
+  constructor(
+    searchProperties: string[],
+    searchKey?: string,
+    orderBy?: string,
+    orderDirection?: string,
+    pageIndex?: string,
+    pageLimit?: number
+  ) {
+    super(searchKey, orderBy, orderDirection, pageIndex, pageLimit);
     this.search_properties = searchProperties;
   }
 

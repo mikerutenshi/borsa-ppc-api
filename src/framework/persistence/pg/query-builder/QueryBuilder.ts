@@ -1,4 +1,5 @@
 import KeyValuePair from '../../../../model/KeyValuePair';
+import { logger } from '../../../../util/Logger';
 
 export default class QueryBuilder {
   private filters: { [key: string]: string } = {};
@@ -7,8 +8,8 @@ export default class QueryBuilder {
 
   propertyFilter(keyValues: KeyValuePair) {
     const propertyFilter = Object.entries(keyValues)
-      .map((key, value) => {
-        return `${key} = ${value}`;
+      .map(([key, value]) => {
+        return `${key} = '${value}'`;
       })
       .join(` AND `);
     this.filters.propertyFilter = propertyFilter;
@@ -16,13 +17,16 @@ export default class QueryBuilder {
   }
 
   search(searchKey?: string, properties?: string[]) {
+    logger.debug('mySearchKey %s', searchKey);
+    logger.debug('myProperties %o', properties);
     if (properties && searchKey) {
-      this.filters.search =
-        properties
-          .map((prop) => {
-            `${prop} ILIKE '%${searchKey}%'`;
-          })
-          .join(` OR `) ?? '';
+      this.filters.search = properties
+        .map((prop) => {
+          logger.debug('prop %s', prop);
+          return `${prop} ILIKE '%${searchKey}%'`;
+        })
+        .join(` OR `);
+      logger.debug('filter.search %o', this.filters.search);
     }
     return this;
   }
@@ -53,14 +57,17 @@ export default class QueryBuilder {
   }
 
   order(key: string, direction: string) {
-    this.orderString = `ORDER BY ${key} ${direction.toUpperCase()}`;
+    this.orderString = `ORDER BY '${key}' ${direction.toUpperCase()}`;
     return this;
   }
 
-  build() {
+  build(): KeyValuePair {
     const getFilters = Object.values(this.filters).filter(Boolean);
     const filterString =
       getFilters?.length > 0 ? `WHERE ${getFilters.join(` AND `)}` : '';
-    return { condition: filterString + this.orderString + this.limitString };
+    const result = {
+      condition: filterString + this.orderString + this.limitString,
+    };
+    return result;
   }
 }

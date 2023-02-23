@@ -3,9 +3,9 @@ import app from '../../../../src/app';
 import ProjectDependencies from '../../../../src/di/ProjectDependencies';
 import { Roles } from '../../../../src/model/Enums';
 import {
-  superuser,
   finance,
   production,
+  superuser,
 } from '../../../../src/model/mock/Roles';
 import { logger, loggerJest } from '../../../../src/util/Logger';
 
@@ -53,31 +53,23 @@ export const roleTestSuite = () => {
 
     test('GET /v2/roles => get role by name approx', async () => {
       const response = await agent.get('/v2/roles').query({
-        search_key: 'name',
-        search_value: 'fin',
+        search_key: 'fin',
       });
       expect(response.status).toBe(200);
       expect(response.body.data[0].name).toMatch(finance.name);
 
       const notFound = await agent.get('/v2/roles').query({
-        search_key: 'name',
-        search_value: 'huahahaha',
+        search_key: 'huahahaha',
       });
       expect(notFound.status).toBe(200);
       expect(notFound.body.data).toHaveLength(0);
-
-      const invalidKey = await agent.get('/v2/roles').query({
-        search_key: 'invalidKey',
-        search_value: 'huahahaha',
-      });
-      expect(invalidKey.status).toBe(500);
 
       const undefinedValue = await agent.get('/v2/roles').query({
         search_key: undefined,
         search_value: undefined,
       });
       expect(undefinedValue.status).toBe(200);
-      expect(undefinedValue.body.message.toLowerCase()).toContain('all roles');
+      expect(undefinedValue.body.message.toLowerCase()).toContain('roles');
     });
 
     test('PUT /v2/roles => update role by id', async () => {
@@ -112,7 +104,7 @@ export const roleTestSuite = () => {
     });
 
     test('DELETE /v2/roles => delete role get should return null', async () => {
-      const response = await agent.delete('/v2/roles/2');
+      const response = await agent.delete('/v2/roles').query({ id: 2 });
       logger.debug(response.body, 'deleteRoleRes');
       expect(response.status).toBe(200);
       expect(response.body.data).toBeUndefined();

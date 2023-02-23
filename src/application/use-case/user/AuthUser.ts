@@ -17,6 +17,7 @@ export default class AuthUser extends UseCase<string, User[]> {
     const storedUser = await this.repository.getOneByProperty({
       username: username,
     });
+
     if (storedUser) {
       if (storedUser.is_active) {
         debugger;

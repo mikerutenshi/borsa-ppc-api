@@ -1,8 +1,8 @@
 import { Type } from '../../../model/Types';
 import TypeRepository from '../../contract/TypeRepository';
-import GetFilteredUseCase from '../GetFilteredUseCase';
+import GetAllGenericTableUseCase from '../GetAllGenericTableUseCase';
 
-export default class GetFilteredTypes extends GetFilteredUseCase<Type> {
+export default class GetAllTypes extends GetAllGenericTableUseCase<Type> {
   constructor(repository: TypeRepository) {
     super(repository);
   }

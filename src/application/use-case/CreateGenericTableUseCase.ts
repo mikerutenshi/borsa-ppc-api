@@ -2,23 +2,23 @@ import { BaseModel } from '../../model/BaseModel';
 import { ConflictError } from '../../model/Errors';
 import { createPairFromParam } from '../../util/FilterUtil';
 import { prettierTableName } from '../../util/StringUtil';
-import CrudRepository from '../contract/CrudRepository';
+import CrudGenericTableRepository from '../contract/CrudGenericTableRepository';
 import UseCase from './UseCase';
 
-export default class CreateUseCase<T> extends UseCase<T, T[]> {
-  private repository: CrudRepository<T>;
+export default class CreateiGenericTableUseCase<T> extends UseCase<T, T[]> {
+  private repository: CrudGenericTableRepository<T>;
 
-  constructor(repository: CrudRepository<T>) {
+  constructor(repository: CrudGenericTableRepository<T>) {
     super();
     this.repository = repository;
   }
   async execute(param: T): Promise<T[]> {
-    const _param = param as BaseModel;
+    const tableName = (param as BaseModel).table_name;
     const keyValues = createPairFromParam(param);
-    const item = await this.repository.getOneByProperty(keyValues);
+    const item = await this.repository.getOneByProperty(keyValues, tableName);
 
     if (item) {
-      throw new ConflictError(prettierTableName(_param.table_name));
+      throw new ConflictError(prettierTableName(tableName));
     } else {
       const item = await this.repository.create(param);
       return [item];
