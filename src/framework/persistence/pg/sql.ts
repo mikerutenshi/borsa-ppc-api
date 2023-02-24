@@ -55,6 +55,14 @@ const ProductGroupSql = {
   clear: sql('product-group/clear.sql'),
 };
 
+const ProductSql = {
+  create: sql('product/create.sql'),
+  read: sql('product/read.sql'),
+  update: sql('product/update.sql'),
+  delete: sql('product/delete.sql'),
+  clear: sql('product/clear.sql'),
+};
+
 export {
   RoleSql,
   UserSql,
@@ -62,4 +70,5 @@ export {
   ProductCategoryTypeSql,
   TypeSql,
   ProductGroupSql,
+  ProductSql,
 };

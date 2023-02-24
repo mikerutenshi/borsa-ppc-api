@@ -3,6 +3,7 @@ import ProjectDependencies from '../../../di/ProjectDependencies';
 import ProductCategoryRouter from './ProductCategoryRouter';
 import ProductCategoryTypeRouter from './ProductCategoryTypeRouter';
 import ProductGroupRouter from './ProductGroupRouter';
+import ProductRouter from './ProductRouter';
 import RoleRouter from './RoleRouter';
 import TypeRouter from './TypeRouter';
 import UserRouter from './UserRouter';
@@ -19,6 +20,7 @@ export default (dependencies: ProjectDependencies) => {
   const productCategoryTypeRouter = ProductCategoryTypeRouter(dependencies);
   const productCategoryRouter = ProductCategoryRouter(dependencies);
   const productGroupRouter = ProductGroupRouter(dependencies);
+  const productRouter = ProductRouter(dependencies);
 
   routes.use('/users', userRouter);
   routes.use('/roles', roleRouter);
@@ -30,6 +32,7 @@ export default (dependencies: ProjectDependencies) => {
   routes.use('/product-category-types', productCategoryTypeRouter);
   routes.use('/product-categories', productCategoryRouter);
   routes.use('/product-groups', productGroupRouter);
+  routes.use('/products', productRouter);
 
   return routes;
 };

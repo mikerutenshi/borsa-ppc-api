@@ -20,8 +20,9 @@ const Repositories = {
   roleRepository: 'RoleRepository',
   typeRepository: 'TypeRepository',
   productCategoryTypeRepository: 'ProductCategoryTypeRepository',
-  ProductCategoryRepository: 'ProductCategoryRepository',
-  ProductGroupRepository: 'ProductGroupRepository',
+  productCategoryRepository: 'ProductCategoryRepository',
+  productGroupRepository: 'ProductGroupRepository',
+  productRepository: 'ProductRepository',
 };
 
 export { Roles, Status, Repositories };

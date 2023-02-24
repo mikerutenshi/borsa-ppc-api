@@ -4,6 +4,7 @@ import { db } from './db';
 import PgProductCategoryRepository from './PgProductCategoryRepository';
 import PgProductCategoryTypeRepository from './PgProductCategoryTypeRepository';
 import PgProductGroupRepository from './PgProductGroupRepository';
+import PgProductRepository from './PgProductRepository';
 import PgRoleRepository from './PgRoleRepository';
 import PgTypeRepository from './PgTypeRepository';
 import PgUserRepository from './PgUserRepository';
@@ -25,6 +26,7 @@ export default class PgDatabaseService extends DatabaseService {
     this.productCategoryTypeRepository = new PgProductCategoryTypeRepository();
     this.productCategoryRepository = new PgProductCategoryRepository();
     this.productGroupRepository = new PgProductGroupRepository();
+    this.productRepository = new PgProductRepository();
   }
 
   async initDatabase() {
@@ -41,6 +43,7 @@ export default class PgDatabaseService extends DatabaseService {
       this.typeRepository?.clear(table);
     });
     this.productGroupRepository?.clear();
+    this.productRepository?.clear();
   }
   async dropRepository(repoName: string): Promise<void> {
     switch (repoName) {
@@ -48,12 +51,16 @@ export default class PgDatabaseService extends DatabaseService {
         this.productCategoryTypeRepository.clear();
         break;
       }
-      case Repositories.ProductCategoryRepository: {
+      case Repositories.productCategoryRepository: {
         this.productCategoryRepository.clear();
         break;
       }
-      case Repositories.ProductGroupRepository: {
+      case Repositories.productGroupRepository: {
         this.productGroupRepository.clear();
+        break;
+      }
+      case Repositories.productRepository: {
+        this.productRepository.clear();
         break;
       }
       default: {

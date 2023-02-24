@@ -9,5 +9,9 @@ const whiteMoccasin = new Product('M11501-wh', 1, {
   colors: ['white', 'brown'],
   sizes: ['40', '41', '42', '42'],
 });
+const yellowMoccasin = new Product('M11501-yl', 1, {
+  colors: ['yellow', 'brown'],
+  sizes: ['40', '41', '42', '42'],
+});
 
-export { moccasinGroup, blackMoccasin, whiteMoccasin };
+export { moccasinGroup, blackMoccasin, whiteMoccasin, yellowMoccasin };
