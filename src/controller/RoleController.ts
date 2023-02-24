@@ -10,7 +10,6 @@ import { Status } from '../model/Enums';
 import { GeneralResponse, SuccessfulResponse } from '../model/Responses';
 import Role from '../model/Role';
 import { createParamsFromReq, getIdsFromReq } from '../util/FilterUtil';
-import { logger } from '../util/Logger';
 
 export default (dependencies: ProjectDependencies) => {
   const { roleRepository } = dependencies.databaseService;
@@ -23,7 +22,6 @@ export default (dependencies: ProjectDependencies) => {
   };
 
   const getRoles = async (req: Request, res: Response) => {
-    logger.debug(req.query, 'req query');
     if (req.query) {
       const queryParams = createParamsFromReq(req, ['name']);
       const data = await new GetRoles(roleRepository).execute(queryParams);

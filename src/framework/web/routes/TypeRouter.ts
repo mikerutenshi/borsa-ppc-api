@@ -19,6 +19,9 @@ export default (table: string, dependencies: ProjectDependencies) => {
     )
     .get(async (req, res) => {
       await controller.getTypes(req, res);
+    })
+    .delete(async (req, res) => {
+      await controller.deleteType(req, res);
     });
 
   router
@@ -33,10 +36,7 @@ export default (table: string, dependencies: ProjectDependencies) => {
       async (req, res) => {
         await controller.updateType(req, res);
       }
-    )
-    .delete(async (req, res) => {
-      await controller.deleteType(req, res);
-    });
+    );
 
   return router;
 };

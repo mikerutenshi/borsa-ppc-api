@@ -18,7 +18,6 @@ import {
   _36_5Type,
   _37Type,
 } from '../../../../src/model/mock/Types';
-import { loggerJest } from '../../../../src/util/Logger';
 
 export const typeTestSuite = () => {
   beforeAll(async () => {
@@ -162,8 +161,7 @@ export const typeTestSuite = () => {
 
     test('GET /v2/types => get filtered types', async () => {
       const insoleRes = await agent.get('/v2/material-types').query({
-        search_key: 'name',
-        search_value: insoleType.name,
+        search_key: insoleType.name,
       });
       expect(insoleRes.status).toBe(200);
       expect(insoleRes.body.data[0].name).toMatch(insoleType.name);
@@ -171,8 +169,7 @@ export const typeTestSuite = () => {
       expect(insoleRes.body.message).toContain('load');
 
       const sewerRes = await agent.get('/v2/job-types').query({
-        search_key: 'name',
-        search_value: sewerType.name,
+        search_key: sewerType.name,
       });
       expect(sewerRes.status).toBe(200);
       expect(sewerRes.body.data[0].name).toMatch(sewerType.name);
@@ -180,8 +177,7 @@ export const typeTestSuite = () => {
       expect(sewerRes.body.message).toContain('load');
 
       const sizeRes = await agent.get('/v2/sizes').query({
-        search_key: 'name',
-        search_value: _37Type.name,
+        search_key: _37Type.name,
       });
       expect(sizeRes.status).toBe(200);
       expect(sizeRes.body.data[0].name).toMatch(_37Type.name);
@@ -189,8 +185,7 @@ export const typeTestSuite = () => {
       expect(sizeRes.body.message).toContain('load');
 
       const colorRes = await agent.get('/v2/colors').query({
-        search_key: 'name',
-        search_value: whiteType.name,
+        search_key: whiteType.name,
       });
       expect(colorRes.status).toBe(200);
       expect(colorRes.body.data[0].name).toMatch(whiteType.name);
@@ -275,40 +270,48 @@ export const typeTestSuite = () => {
     });
 
     test('DELETE /v2/types => delete type', async () => {
-      const delLeatherRes = await agent.delete('/v2/material-types/1');
-      const noLeatherRes = await agent.delete('/v2/material-types/1');
+      const delLeatherRes = await agent
+        .delete('/v2/material-types')
+        .query({ id: 1 });
+      const noLeatherRes = await agent
+        .delete('/v2/material-types')
+        .query({ id: 1 });
       expect(delLeatherRes.status).toBe(200);
       expect(delLeatherRes.body.data).toBe(undefined);
       expect(delLeatherRes.headers['content-type']).toMatch(/json/);
       expect(delLeatherRes.body.message).toContain('delete');
       expect(noLeatherRes.status).toEqual(404);
 
-      const delSewerRes = await agent.delete('/v2/job-types/1');
-      const noSewerRes = await agent.delete('/v2/job-types/1');
+      const delSewerRes = await agent.delete('/v2/job-types').query({ id: 1 });
+      const noSewerRes = await agent.delete('/v2/job-types').query({ id: 1 });
       expect(delSewerRes.status).toBe(200);
       expect(delSewerRes.body.data).toBe(undefined);
       expect(delSewerRes.headers['content-type']).toMatch(/json/);
       expect(delSewerRes.body.message).toContain('delete');
       expect(noSewerRes.status).toEqual(404);
 
-      const delJobStatusRes = await agent.delete('/v2/job-statuses/1');
-      const notFoundRes = await agent.delete('/v2/job-statuses/1');
+      const delJobStatusRes = await agent
+        .delete('/v2/job-statuses')
+        .query({ id: 1 });
+      const notFoundRes = await agent
+        .delete('/v2/job-statuses')
+        .query({ id: 1 });
       expect(delJobStatusRes.status).toBe(200);
       expect(delJobStatusRes.body.data).toBe(undefined);
       expect(delJobStatusRes.headers['content-type']).toMatch(/json/);
       expect(delJobStatusRes.body.message).toContain('delete');
       expect(notFoundRes.status).toEqual(404);
 
-      const delWhiteRes = await agent.delete('/v2/colors/1');
-      const noWhiteRes = await agent.delete('/v2/colors/1');
+      const delWhiteRes = await agent.delete('/v2/colors').query({ id: 1 });
+      const noWhiteRes = await agent.delete('/v2/colors').query({ id: 1 });
       expect(delWhiteRes.status).toBe(200);
       expect(delWhiteRes.body.data).toBe(undefined);
       expect(delWhiteRes.headers['content-type']).toMatch(/json/);
       expect(delWhiteRes.body.message).toContain('delete');
       expect(noWhiteRes.status).toEqual(404);
 
-      const del36_5Res = await agent.delete('/v2/sizes/1');
-      const no36_5Res = await agent.delete('/v2/sizes/1');
+      const del36_5Res = await agent.delete('/v2/sizes').query({ id: 1 });
+      const no36_5Res = await agent.delete('/v2/sizes').query({ id: 1 });
       expect(del36_5Res.status).toBe(200);
       expect(del36_5Res.body.data).toBe(undefined);
       expect(del36_5Res.headers['content-type']).toMatch(/json/);

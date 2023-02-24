@@ -7,7 +7,6 @@ import {
   production,
   superuser,
 } from '../../../../src/model/mock/Roles';
-import { logger, loggerJest } from '../../../../src/util/Logger';
 
 export const roleTestSuite = () => {
   beforeAll(async () => {
@@ -76,7 +75,6 @@ export const roleTestSuite = () => {
       const response = await agent
         .put('/v2/roles/2')
         .send({ name: Roles.qualityControl });
-      loggerJest.debug(response.body, 'update role res');
       expect(response.status).toBe(200);
       expect(response.body.data[0].name).toMatch(Roles.qualityControl);
 
@@ -105,7 +103,6 @@ export const roleTestSuite = () => {
 
     test('DELETE /v2/roles => delete role get should return null', async () => {
       const response = await agent.delete('/v2/roles').query({ id: 2 });
-      logger.debug(response.body, 'deleteRoleRes');
       expect(response.status).toBe(200);
       expect(response.body.data).toBeUndefined();
       expect(response.body.message).toContain('successfully deleted');

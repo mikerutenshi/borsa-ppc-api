@@ -1,5 +1,4 @@
 import KeyValuePair from '../../../../model/KeyValuePair';
-import { logger } from '../../../../util/Logger';
 
 export default class QueryBuilder {
   private filters: { [key: string]: string } = {};
@@ -17,16 +16,12 @@ export default class QueryBuilder {
   }
 
   search(searchKey?: string, properties?: string[]) {
-    logger.debug('mySearchKey %s', searchKey);
-    logger.debug('myProperties %o', properties);
     if (properties && searchKey) {
       this.filters.search = properties
         .map((prop) => {
-          logger.debug('prop %s', prop);
           return `${prop} ILIKE '%${searchKey}%'`;
         })
         .join(` OR `);
-      logger.debug('filter.search %o', this.filters.search);
     }
     return this;
   }

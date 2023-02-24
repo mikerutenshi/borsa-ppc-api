@@ -3,14 +3,13 @@ import app from '../../../../src/app';
 import ProjectDependencies from '../../../../src/di/ProjectDependencies';
 import { Repositories } from '../../../../src/model/Enums';
 import {
-  genderType,
-  subCategoryType,
   categoryType,
   extraCategoryType,
+  genderType,
+  subCategoryType,
   subExtraCategoryType,
 } from '../../../../src/model/mock/Types';
 import { ProductCategoryType } from '../../../../src/model/Types';
-import { loggerJest } from '../../../../src/util/Logger';
 
 export const productCategoryTypeTestSuite = () => {
   beforeAll(async () => {
@@ -81,28 +80,30 @@ export const productCategoryTypeTestSuite = () => {
     });
 
     test('DELETE /v2/types => delete type', async () => {
-      const deleteCategoryResponse = await agent.delete(
-        '/v2/product-category-types/4'
-      );
+      const deleteCategoryResponse = await agent
+        .delete('/v2/product-category-types')
+        .query({ id: 4 });
       expect(deleteCategoryResponse.status).toBe(403);
       expect(deleteCategoryResponse.body.message.toLowerCase()).toContain(
         'child'
       );
 
-      const deleteChild = await agent.delete('/v2/product-category-types/5');
+      const deleteChild = await agent
+        .delete('/v2/product-category-types')
+        .query({ id: 5 });
       expect(deleteChild.status).toBe(200);
-      const deleteCategoryAgainResponse = await agent.delete(
-        '/v2/product-category-types/4'
-      );
+      const deleteCategoryAgainResponse = await agent
+        .delete('/v2/product-category-types')
+        .query({ id: 4 });
       expect(deleteCategoryAgainResponse.status).toBe(200);
       expect(deleteCategoryAgainResponse.body.data).toBe(undefined);
       expect(deleteCategoryAgainResponse.body.message.toLowerCase()).toContain(
         'deleted'
       );
 
-      const deleteUnexistingResponse = await agent.delete(
-        '/v2/product-category-types/6'
-      );
+      const deleteUnexistingResponse = await agent
+        .delete('/v2/product-category-types')
+        .query({ id: 6 });
       expect(deleteUnexistingResponse.status).toEqual(404);
     });
   });

@@ -9,7 +9,7 @@ export default class DeleteProductCategoryType extends DeleteUseCase<ProductCate
   }
 
   async execute(ids: number[]): Promise<void> {
-    ids.forEach(async (id) => {
+    for (const id of ids) {
       const itemFound = await this.getRepository().getOneById(id);
 
       if (itemFound) {
@@ -25,7 +25,7 @@ export default class DeleteProductCategoryType extends DeleteUseCase<ProductCate
       } else {
         throw new NotFoundError(`Product Category Type ${id}`);
       }
-    });
+    }
     super.execute(ids, new ProductCategoryType('', null));
   }
 }

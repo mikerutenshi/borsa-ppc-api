@@ -1,1 +1,1 @@
-SELECT * FROM factory.product_category
+SELECT * FROM factory.product_category $[condition^]

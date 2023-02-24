@@ -6,7 +6,6 @@ import {
   christine,
   invalidUser,
 } from '../../../../src/model/mock/Users';
-import { loggerJest } from '../../../../src/util/Logger';
 
 export const rootTestSuite = () =>
   describe('Test root path', () => {
@@ -63,7 +62,6 @@ export const userTestSuite = () =>
       const response = await agent.get('/v2/users').query({
         search_key: 'christi',
       });
-      loggerJest.debug(response.body);
       expect(response.status).toEqual(200);
       expect(response.body.data).toHaveLength(1);
       expect(response.body.data[0].username).toBe(christine.username);
@@ -80,7 +78,6 @@ export const userTestSuite = () =>
       christine.first_name = 'Christian';
       christine.is_active = true;
       const response = await agent.put('/v2/users/2').send(christine);
-      loggerJest.debug(response.body, 'update user res');
       const updated = await agent.get('/v2/users').query({
         search_key: 'christian',
       });
@@ -119,7 +116,6 @@ export const userTestSuite = () =>
         username: christine.username,
         password: christine.password,
       });
-      loggerJest.debug(response.body.data[0].refresh_token);
       christine.refresh_token = response.body.data[0].refresh_token;
       expect(response.status).toBe(200);
       expect(response.body.data[0].access_token).toBeDefined();
@@ -146,12 +142,10 @@ export const userTestSuite = () =>
     });
 
     test('REFRESH TOKEN / v2/users/refresh-access-token => refresh access token', async () => {
-      loggerJest.debug(christine);
       const response = await agent.post('/v2/users/refresh-access-token').send({
         username: christine.username,
         refresh_token: christine.refresh_token,
       });
-      loggerJest.debug(response.body);
       expect(response.status).toBe(200);
       expect(response.body.data[0].access_token).toBeDefined();
     });

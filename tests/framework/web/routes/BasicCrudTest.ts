@@ -2,7 +2,6 @@ import request from 'supertest';
 import app from '../../../../src/app';
 import ProjectDependencies from '../../../../src/di/ProjectDependencies';
 import KeyValuePair from '../../../../src/model/KeyValuePair';
-import { loggerJest } from '../../../../src/util/Logger';
 
 export const basicCrudTestSuite = <T>(
   repo: string,
@@ -28,20 +27,19 @@ export const basicCrudTestSuite = <T>(
 
     test(`GET ${route} => get all objects`, async () => {
       const response = await agent.get(route);
-      loggerJest.debug(response.body, 'All objects');
       expect(response.status).toBe(200);
       expect(response.body.data.length).toBe(dataset.length);
       expect(response.headers['content-type']).toMatch(/json/);
       expect(response.body.message.toLowerCase()).toContain('loaded');
     });
 
-    test(`GET then PUT ${route} => get then update filtered product categories`, async () => {
+    test(`GET then PUT ${route} => get then update filtered object`, async () => {
       const column = (dataset[1] as KeyValuePair)[checkColumn];
 
       if (column) {
         const secondObjectResponse = await agent
           .get(route)
-          .query({ search_key: 'name', search_value: column });
+          .query({ search_key: column });
         expect(secondObjectResponse.status).toBe(200);
         if (secondObjectResponse.body.data[checkColumn]) {
           expect(secondObjectResponse.body.data[checkColumn]).toMatch(column);
@@ -71,8 +69,7 @@ export const basicCrudTestSuite = <T>(
     });
     test(`DELETE ${route} => delete object`, async () => {
       const lastIndex = dataset.length;
-      const lastRoute = `${route}/${lastIndex}`;
-      const deleteLastResp = await agent.delete(lastRoute);
+      const deleteLastResp = await agent.delete(route).query({ id: lastIndex });
       expect(deleteLastResp.status).toBe(200);
       expect(deleteLastResp.body.data).toBe(undefined);
       expect(deleteLastResp.body.message.toLowerCase()).toContain('deleted');

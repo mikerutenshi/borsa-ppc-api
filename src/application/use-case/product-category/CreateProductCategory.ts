@@ -13,15 +13,12 @@ export default class CreateProductCategory extends CreateUseCase<ProductCategory
       const parentTable = await this.getRepository().getOneById(
         param.parent_id
       );
-      if (parentTable) {
-        return super.execute(param);
-      } else {
+      if (!parentTable) {
         throw new ForbiddenError(
           'Parent id does not exist. Please create it first'
         );
       }
-    } else {
-      return super.execute(param);
     }
+    return super.execute(param);
   }
 }

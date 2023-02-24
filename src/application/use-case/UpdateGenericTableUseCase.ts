@@ -15,10 +15,11 @@ export default class UpdateGenericTableUseCase<T> extends UseCase<T, T[]> {
 
   async execute(param: T): Promise<T[]> {
     const _param = param as BaseModel;
-    const tableName = prettierTableName(_param.table_name);
+    const tableNamePretty = prettierTableName(_param.table_name);
+    const tableName = _param.table_name;
 
     if (!_param.id) {
-      throw Error(`${tableName} id is not provided`);
+      throw Error(`${tableNamePretty} id is not provided`);
     }
 
     const itemExist = await this.repository.getOneById(_param.id, tableName);
@@ -30,12 +31,12 @@ export default class UpdateGenericTableUseCase<T> extends UseCase<T, T[]> {
       );
 
       if (duplicateItem) {
-        throw new ConflictError(tableName);
+        throw new ConflictError(tableNamePretty);
       } else {
         return [await this.repository.update(param)];
       }
     } else {
-      throw new NotFoundError(tableName);
+      throw new NotFoundError(tableNamePretty);
     }
   }
 

@@ -18,6 +18,9 @@ export default (dependencies: ProjectDependencies) => {
     )
     .get(async (req, res) => {
       await controller.getProductCategories(req, res);
+    })
+    .delete(async (req, res) => {
+      await controller.deleteProductCategory(req, res);
     });
 
   router
@@ -32,10 +35,7 @@ export default (dependencies: ProjectDependencies) => {
       async (req, res) => {
         await controller.updateProductCategory(req, res);
       }
-    )
-    .delete(async (req, res) => {
-      await controller.deleteProductCategory(req, res);
-    });
+    );
 
   return router;
 };

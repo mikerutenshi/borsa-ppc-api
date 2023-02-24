@@ -1,5 +1,4 @@
 import promise from 'bluebird';
-import monitor from 'pg-monitor';
 import pgPromise from 'pg-promise';
 import config from '../../../../config/config';
 
@@ -9,9 +8,9 @@ const options = {
 
 const pgp = pgPromise(options);
 
-if (config.nodeEnv !== 'production') {
-  monitor.attach(options);
-}
+//if (config.nodeEnv !== 'production') {
+//  monitor.attach(options);
+//}
 
 const databaseUrl = config.postgres.url;
 const cn = {
