@@ -1,5 +1,7 @@
 import express from 'express';
 import ProjectDependencies from '../../../di/ProjectDependencies';
+import MaterialGroupRouter from './MaterialGroupRouter';
+import MaterialRouter from './MaterialRouter';
 import ProductCategoryRouter from './ProductCategoryRouter';
 import ProductCategoryTypeRouter from './ProductCategoryTypeRouter';
 import ProductGroupRouter from './ProductGroupRouter';
@@ -21,6 +23,8 @@ export default (dependencies: ProjectDependencies) => {
   const productCategoryRouter = ProductCategoryRouter(dependencies);
   const productGroupRouter = ProductGroupRouter(dependencies);
   const productRouter = ProductRouter(dependencies);
+  const materialGroupRouter = MaterialGroupRouter(dependencies);
+  const materialRouter = MaterialRouter(dependencies);
 
   routes.use('/users', userRouter);
   routes.use('/roles', roleRouter);
@@ -33,6 +37,8 @@ export default (dependencies: ProjectDependencies) => {
   routes.use('/product-categories', productCategoryRouter);
   routes.use('/product-groups', productGroupRouter);
   routes.use('/products', productRouter);
+  routes.use('/material-groups', materialGroupRouter);
+  routes.use('/materials', materialRouter);
 
   return routes;
 };

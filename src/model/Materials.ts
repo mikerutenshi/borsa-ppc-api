@@ -2,22 +2,24 @@ import { BaseModel } from './BaseModel';
 
 class MaterialGroup extends BaseModel {
   name: string;
-  parent_id: number;
-  constructor(name: string, parent_id: number) {
+  material_type_id: number;
+  constructor(name: string, materialTypeId: number) {
     super('material_group', ['name']);
     this.name = name;
-    this.parent_id = parent_id;
+    this.material_type_id = materialTypeId;
   }
 }
 
 class Material extends BaseModel {
   name: string;
   attributes: object;
+  material_group_id: number;
 
-  constructor(name: string, attributes: object) {
+  constructor(name: string, attributes: object, materialGroupId: number) {
     super('material', ['name']);
     this.name = name;
     this.attributes = attributes;
+    this.material_group_id = materialGroupId;
   }
 }
 

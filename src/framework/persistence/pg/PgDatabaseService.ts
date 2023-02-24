@@ -1,6 +1,8 @@
 import DatabaseService from '../../../application/contract/DatabaseService';
 import { Repositories } from '../../../model/Enums';
 import { db } from './db';
+import PgMaterialGroupRepository from './PgMaterialGroupRepository';
+import PgMaterialRepository from './PgMaterialRepository';
 import PgProductCategoryRepository from './PgProductCategoryRepository';
 import PgProductCategoryTypeRepository from './PgProductCategoryTypeRepository';
 import PgProductGroupRepository from './PgProductGroupRepository';
@@ -27,6 +29,8 @@ export default class PgDatabaseService extends DatabaseService {
     this.productCategoryRepository = new PgProductCategoryRepository();
     this.productGroupRepository = new PgProductGroupRepository();
     this.productRepository = new PgProductRepository();
+    this.materialGroupRepository = new PgMaterialGroupRepository();
+    this.materialRepository = new PgMaterialRepository();
   }
 
   async initDatabase() {
@@ -44,6 +48,8 @@ export default class PgDatabaseService extends DatabaseService {
     });
     this.productGroupRepository?.clear();
     this.productRepository?.clear();
+    this.materialGroupRepository?.clear();
+    this.materialRepository?.clear();
   }
   async dropRepository(repoName: string): Promise<void> {
     switch (repoName) {
@@ -61,6 +67,14 @@ export default class PgDatabaseService extends DatabaseService {
       }
       case Repositories.productRepository: {
         this.productRepository.clear();
+        break;
+      }
+      case Repositories.materialGroupRepository: {
+        this.materialGroupRepository.clear();
+        break;
+      }
+      case Repositories.materialRepository: {
+        this.materialRepository.clear();
         break;
       }
       default: {

@@ -1,3 +1,5 @@
+import MaterialGroupRepository from './MaterialGroupRepository';
+import MaterialRepository from './MaterialRepository';
 import ProductCategoryRepository from './ProductCategoryRepository';
 import ProductCategoryTypeRepository from './ProductCategoryTypeRepository';
 import ProductGroupRepository from './ProductGroupRepository';
@@ -14,6 +16,8 @@ abstract class DatabaseService {
   productCategoryRepository!: ProductCategoryRepository;
   productGroupRepository!: ProductGroupRepository;
   productRepository!: ProductRepository;
+  materialGroupRepository!: MaterialGroupRepository;
+  materialRepository!: MaterialRepository;
 
   abstract initDatabase(): Promise<void>;
   abstract dropDatabase(): Promise<void>;

@@ -63,6 +63,22 @@ const ProductSql = {
   clear: sql('product/clear.sql'),
 };
 
+const MaterialGroupSql = {
+  create: sql('material-group/create.sql'),
+  read: sql('material-group/read.sql'),
+  update: sql('material-group/update.sql'),
+  delete: sql('material-group/delete.sql'),
+  clear: sql('material-group/clear.sql'),
+};
+
+const MaterialSql = {
+  create: sql('material/create.sql'),
+  read: sql('material/read.sql'),
+  update: sql('material/update.sql'),
+  delete: sql('material/delete.sql'),
+  clear: sql('material/clear.sql'),
+};
+
 export {
   RoleSql,
   UserSql,
@@ -71,4 +87,6 @@ export {
   TypeSql,
   ProductGroupSql,
   ProductSql,
+  MaterialGroupSql,
+  MaterialSql,
 };

@@ -23,6 +23,8 @@ const Repositories = {
   productCategoryRepository: 'ProductCategoryRepository',
   productGroupRepository: 'ProductGroupRepository',
   productRepository: 'ProductRepository',
+  materialGroupRepository: 'MaterialGroupRepository',
+  materialRepository: 'MaterialRepository',
 };
 
 export { Roles, Status, Repositories };
