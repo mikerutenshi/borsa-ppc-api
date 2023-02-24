@@ -11,7 +11,7 @@ abstract class DatabaseService {
   typeRepository!: TypeRepository;
   productCategoryTypeRepository!: ProductCategoryTypeRepository;
   productCategoryRepository!: ProductCategoryRepository;
-  ProductGroupRepository!: ProductGroupRepository;
+  productGroupRepository!: ProductGroupRepository;
 
   abstract initDatabase(): Promise<void>;
   abstract dropDatabase(): Promise<void>;

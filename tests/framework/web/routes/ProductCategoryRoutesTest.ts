@@ -5,7 +5,7 @@ import { ProductCategory } from '../../../../src/model/Products';
 export const productCategoryTestSuite = (dataset: ProductCategory[]) => {
   describe('Test product category routes', () => {
     const agent = request.agent(app);
-    const route = '/v2/product-category';
+    const route = '/v2/product-categories';
 
     test('DELETE /v2/product-category => delete type', async () => {
       // Real last route was deleted in previous test

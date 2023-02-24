@@ -3,6 +3,7 @@ import { Repositories } from '../../../model/Enums';
 import { db } from './db';
 import PgProductCategoryRepository from './PgProductCategoryRepository';
 import PgProductCategoryTypeRepository from './PgProductCategoryTypeRepository';
+import PgProductGroupRepository from './PgProductGroupRepository';
 import PgRoleRepository from './PgRoleRepository';
 import PgTypeRepository from './PgTypeRepository';
 import PgUserRepository from './PgUserRepository';
@@ -23,7 +24,7 @@ export default class PgDatabaseService extends DatabaseService {
     this.typeRepository = new PgTypeRepository();
     this.productCategoryTypeRepository = new PgProductCategoryTypeRepository();
     this.productCategoryRepository = new PgProductCategoryRepository();
-    //this.ProductGroupRepository = new PgProductGroupRepository();
+    this.productGroupRepository = new PgProductGroupRepository();
   }
 
   async initDatabase() {
@@ -39,7 +40,7 @@ export default class PgDatabaseService extends DatabaseService {
     this.typeRepoTables.forEach((table) => {
       this.typeRepository?.clear(table);
     });
-    this.ProductGroupRepository?.clear();
+    this.productGroupRepository?.clear();
   }
   async dropRepository(repoName: string): Promise<void> {
     switch (repoName) {
@@ -49,6 +50,10 @@ export default class PgDatabaseService extends DatabaseService {
       }
       case Repositories.ProductCategoryRepository: {
         this.productCategoryRepository.clear();
+        break;
+      }
+      case Repositories.ProductGroupRepository: {
+        this.productGroupRepository.clear();
         break;
       }
       default: {

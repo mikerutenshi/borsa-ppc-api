@@ -1,10 +1,11 @@
 import express from 'express';
 import ProjectDependencies from '../../../di/ProjectDependencies';
-import UserRouter from './UserRouter';
+import ProductCategoryRouter from './ProductCategoryRouter';
+import ProductCategoryTypeRouter from './ProductCategoryTypeRouter';
+import ProductGroupRouter from './ProductGroupRouter';
 import RoleRouter from './RoleRouter';
 import TypeRouter from './TypeRouter';
-import ProductCategoryTypeRouter from './ProductCategoryTypeRouter';
-import ProductCategoryRouter from './ProductCategoryRouter';
+import UserRouter from './UserRouter';
 
 export default (dependencies: ProjectDependencies) => {
   const routes = express.Router();
@@ -17,6 +18,7 @@ export default (dependencies: ProjectDependencies) => {
   const jobStatusRouter = TypeRouter('job_status', dependencies);
   const productCategoryTypeRouter = ProductCategoryTypeRouter(dependencies);
   const productCategoryRouter = ProductCategoryRouter(dependencies);
+  const productGroupRouter = ProductGroupRouter(dependencies);
 
   routes.use('/users', userRouter);
   routes.use('/roles', roleRouter);
@@ -26,7 +28,8 @@ export default (dependencies: ProjectDependencies) => {
   routes.use('/colors', colorRouter);
   routes.use('/job-statuses', jobStatusRouter);
   routes.use('/product-category-types', productCategoryTypeRouter);
-  routes.use('/product-category', productCategoryRouter);
+  routes.use('/product-categories', productCategoryRouter);
+  routes.use('/product-groups', productGroupRouter);
 
   return routes;
 };

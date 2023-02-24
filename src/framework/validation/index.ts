@@ -1,5 +1,7 @@
 import { ObjectSchema } from 'joi';
 import { productCategorySchema } from './ProductCategorySchema';
+import { productGroupSchema } from './ProductGroupSchema';
+import { productSchema } from './ProductSchema';
 import { roleSchema } from './RoleSchema';
 import { productCategoryTypeSchema, typesSchema } from './TypesSchema';
 import { loginSchema, refreshTokenSchema, userSchema } from './UserSchema';
@@ -27,6 +29,10 @@ const schemaMap: JoiSchema = {
   'sizes/:id': typesSchema,
   'colors/': typesSchema,
   'colors/:id': typesSchema,
+  'product-groups/': productGroupSchema,
+  'product-groups/:id': productGroupSchema,
+  'products/': productSchema,
+  'products/:id': productSchema,
 };
 
 export default schemaMap;

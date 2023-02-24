@@ -1,10 +1,10 @@
 import ProductGroupRepository from '../../../application/contract/ProductGroupRepository';
-import { ProductGroup } from '../../../model/Products';
-import PgCrudPagedRepository from './PgCrudPagedRepository';
-import { ProductGroupSql } from './sql';
+import {ProductGroup} from '../../../model/Products';
+import PgCrudRepository from './PgCrudRepository';
+import {ProductGroupSql} from './sql';
 
 export default class PgProductGroupRepository
-  extends PgCrudPagedRepository<ProductGroup>
+  extends PgCrudRepository<ProductGroup>
   implements ProductGroupRepository
 {
   constructor() {
