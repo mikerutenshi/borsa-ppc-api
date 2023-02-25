@@ -26,7 +26,7 @@ export default (dependencies: ProjectDependencies) => {
 
   const getMaterialGroups = async (req: Request, res: Response) => {
     if (req.query) {
-      const params = createParamsFromReq(req, ['code', 'name']);
+      const params = createParamsFromReq(req, ['name']);
       const results = await new GetMaterialGroups(
         materialGroupRepository
       ).execute(params);

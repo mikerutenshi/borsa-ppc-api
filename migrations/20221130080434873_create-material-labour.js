@@ -7,7 +7,7 @@ exports.up = (pgm) => {
     { schema: 'factory', name: 'material_type' },
     {
       id: 'id',
-      name: 'varchar(16)',
+      name: 'name',
       created_at: 'createdAt',
       updated_at: 'updatedAt',
     }
@@ -17,7 +17,7 @@ exports.up = (pgm) => {
     { schema: 'factory', name: 'job_type' },
     {
       id: 'id',
-      name: 'varchar(16)',
+      name: 'name',
       created_at: 'createdAt',
       updated_at: 'updatedAt',
     }
@@ -27,7 +27,7 @@ exports.up = (pgm) => {
     { schema: 'factory', name: 'job_status' },
     {
       id: 'id',
-      name: 'varchar(16)',
+      name: 'name',
       created_at: 'createdAt',
       updated_at: 'updatedAt',
     }
@@ -37,7 +37,7 @@ exports.up = (pgm) => {
     { schema: 'factory', name: 'size' },
     {
       id: 'id',
-      name: 'varchar(16)',
+      name: 'name',
       created_at: 'createdAt',
       updated_at: 'updatedAt',
     }
@@ -47,7 +47,7 @@ exports.up = (pgm) => {
     { schema: 'factory', name: 'color' },
     {
       id: 'id',
-      name: 'varchar(16)',
+      name: 'name',
       created_at: 'createdAt',
       updated_at: 'updatedAt',
     }
@@ -57,7 +57,7 @@ exports.up = (pgm) => {
     { schema: 'factory', name: 'material_group' },
     {
       id: 'id',
-      name: 'varchar(16)',
+      name: 'name',
       material_type_id: {
         type: 'integer',
         references: { schema: 'factory', name: 'material_type' },
@@ -74,8 +74,13 @@ exports.up = (pgm) => {
     { schema: 'factory', name: 'material' },
     {
       id: 'id',
-      name: 'varchar(16)',
+      name: 'name',
       attributes: 'jsonb',
+      material_group_id: {
+        type: 'integer',
+        references: { schema: 'factory', name: 'material_group' },
+        onDelete: 'cascade',
+      },
       created_at: 'createdAt',
       updated_at: 'updatedAt',
       created_by: 'createdBy',
@@ -86,6 +91,7 @@ exports.up = (pgm) => {
   pgm.createTable(
     { schema: 'factory', name: 'bill_of_material' },
     {
+      id: 'id',
       product_id: {
         type: 'integer',
         references: { schema: 'factory', name: 'product' },

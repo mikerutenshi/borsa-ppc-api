@@ -53,7 +53,7 @@ exports.up = (pgm) => {
     {
       id: 'id',
       code: 'name',
-      name: 'varchar(36)',
+      name: 'name',
       product_category_id: {
         type: 'integer',
         references: { schema: 'factory', name: 'product_category' },

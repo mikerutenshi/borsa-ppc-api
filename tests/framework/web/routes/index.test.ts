@@ -1,5 +1,15 @@
 import { Repositories } from '../../../../src/model/Enums';
 import {
+  jupiter,
+  jupiterBlack,
+  jupiterOlive,
+  roselle,
+  womenSole1,
+  womenSole2,
+  womenSoleBlack,
+  womenSoleBrown,
+} from '../../../../src/model/mock/Materials';
+import {
   female,
   heels,
   male,
@@ -16,6 +26,7 @@ import {
 import { basicCrudTestSuite } from './BasicCrudTest';
 import { productCategoryTestSuite } from './ProductCategoryRoutesTest';
 import { productCategoryTypeTestSuite } from './ProductCategoryTypeRoutesTest';
+import { typeTestSuite } from './TypeRoutesTest';
 
 describe('Sequentially run test suites', () => {
   //rootTestSuite();
@@ -23,7 +34,7 @@ describe('Sequentially run test suites', () => {
   //roleTestSuite();
   //userTestSuite();
 
-  //typeTestSuite();
+  typeTestSuite();
 
   productCategoryTypeTestSuite();
   const productCategoryDataset = [male, slipOn, moccasin, female, heels, pumps];
@@ -34,6 +45,7 @@ describe('Sequentially run test suites', () => {
     'name'
   );
   productCategoryTestSuite(productCategoryDataset);
+
   const productGroupDataset = [tazia, nadine, flower];
   basicCrudTestSuite(
     Repositories.productGroupRepository,
@@ -47,5 +59,25 @@ describe('Sequentially run test suites', () => {
     '/v2/products',
     productDataset,
     'code'
+  );
+
+  const materialGroupDataset = [jupiter, roselle, womenSole1, womenSole2];
+  basicCrudTestSuite(
+    Repositories.materialGroupRepository,
+    '/v2/material-groups',
+    materialGroupDataset,
+    'name'
+  );
+  const materialDataset = [
+    jupiterBlack,
+    jupiterOlive,
+    womenSoleBlack,
+    womenSoleBrown,
+  ];
+  basicCrudTestSuite(
+    Repositories.materialRepository,
+    '/v2/materials',
+    materialDataset,
+    'name'
   );
 });

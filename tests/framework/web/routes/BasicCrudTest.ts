@@ -2,6 +2,7 @@ import request from 'supertest';
 import app from '../../../../src/app';
 import ProjectDependencies from '../../../../src/di/ProjectDependencies';
 import KeyValuePair from '../../../../src/model/KeyValuePair';
+import { loggerJest } from '../../../../src/util/Logger';
 
 export const basicCrudTestSuite = <T>(
   repo: string,
@@ -19,6 +20,9 @@ export const basicCrudTestSuite = <T>(
 
     it.each(dataset)(`POST ${route} => create new object $#`, async (data) => {
       const response = await agent.post(route).send(data as object);
+      if (response.status !== 201) {
+        loggerJest.debug('create fail -> %o', response.body);
+      }
       expect(response.status).toBe(201);
       expect(response.headers['content-type']).toMatch(/json/);
       expect(response.body.message.toLowerCase()).toContain('created');
@@ -40,6 +44,12 @@ export const basicCrudTestSuite = <T>(
         const secondObjectResponse = await agent
           .get(route)
           .query({ search_key: column });
+        if (secondObjectResponse.status !== 200) {
+          loggerJest.debug(
+            'secondObject fail -> %o',
+            secondObjectResponse.body
+          );
+        }
         expect(secondObjectResponse.status).toBe(200);
         if (secondObjectResponse.body.data[checkColumn]) {
           expect(secondObjectResponse.body.data[checkColumn]).toMatch(column);
@@ -49,6 +59,9 @@ export const basicCrudTestSuite = <T>(
         input[checkColumn] = 'Changed';
         const secondRoute = `${route}/2`;
         const updateSecondResp = await agent.put(secondRoute).send(input);
+        if (updateSecondResp.status !== 200) {
+          loggerJest.debug('updateSecond fail -> %o', updateSecondResp.body);
+        }
         expect(updateSecondResp.status).toBe(200);
         expect(updateSecondResp.body.data[0][checkColumn]).toMatch(
           input[checkColumn]
