@@ -1,6 +1,8 @@
 import { Response } from 'express';
 import request from 'supertest';
 import app from '../../../../src/app';
+import ProjectDependencies from '../../../../src/di/ProjectDependencies';
+import { Repositories } from '../../../../src/model/Enums';
 import {
   christ,
   christine,
@@ -19,6 +21,10 @@ export const rootTestSuite = () =>
 
 export const userTestSuite = () =>
   describe('Test user path', () => {
+    beforeAll(async () => {
+      const { databaseService } = new ProjectDependencies();
+      await databaseService.dropRepository(Repositories.userRepository);
+    });
     const agent = request.agent(app);
 
     test('POST /v2/user => create new user', async () => {

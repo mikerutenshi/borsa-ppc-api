@@ -1,7 +1,7 @@
 import request from 'supertest';
 import app from '../../../../src/app';
 import ProjectDependencies from '../../../../src/di/ProjectDependencies';
-import { Roles } from '../../../../src/model/Enums';
+import { Repositories, Roles } from '../../../../src/model/Enums';
 import {
   finance,
   production,
@@ -11,7 +11,7 @@ import {
 export const roleTestSuite = () => {
   beforeAll(async () => {
     const { databaseService } = new ProjectDependencies();
-    await databaseService.dropDatabase();
+    await databaseService.dropRepository(Repositories.roleRepository);
   });
 
   describe('Test role route methods', () => {
