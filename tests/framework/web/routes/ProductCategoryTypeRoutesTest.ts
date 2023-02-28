@@ -1,7 +1,5 @@
 import request from 'supertest';
 import app from '../../../../src/app';
-import ProjectDependencies from '../../../../src/di/ProjectDependencies';
-import { Repositories } from '../../../../src/model/Enums';
 import {
   categoryType,
   extraCategoryType,
@@ -12,12 +10,12 @@ import {
 import { ProductCategoryType } from '../../../../src/model/Types';
 
 export const productCategoryTypeTestSuite = () => {
-  beforeAll(async () => {
-    const { databaseService } = new ProjectDependencies();
-    await databaseService.dropRepository(
-      Repositories.productCategoryTypeRepository
-    );
-  });
+  //beforeAll(async () => {
+  //  const { databaseService } = new ProjectDependencies();
+  //  await databaseService.dropRepository(
+  //    Repositories.productCategoryTypeRepository
+  //  );
+  //});
 
   const dataset = [
     genderType,

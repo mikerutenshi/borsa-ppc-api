@@ -1,6 +1,5 @@
 import request from 'supertest';
 import app from '../../../../src/app';
-import ProjectDependencies from '../../../../src/di/ProjectDependencies';
 import KeyValuePair from '../../../../src/model/KeyValuePair';
 import { loggerJest } from '../../../../src/util/Logger';
 
@@ -10,10 +9,10 @@ export const basicCrudTestSuite = <T>(
   dataset: T[],
   checkColumn: string
 ) => {
-  beforeAll(async () => {
-    const { databaseService } = new ProjectDependencies();
-    await databaseService.dropRepository(repo);
-  });
+  //beforeAll(async () => {
+  //  const { databaseService } = new ProjectDependencies();
+  //  await databaseService.dropRepository(repo);
+  //});
 
   describe(`Test CRUD routes for ${repo}`, () => {
     const agent = request.agent(app);

@@ -44,19 +44,19 @@ export default class PgDatabaseService extends DatabaseService {
   }
 
   async dropDatabase() {
-    this.userRepository?.clear();
-    this.roleRepository?.clear();
+    this.billOfMaterialRepository.clear();
+    this.labourCostRepository.clear();
+    this.materialRepository?.clear();
+    this.materialGroupRepository?.clear();
+    this.productRepository?.clear();
+    this.productGroupRepository?.clear();
+    this.productCategoryRepository?.clear();
+    this.productCategoryTypeRepository?.clear();
     this.typeRepoTables.forEach((table) => {
       this.typeRepository?.clear(table);
     });
-    this.productCategoryTypeRepository?.clear();
-    this.productCategoryRepository?.clear();
-    this.productGroupRepository?.clear();
-    this.productRepository?.clear();
-    this.materialGroupRepository?.clear();
-    this.materialRepository?.clear();
-    this.labourCostRepository.clear();
-    this.billOfMaterialRepository.clear();
+    this.userRepository?.clear();
+    this.roleRepository?.clear();
   }
   async dropRepository(repoName: string): Promise<void> {
     switch (repoName) {

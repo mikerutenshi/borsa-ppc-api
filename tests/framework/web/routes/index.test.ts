@@ -1,3 +1,4 @@
+import ProjectDependencies from '../../../../src/di/ProjectDependencies';
 import { Repositories } from '../../../../src/model/Enums';
 import {
   jupiter,
@@ -29,6 +30,10 @@ import { productCategoryTypeTestSuite } from './ProductCategoryTypeRoutesTest';
 import { typeTestSuite } from './TypeRoutesTest';
 
 describe('Sequentially run test suites', () => {
+  beforeAll(async () => {
+    const { databaseService } = new ProjectDependencies();
+    await databaseService.dropDatabase();
+  });
   //rootTestSuite();
 
   //roleTestSuite();

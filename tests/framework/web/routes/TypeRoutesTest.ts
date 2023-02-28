@@ -1,7 +1,5 @@
 import request from 'supertest';
 import app from '../../../../src/app';
-import ProjectDependencies from '../../../../src/di/ProjectDependencies';
-import { Repositories } from '../../../../src/model/Enums';
 import {
   assemblerType,
   blackType,
@@ -21,10 +19,10 @@ import {
 } from '../../../../src/model/mock/Types';
 
 export const typeTestSuite = () => {
-  beforeAll(async () => {
-    const { databaseService } = new ProjectDependencies();
-    await databaseService.dropRepository(Repositories.typeRepository);
-  });
+  //beforeAll(async () => {
+  //  const { databaseService } = new ProjectDependencies();
+  //  await databaseService.dropRepository(Repositories.typeRepository);
+  //});
 
   describe('Type routes tests', () => {
     const agent = request.agent(app);
