@@ -4,6 +4,9 @@ const jupiter = new MaterialGroup('Jupiter', 2);
 const roselle = new MaterialGroup('Roselle', 2);
 const womenSole1 = new MaterialGroup('Women Outsole 1', 2);
 const womenSole2 = new MaterialGroup('Women Outsole 2', 2);
+const nubuck = new MaterialGroup('Nubuck', 1);
+const milling = new MaterialGroup('Milling', 1);
+const chf = new MaterialGroup('Crazy Horse Floater', 1);
 
 const jupiterBlack = new Material(
   'Jupiter Black',
@@ -26,6 +29,9 @@ const womenSoleBrown = new Material(
   3
 );
 
+const nubuckBlack = new Material('Nubuck black', { colors: ['black'] }, 1);
+const millingViolet = new Material('Milling Violet', { colors: ['violet'] }, 1);
+
 export {
   jupiter,
   roselle,
@@ -35,4 +41,9 @@ export {
   jupiterOlive,
   womenSoleBlack,
   womenSoleBrown,
+  nubuck,
+  chf,
+  milling,
+  nubuckBlack,
+  millingViolet,
 };

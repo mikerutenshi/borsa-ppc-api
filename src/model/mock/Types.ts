@@ -1,7 +1,7 @@
 import {
   Color,
-  JobType,
   JobStatus,
+  JobType,
   MaterialType,
   ProductCategoryType,
   Size,
@@ -14,17 +14,26 @@ const insoleType = new MaterialType('Insole');
 const drawerType = new JobType('Drawer');
 const sewerType = new JobType('Sewer');
 const assemblerType = new JobType('Assembler');
+const finishingType = new JobType('Finishing');
+const soleStitcherType = new JobType('SoleStitcher');
 
 const jobStatusAssigned = new JobStatus('Assigned');
 const jobStatusCompleted = new JobStatus('Completed');
+const jobStatusPending = new JobStatus('Pending');
+const jobStatusCanceled = new JobStatus('Cancelled');
 
 const _36Type = new Size('36');
 const _36_5Type = new Size('36.5');
 const _37Type = new Size('37');
+const _38Type = new Size('38');
+const _39Type = new Size('39');
 
 const whiteType = new Color('White');
 const blackType = new Color('Black');
 const brownType = new Color('Brown');
+const redType = new Color('Red');
+const violetType = new Color('Violet');
+const beigeType = new Color('Beige');
 
 const genderType = new ProductCategoryType('Gender', null);
 const categoryType = new ProductCategoryType('Category', 1);
@@ -42,12 +51,19 @@ export {
   drawerType,
   sewerType,
   assemblerType,
+  finishingType,
+  soleStitcherType,
   _36Type,
   _36_5Type,
   _37Type,
+  _38Type,
+  _39Type,
   whiteType,
   blackType,
   brownType,
+  redType,
+  violetType,
+  beigeType,
   genderType,
   categoryType,
   subCategoryType,
@@ -56,4 +72,6 @@ export {
   invalidType,
   jobStatusAssigned,
   jobStatusCompleted,
+  jobStatusPending,
+  jobStatusCanceled,
 };

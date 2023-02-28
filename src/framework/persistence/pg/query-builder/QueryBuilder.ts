@@ -19,7 +19,11 @@ export default class QueryBuilder {
     if (properties && searchKey) {
       this.filters.search = properties
         .map((prop) => {
-          return `${prop} ILIKE '%${searchKey}%'`;
+          if (!isNaN(Number(searchKey)) && prop.includes('_id')) {
+            return `${prop} = ${searchKey}`;
+          } else {
+            return `${prop} ILIKE '%${searchKey}%'`;
+          }
         })
         .join(` OR `);
     }

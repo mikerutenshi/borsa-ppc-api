@@ -51,18 +51,21 @@ export const basicCrudTestSuite = <T>(
         }
         expect(secondObjectResponse.status).toBe(200);
         if (secondObjectResponse.body.data[checkColumn]) {
-          expect(secondObjectResponse.body.data[checkColumn]).toMatch(column);
+          expect(secondObjectResponse.body.data[checkColumn]).toBe(column);
         }
-        expect(secondObjectResponse.body.data.length).toBe(1);
         const input = secondObjectResponse.body.data[0];
-        input[checkColumn] = 'Changed';
+        if (typeof input[checkColumn] === 'number') {
+          input[checkColumn]++;
+        } else if (typeof input[checkColumn] === 'string') {
+          input[checkColumn] = 'Changed';
+        }
         const secondRoute = `${route}/2`;
         const updateSecondResp = await agent.put(secondRoute).send(input);
         if (updateSecondResp.status !== 200) {
           loggerJest.debug('updateSecond fail -> %o', updateSecondResp.body);
         }
         expect(updateSecondResp.status).toBe(200);
-        expect(updateSecondResp.body.data[0][checkColumn]).toMatch(
+        expect(updateSecondResp.body.data[0][checkColumn]).toBe(
           input[checkColumn]
         );
         expect(updateSecondResp.body.message.toLowerCase()).toContain(

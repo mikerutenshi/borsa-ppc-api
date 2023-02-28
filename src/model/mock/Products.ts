@@ -14,4 +14,15 @@ const yellowMoccasin = new Product('M11501-yl', 1, {
   sizes: ['40', '41', '42', '42'],
 });
 
-export { moccasinGroup, blackMoccasin, whiteMoccasin, yellowMoccasin };
+const violetFlower = new Product('98709-vl', 3, {
+  colors: ['yellow'],
+  sizes: ['46', '37', '38', '39'],
+});
+
+export {
+  moccasinGroup,
+  blackMoccasin,
+  whiteMoccasin,
+  yellowMoccasin,
+  violetFlower,
+};

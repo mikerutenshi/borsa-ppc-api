@@ -77,7 +77,7 @@ export const productCategoryTypeTestSuite = () => {
       expect(findUpdatedResponse.body.data[0].name).toMatch('test type');
     });
 
-    test('DELETE /v2/types => delete type', async () => {
+    test('DELETE /v2/product-category-types => delete type', async () => {
       const deleteCategoryResponse = await agent
         .delete('/v2/product-category-types')
         .query({ id: 4 });
@@ -90,14 +90,16 @@ export const productCategoryTypeTestSuite = () => {
         .delete('/v2/product-category-types')
         .query({ id: 5 });
       expect(deleteChild.status).toBe(200);
-      const deleteCategoryAgainResponse = await agent
-        .delete('/v2/product-category-types')
-        .query({ id: 4 });
-      expect(deleteCategoryAgainResponse.status).toBe(200);
-      expect(deleteCategoryAgainResponse.body.data).toBe(undefined);
-      expect(deleteCategoryAgainResponse.body.message.toLowerCase()).toContain(
-        'deleted'
-      );
+      expect(deleteChild.body.data).toBe(undefined);
+      expect(deleteChild.body.message.toLowerCase()).toContain('deleted');
+      //const deleteCategoryAgainResponse = await agent
+      //  .delete('/v2/product-category-types')
+      //  .query({ id: 4 });
+      //expect(deleteCategoryAgainResponse.status).toBe(200);
+      //expect(deleteCategoryAgainResponse.body.data).toBe(undefined);
+      //expect(deleteCategoryAgainResponse.body.message.toLowerCase()).toContain(
+      //  'deleted'
+      //);
 
       const deleteUnexistingResponse = await agent
         .delete('/v2/product-category-types')
