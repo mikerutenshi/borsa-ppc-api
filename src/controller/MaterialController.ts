@@ -4,7 +4,7 @@ import DeleteMaterial from '../application/use-case/material/DeleteMaterial';
 import GetAllMaterials from '../application/use-case/material/GetAllMaterials';
 import GetMaterial from '../application/use-case/material/GetMaterial';
 import GetMaterials from '../application/use-case/material/GetMaterials';
-import UpdateMaterial from '../application/use-case/material/UpdateMaterials';
+import UpdateMaterial from '../application/use-case/material/UpdateMaterial';
 import ProjectDependencies from '../di/ProjectDependencies';
 import { Material } from '../model/Materials';
 import { CreatedResponse, SuccessfulResponse } from '../model/Responses';

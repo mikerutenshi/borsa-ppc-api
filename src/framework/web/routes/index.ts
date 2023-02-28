@@ -1,5 +1,7 @@
 import express from 'express';
 import ProjectDependencies from '../../../di/ProjectDependencies';
+import BillOfMaterialRouter from './BillOfMaterialRouter';
+import LabourCostRouter from './LabourCostRouter';
 import MaterialGroupRouter from './MaterialGroupRouter';
 import MaterialRouter from './MaterialRouter';
 import ProductCategoryRouter from './ProductCategoryRouter';
@@ -25,6 +27,8 @@ export default (dependencies: ProjectDependencies) => {
   const productRouter = ProductRouter(dependencies);
   const materialGroupRouter = MaterialGroupRouter(dependencies);
   const materialRouter = MaterialRouter(dependencies);
+  const labourCostRouter = LabourCostRouter(dependencies);
+  const billOfMaterialRouter = BillOfMaterialRouter(dependencies);
 
   routes.use('/users', userRouter);
   routes.use('/roles', roleRouter);
@@ -39,6 +43,8 @@ export default (dependencies: ProjectDependencies) => {
   routes.use('/products', productRouter);
   routes.use('/material-groups', materialGroupRouter);
   routes.use('/materials', materialRouter);
+  routes.use('/labour-costs', labourCostRouter);
+  routes.use('/bill-of-materials', billOfMaterialRouter);
 
   return routes;
 };

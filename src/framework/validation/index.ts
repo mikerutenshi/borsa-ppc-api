@@ -1,4 +1,8 @@
 import { ObjectSchema } from 'joi';
+import { billOfMaterialSchema } from './BillOfMaterialSchema';
+import { labourCostSchema } from './LabourCostSchema';
+import { materialGroupSchema } from './MaterialGroupSchema';
+import { materialSchema } from './MaterialSchema';
 import { productCategorySchema } from './ProductCategorySchema';
 import { productGroupSchema } from './ProductGroupSchema';
 import { productSchema } from './ProductSchema';
@@ -33,6 +37,14 @@ const schemaMap: JoiSchema = {
   'product-groups/:id': productGroupSchema,
   'products/': productSchema,
   'products/:id': productSchema,
+  'material-groups/': materialGroupSchema,
+  'material-groups/:id': materialGroupSchema,
+  'materials/': materialSchema,
+  'materials/:id': materialSchema,
+  'labour-costs/': labourCostSchema,
+  'labour-costs/:id': labourCostSchema,
+  'bill-of-materials/': billOfMaterialSchema,
+  'bill-of-materials/:id': billOfMaterialSchema,
 };
 
 export default schemaMap;

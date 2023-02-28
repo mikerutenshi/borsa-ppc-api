@@ -1,6 +1,8 @@
 import DatabaseService from '../../../application/contract/DatabaseService';
 import { Repositories } from '../../../model/Enums';
 import { db } from './db';
+import PgBillOfMaterialRepository from './PgBillOfMaterialRepository';
+import PgLabourCostRepository from './PgLabourCostRepository';
 import PgMaterialGroupRepository from './PgMaterialGroupRepository';
 import PgMaterialRepository from './PgMaterialRepository';
 import PgProductCategoryRepository from './PgProductCategoryRepository';
@@ -31,6 +33,8 @@ export default class PgDatabaseService extends DatabaseService {
     this.productRepository = new PgProductRepository();
     this.materialGroupRepository = new PgMaterialGroupRepository();
     this.materialRepository = new PgMaterialRepository();
+    this.labourCostRepository = new PgLabourCostRepository();
+    this.billOfMaterialRepository = new PgBillOfMaterialRepository();
   }
 
   async initDatabase() {
@@ -51,6 +55,8 @@ export default class PgDatabaseService extends DatabaseService {
     this.productRepository?.clear();
     this.materialGroupRepository?.clear();
     this.materialRepository?.clear();
+    this.labourCostRepository.clear();
+    this.billOfMaterialRepository.clear();
   }
   async dropRepository(repoName: string): Promise<void> {
     switch (repoName) {
@@ -90,6 +96,14 @@ export default class PgDatabaseService extends DatabaseService {
       }
       case Repositories.materialRepository: {
         this.materialRepository.clear();
+        break;
+      }
+      case Repositories.labourCostRepository: {
+        this.labourCostRepository.clear();
+        break;
+      }
+      case Repositories.billOfMaterialRepository: {
+        this.billOfMaterialRepository.clear();
         break;
       }
       default: {

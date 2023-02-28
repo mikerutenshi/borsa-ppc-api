@@ -110,6 +110,18 @@ exports.up = (pgm) => {
       updated_by: 'updatedBy',
     }
   );
+  pgm.dropConstraint(
+    { schema: 'factory', name: 'bill_of_material' },
+    'bill_of_material_pkey',
+    { ifExists: true }
+  );
+  pgm.addConstraint(
+    { schema: 'factory', name: 'bill_of_material' },
+    'bill_of_material_pkey',
+    {
+      primaryKey: ['id', 'product_id', 'material_id'],
+    }
+  );
 
   pgm.createTable(
     { schema: 'factory', name: 'labour_cost' },
@@ -129,6 +141,18 @@ exports.up = (pgm) => {
       updated_at: 'updatedAt',
       created_by: 'createdBy',
       updated_by: 'updatedBy',
+    }
+  );
+  pgm.dropConstraint(
+    { schema: 'factory', name: 'labour_cost' },
+    'labour_cost_pkey',
+    { ifExists: true }
+  );
+  pgm.addConstraint(
+    { schema: 'factory', name: 'labour_cost' },
+    'labour_cost_pkey',
+    {
+      primaryKey: ['id', 'product_group_id', 'job_type_id'],
     }
   );
 };

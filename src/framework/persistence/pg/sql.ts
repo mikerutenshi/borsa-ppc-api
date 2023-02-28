@@ -79,6 +79,22 @@ const MaterialSql = {
   clear: sql('material/clear.sql'),
 };
 
+const LabourCostSql = {
+  create: sql('labour-cost/create.sql'),
+  read: sql('labour-cost/read.sql'),
+  update: sql('labour-cost/update.sql'),
+  delete: sql('labour-cost/delete.sql'),
+  clear: sql('labour-cost/clear.sql'),
+};
+
+const BillOfMaterialSql = {
+  create: sql('bill-of-material/create.sql'),
+  read: sql('bill-of-material/read.sql'),
+  update: sql('bill-of-material/update.sql'),
+  delete: sql('bill-of-material/delete.sql'),
+  clear: sql('bill-of-material/clear.sql'),
+};
+
 export {
   RoleSql,
   UserSql,
@@ -89,4 +105,6 @@ export {
   ProductSql,
   MaterialGroupSql,
   MaterialSql,
+  LabourCostSql,
+  BillOfMaterialSql,
 };

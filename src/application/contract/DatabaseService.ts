@@ -1,3 +1,5 @@
+import BillOfMaterialRepository from './BillOfMaterialRepository';
+import LabourCostRepository from './LabourCostRepository';
 import MaterialGroupRepository from './MaterialGroupRepository';
 import MaterialRepository from './MaterialRepository';
 import ProductCategoryRepository from './ProductCategoryRepository';
@@ -18,6 +20,8 @@ abstract class DatabaseService {
   productRepository!: ProductRepository;
   materialGroupRepository!: MaterialGroupRepository;
   materialRepository!: MaterialRepository;
+  labourCostRepository!: LabourCostRepository;
+  billOfMaterialRepository!: BillOfMaterialRepository;
 
   abstract initDatabase(): Promise<void>;
   abstract dropDatabase(): Promise<void>;

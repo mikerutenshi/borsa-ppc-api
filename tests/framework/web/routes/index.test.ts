@@ -80,4 +80,30 @@ describe('Sequentially run test suites', () => {
     materialDataset,
     'name'
   );
+
+  //const materialDataset = [
+  //  jupiterBlack,
+  //  jupiterOlive,
+  //  womenSoleBlack,
+  //  womenSoleBrown,
+  //];
+  //basicCrudTestSuite(
+  //  Repositories.materialRepository,
+  //  '/v2/materials',
+  //  materialDataset,
+  //  'name'
+  //);
+
+  //const materialDataset = [
+  //  jupiterBlack,
+  //  jupiterOlive,
+  //  womenSoleBlack,
+  //  womenSoleBrown,
+  //];
+  //basicCrudTestSuite(
+  //  Repositories.materialRepository,
+  //  '/v2/materials',
+  //  materialDataset,
+  //  'name'
+  //);
 });

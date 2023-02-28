@@ -25,6 +25,8 @@ const Repositories = {
   productRepository: 'ProductRepository',
   materialGroupRepository: 'MaterialGroupRepository',
   materialRepository: 'MaterialRepository',
+  labourCostRepository: 'LabourCostRepository',
+  billOfMaterialRepository: 'BillOfMaterialRepository',
 };
 
 export { Roles, Status, Repositories };
