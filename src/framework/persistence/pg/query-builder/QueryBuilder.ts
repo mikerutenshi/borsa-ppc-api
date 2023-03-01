@@ -38,11 +38,11 @@ export default class QueryBuilder {
   ) {
     if (orderBy && orderDirection && index && limit) {
       if (orderDirection.toUpperCase().match('ASC')) {
-        this.filters.page = `${orderBy} > ${index}`;
+        this.filters.page = `${orderBy} > '${index}'`;
         this.limitString = `LIMIT ${limit.toString()}`;
         this.order(orderBy, orderDirection);
       } else if (orderDirection.toUpperCase().match('DESC')) {
-        this.filters.page = `${orderBy} < ${index}`;
+        this.filters.page = `${orderBy} < '${index}'`;
         this.limitString = `LIMIT ${limit.toString()}`;
         this.order(orderBy, orderDirection);
       } else {
@@ -56,7 +56,7 @@ export default class QueryBuilder {
   }
 
   order(key: string, direction: string) {
-    this.orderString = `ORDER BY '${key}' ${direction.toUpperCase()}`;
+    this.orderString = `ORDER BY ${key} ${direction.toUpperCase()}`;
     return this;
   }
 
@@ -65,7 +65,7 @@ export default class QueryBuilder {
     const filterString =
       getFilters?.length > 0 ? `WHERE ${getFilters.join(` AND `)}` : '';
     const result = {
-      condition: filterString + this.orderString + this.limitString,
+      condition: `${filterString} ${this.orderString} ${this.limitString}`,
     };
     return result;
   }

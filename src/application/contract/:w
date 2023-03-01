@@ -1,7 +1,7 @@
 import promise from 'bluebird';
-import monitor from 'pg-monitor';
 import pgPromise from 'pg-promise';
 import config from '../../../../config/config';
+import monitor from 'pg-monitor';
 
 const options = {
   promiseLib: promise,
