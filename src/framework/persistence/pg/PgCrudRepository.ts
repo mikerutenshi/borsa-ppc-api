@@ -32,6 +32,7 @@ export default class PgCrudRepository<T> implements CrudRepository<T> {
         params.page_index,
         params.page_limit
       )
+      .order(params.order_by, params.order_direction)
       .build();
     return await db.any(this.sql.read, condition);
   }

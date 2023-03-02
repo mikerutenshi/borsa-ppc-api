@@ -55,8 +55,10 @@ export default class QueryBuilder {
     return this;
   }
 
-  order(key: string, direction: string) {
-    this.orderString = `ORDER BY ${key} ${direction.toUpperCase()}`;
+  order(key?: string, direction?: string) {
+    if (key && direction) {
+      this.orderString = `ORDER BY ${key} ${direction.toUpperCase()}`;
+    }
     return this;
   }
 
